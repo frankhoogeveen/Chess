@@ -6,11 +6,9 @@
 package nl.fh.rules;
 
 import java.util.Set;
-import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Castling;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import org.junit.Test;

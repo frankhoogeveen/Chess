@@ -482,4 +482,16 @@ public class TolerantReaderTest {
         assertEquals(2, reports.size());
     }
     
+    @Test
+    public void testIncorrectPGN(){
+        String pgn =  "1.e4 e5 * \n\n "
+                    + "1.e4 e5 *  \n\n"
+                    + "1.e4 e5 2. xxx \n\n *"   // incorrect game
+                    + "1.e4 e5 *  \n\n";
+                
+        PGN_Reader parser = new TolerantReader();
+        List<GameReport> reports = parser.getGames(pgn);
+        assertEquals(3, reports.size());
+    }
+    
 }

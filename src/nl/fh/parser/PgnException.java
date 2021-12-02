@@ -12,8 +12,14 @@ package nl.fh.parser;
  */
 public class PgnException extends Exception {
 
-    PgnException(String toString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private final String explanation;
+
+    PgnException(String explanation) {
+        this.explanation = explanation;
+    }
+    
+    public String toString(){
+        return "PgnException: " + this.explanation;
     }
 
 }

@@ -30,6 +30,8 @@ import nl.fh.rules.SimpleRules;
  * - the game result is read from the pgn file and may be inconsistent with the moves
  * - in case of inconsistencies in the pgn file, this reader tries to produce a
  *   game report. It is not necessary that the game report is consistent
+ * - if there is a tag with key "FEN" present, its value is used as the starting position
+ *   having other keys present ("SetUp"  or "VariantFromPosition") is NOT required
  * 
  * 
  * copyright F. Hoogeveen
@@ -347,7 +349,7 @@ public class TolerantReader implements PGN_Reader{
         
         // if the initial state has been specified, use that. Otherwise
         // get the initial state from the ruleset
-        if(currentReport.getTags().contains("SetUp") && currentReport.getTag("SetUp").equals("1")){
+        if(currentReport.getTags().contains("FEN")){
             String fen = currentReport.getTag("FEN");
             state = GameState.fromFEN(fen);
         } else {
