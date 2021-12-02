@@ -58,10 +58,12 @@ public class Promotion implements Move {
         return "moveString() not yet coded";
     }
 
+    @Override
     public Field getFrom() {
         return from;
     }
 
+    @Override
     public Field getTo() {
         return to;
     }

@@ -26,10 +26,6 @@ public class PromotionRulesTest {
     GameState state = GameState.fromFEN(fen);
     Set<Move> moves = rules.getAllLegalMoves(state);
     
-    for(Move m : moves){
-        System.out.println(m);
-    }
-    
     assertEquals(5+4, moves.size());
     }
     

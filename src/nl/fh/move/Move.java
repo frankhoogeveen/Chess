@@ -5,6 +5,7 @@
  */
 package nl.fh.move;
 
+import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
 
 
@@ -28,6 +29,22 @@ public interface Move {
     
     /**
      * 
+     * @return the starting field of the move 
+     * 
+     * Calling this method on a castling move will throw an exception
+     */
+    public Field getTo();
+    
+    /**
+     * 
+     * @return the field where the move ends 
+     * 
+     * Calling this method an castling move will throw an exception
+     */
+    public Field getFrom();
+    
+    /**
+     * 
      * @return the string the represents the move in an exported PGN 
      */
     public String moveString();
@@ -42,5 +59,6 @@ public interface Move {
      * add a draw offer the this move
      */
     public void offerDraw();
+
     
 }

@@ -46,9 +46,6 @@ public class ShortGamesTest {
         GameState end = list.get(list.size()-1);
         String endFEN = end.toFEN();
         
-//        System.out.println(target);
-//        System.out.println(endFEN);
-        
         assertEquals(target, endFEN);
     }    
 }

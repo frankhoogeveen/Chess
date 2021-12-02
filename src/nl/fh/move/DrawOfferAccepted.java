@@ -6,6 +6,7 @@
 
 package nl.fh.move;
 
+import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
 
 /**
@@ -37,4 +38,14 @@ public class DrawOfferAccepted implements Move {
     public void offerDraw() {
         throw new UnsupportedOperationException("Cannot offer draw when accepting a drawoffer");
     }
+    
+    @Override
+    public Field getTo() {
+        throw new UnsupportedOperationException("Not defined"); 
+    }
+
+    @Override
+    public Field getFrom() {
+        throw new UnsupportedOperationException("Not defined"); 
+    }    
 }

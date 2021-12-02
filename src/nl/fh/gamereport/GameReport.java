@@ -56,6 +56,20 @@ public class GameReport {
     public List<GameState> getStateList() {
         return stateList;
     }
+    
+    /**
+     * 
+     * @return the final state of the reported game 
+     * 
+     * throws an exception when the stateList is empty
+     */
+    public GameState getFinalState(){
+        if(stateList.isEmpty()){
+            throw new IllegalStateException();
+        }
+        
+        return this.stateList.get(this.stateList.size()-1);
+    }
 
     public List<Move> getMoveList() {
         return moveList;

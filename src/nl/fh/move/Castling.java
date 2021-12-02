@@ -132,5 +132,15 @@ public class Castling implements Move {
         return true;
     }
     
+    @Override
+    public Field getTo() {
+        throw new UnsupportedOperationException("Not defined"); 
+    }
+
+    @Override
+    public Field getFrom() {
+        throw new UnsupportedOperationException("Not defined"); 
+    }  
+    
     
 }

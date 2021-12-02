@@ -20,6 +20,7 @@ import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
+import nl.fh.move.Promotion;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
 
@@ -251,7 +252,7 @@ public class TolerantReader implements PGN_Reader{
     }
 
     // called when a game can be stored
-    private void wrapUp() {
+    private void wrapUp() throws PgnException {
         playMoveCodes();        
         this.result.add(currentReport);
 
@@ -292,7 +293,7 @@ public class TolerantReader implements PGN_Reader{
         return false;
     }
 
-    private void checkTerminator() {
+    private void checkTerminator() throws PgnException {
         if(pgn.charAt(index) == '*'){
             currentReport.setResult(GameResult.UNDECIDED);
             wrapUp();
@@ -344,8 +345,8 @@ public class TolerantReader implements PGN_Reader{
     
     // this method takes the movecodes and converts them into
     // gamestates
-    public void playMoveCodes(){
-        GameState state = null;
+    public void playMoveCodes() throws PgnException{
+        GameState state;
         
         // if the initial state has been specified, use that. Otherwise
         // get the initial state from the ruleset
@@ -368,7 +369,7 @@ public class TolerantReader implements PGN_Reader{
         }
     }
 
-    private Move decodeMove(String moveCode, GameState state) {
+    private Move decodeMove(String moveCode, GameState state) throws PgnException {
 
         String moveCode2 = cleanMove(moveCode);
         
@@ -393,7 +394,7 @@ public class TolerantReader implements PGN_Reader{
         return clean;
     }  
     
-    private Move decodePieceMove(String moveCode, GameState state) {
+    private Move decodePieceMove(String moveCode, GameState state) throws PgnException {
         if(moveCode.equals("O-O")){
             return Castling.getInstance(BoardSide.KINGSIDE);
         } 
@@ -419,9 +420,67 @@ public class TolerantReader implements PGN_Reader{
         
     }
 
-    
-    private Move decodePawnMove(String moveCode, GameState state) {        
+    private Move decodePawnMove(String moveCode, GameState state) throws PgnException {        
         char[] c = moveCode.toCharArray();
+        int len = c.length;
+
+        if( c[len-2] != '='){
+            return decodeRegularPawnMove(c, state);          
+        }
+
+        // deal with promotions
+        char promotionChar = c[len-1];
+        char[] cc = new char[len-2]; 
+        System.arraycopy(c, 0, cc, 0, len-2);
+        
+        Move temp =  decodeRegularPawnMove(cc, state);
+        Field from = temp.getFrom();
+        Field to   = temp.getTo();
+        
+        PieceType movingPiece = state.getFieldContent(from);
+        if((movingPiece != PieceType.WHITE_PAWN) && (movingPiece != PieceType.BLACK_PAWN)){
+            throw new PgnException("Piece other than pawn is promoting");
+        }
+        
+        Color toMove = state.getToMove();
+        PieceType promotedPiece = promotionPiece(promotionChar, toMove);
+            
+        return Promotion.getInstance(from, to, promotedPiece);
+    }    
+    
+    private PieceType promotionPiece(char c, Color color) throws PgnException{
+        if(color == Color.WHITE){
+            switch(c){
+                case 'Q':
+                    return PieceType.WHITE_QUEEN;
+                case 'R':
+                    return PieceType.WHITE_ROOK;
+                case 'B':
+                    return PieceType.WHITE_BISHOP;
+                case 'N':
+                    return PieceType.WHITE_KNIGHT;
+                default:
+                    throw new PgnException("Piece Code for promotion piece invalid");
+            }
+        } else if(color == Color.BLACK){
+            switch(c){
+                case 'Q':
+                    return PieceType.BLACK_QUEEN;
+                case 'R':
+                    return PieceType.BLACK_ROOK;
+                case 'B':
+                    return PieceType.BLACK_BISHOP;
+                case 'N':
+                    return PieceType.BLACK_KNIGHT;
+                default:
+                    throw new PgnException("Piece Code for promotion piece invalid");
+            }            
+        }
+        throw new PgnException("Color Code for promotion piece invalid");
+    }
+    
+    
+    private Move decodeRegularPawnMove(char[] c, GameState state) throws PgnException {        
         int len = c.length;
         
         char pieceChar = 'P';
@@ -437,7 +496,7 @@ public class TolerantReader implements PGN_Reader{
         return move;
     }
 
-    private Move reconstructMove(char pieceChar, char rowChar, char colChar, char extraChar, GameState state) {
+    private Move reconstructMove(char pieceChar, char rowChar, char colChar, char extraChar, GameState state) throws PgnException {
         PieceType ptype = PieceType.EMPTY;
         Color toMove = state.getToMove();
         
@@ -489,10 +548,15 @@ public class TolerantReader implements PGN_Reader{
             }
         }
         
+        Set<Field> fields = state.getPieceLocations(ptype);        
+        // if there are no pieces of the proper type on the board, abort 
+        if(fields.isEmpty()){
+            throw new PgnException("No pieces of the correct type on the board");
+        }        
+        
         // if there is only one piece of the proper type on the board, use that
         // piece in the move
         //
-        Set<Field> fields = state.getPieceLocations(ptype);
         if(fields.size() == 1){
             Field from = fields.iterator().next();
             Field to = Field.getInstance(colChar - 'a', rowChar - '1');
@@ -502,46 +566,44 @@ public class TolerantReader implements PGN_Reader{
         
         // if there is more than one piece of the type that has been moved, 
         // check which ones could have legally been moved
-        
-        Set<Move> legalMoves = new HashSet<Move>();
+        //TODO take care of pen passent here
+        Set<Move> legalMovesToField = new HashSet<Move>();
         Field to = Field.getInstance(colChar-'a',rowChar-'1');
+        
+        Set<Move> allLegalMoves = rules.getAllLegalMoves(state);
+        
         for(Field from : fields){
             Move move = PieceMove.getInstance(from, to);
-            if(rules.isLegalMove(move, state)){
-                legalMoves.add(move);
+            if(allLegalMoves.contains(move)){
+                legalMovesToField.add(move);
+            }
+            
+            // for pawns, also check the promotions. Only promotion to queen need to be checked
+            if(pieceChar == 'P'){
+                move = Promotion.getInstance(from, to, PieceType.WHITE_QUEEN);
+                if(allLegalMoves.contains(move)){
+                    legalMovesToField.add(move);
+                }
+                
+                move = Promotion.getInstance(from, to, PieceType.BLACK_QUEEN);
+                if(allLegalMoves.contains(move)){
+                    legalMovesToField.add(move);
+                }                
             }
         }
-        // if there is only one legal move, use that one
-        if(legalMoves.size() ==  1){
-            return legalMoves.iterator().next();
-        }
         
+        // if there is only one legal move, use that one
+        if(legalMovesToField.size() ==  1){
+            return legalMovesToField.iterator().next();
+        }
         // if there is more than one legal move, use the extraChar to discriminate
-        for(Move move : legalMoves){
+        for(Move move : legalMovesToField){
             Field from = ((PieceMove)move).getFrom();
             if((from.getX() == (extraChar - 'a')) || (from.getY() == (extraChar - '1'))){
                 return move;
             }
         }
-        
-        
-        //TODO remove debug print
-        //this code should never be reached
-        System.out.println("TolerantReader has an issue:");
-        System.out.print("pieceChar: ");
-        System.out.println(Character.toString(pieceChar));
-        System.out.print("rowChar: ");
-        System.out.println(Character.toString(rowChar));
-        System.out.print("colChar: ");
-        System.out.println(Character.toString(colChar));
-        System.out.print("extraChar: ");
-        System.out.println(Character.toString(extraChar));   
-        System.out.println(state.toFEN());
-        
-        throw new IllegalArgumentException("TolerantReader: cannot reconstruct move");
-    }
-
-    private Exception newPgnException(String unexpected_character_in_MoveText) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+        throw new PgnException("TolerantReader: cannot reconstruct move");
     }
 }

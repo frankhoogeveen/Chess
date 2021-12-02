@@ -49,10 +49,3 @@ import org.junit.runners.Suite;
 public class TestSuite {
     
 }
-
-
-//TODO 
-// the special types of moves e.p. castling, promotion
-// make the PGN reader deal with illegal moves
-// make the PGN reader deal with syntacticly incorrect pgn files
-//

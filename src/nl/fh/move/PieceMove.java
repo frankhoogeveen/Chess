@@ -49,10 +49,12 @@ public class PieceMove implements Move {
         return "moveString() not yet coded";
     }
 
+    @Override
     public Field getFrom() {
         return from;
     }
 
+    @Override
     public Field getTo() {
         return to;
     }
@@ -124,7 +126,7 @@ public class PieceMove implements Move {
     @Override
     public void offerDraw() {
         this.drawOffer = true;
-    }
+    }  
 
     @Override
     public int hashCode() {
