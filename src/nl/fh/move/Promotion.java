@@ -143,9 +143,10 @@ public class Promotion implements Move {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.from);
-        hash = 79 * hash + Objects.hashCode(this.to);
-        hash = 79 * hash + (this.drawOffer ? 1 : 0);
+        hash = 59 * hash + Objects.hashCode(this.from);
+        hash = 59 * hash + Objects.hashCode(this.to);
+        hash = 59 * hash + (this.drawOffer ? 1 : 0);
+        hash = 59 * hash + Objects.hashCode(this.piece);
         return hash;
     }
 
@@ -170,8 +171,13 @@ public class Promotion implements Move {
         if (!Objects.equals(this.to, other.to)) {
             return false;
         }
+        if (this.piece != other.piece) {
+            return false;
+        }
         return true;
     }
+
+
     
     
     
