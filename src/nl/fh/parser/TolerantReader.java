@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
@@ -65,7 +63,7 @@ public class TolerantReader implements PGN_Reader{
             try {
                 processLine();
             } catch (PgnException ex) {
-                Logger.getLogger(TolerantReader.class.getName()).log(Level.SEVERE, null, ex);
+                dropCurrentGame();
             }
         }
         
@@ -163,7 +161,7 @@ public class TolerantReader implements PGN_Reader{
         this.currentReport.addTag(currentKey, currentValue);
     }
 
-    private void processMoveText() {
+    private void processMoveText() throws PgnException {
         this.terminated = false;
         checkTerminator();  
         while(!terminated){
@@ -199,7 +197,7 @@ public class TolerantReader implements PGN_Reader{
                 processMove();
                 break;
             default:
-                throw new IllegalStateException("unexpected character in MoveText");
+                throw new PgnException("unexpected character in MoveText");
             } 
           checkTerminator();            
         }
@@ -250,6 +248,7 @@ public class TolerantReader implements PGN_Reader{
         
     }
 
+    // called when a game can be stored
     private void wrapUp() {
         playMoveCodes();        
         this.result.add(currentReport);
@@ -258,6 +257,13 @@ public class TolerantReader implements PGN_Reader{
         this.moveCodes = new ArrayList<String>();
         skipToNextLine();
     }
+    
+    // called when a game cannot be parsed
+    private void dropCurrentGame() {       
+        this.currentReport = new GameReport();
+        this.moveCodes = new ArrayList<String>();
+        skipToNextLine();
+    }    
 
     // get the code of Move and add it to the list
     private void processMove() {
@@ -531,5 +537,9 @@ public class TolerantReader implements PGN_Reader{
         System.out.println(state.toFEN());
         
         throw new IllegalArgumentException("TolerantReader: cannot reconstruct move");
+    }
+
+    private Exception newPgnException(String unexpected_character_in_MoveText) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

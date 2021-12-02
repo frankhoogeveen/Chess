@@ -23,6 +23,7 @@ import nl.fh.move.Castling;
 import nl.fh.move.DrawOfferAccepted;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
+import nl.fh.move.Promotion;
 import nl.fh.move.Resignation;
 import nl.fh.player.Player;
 
@@ -67,6 +68,7 @@ public class SimpleRules implements Rules{
      * 
      * @param state of the game
      * @param result the set to which all valid piece moves are added
+     *  The moves resulting in promotion are included here
      */
     private void addAllPieceMoves(GameState state, Set<Move> result) {
         Color toMove = state.getToMove();
@@ -95,24 +97,59 @@ public class SimpleRules implements Rules{
      * @param state
      * @param field
      * @param range
-     * @param result to which all piece moves are added
+     * @param result to which all piece moves or promotions are added
      */
     private void addAllPieceMovesFromRange(GameState state, Field field, MoveRange range, Set<Move> result) {
         boolean done = false;
         for(Field to : range.getRange()){
             if(!done){
                 PieceType captured = state.getFieldContent(to);
-                if(captured== PieceType.EMPTY){
+                if(captured == PieceType.EMPTY){
                     if(range.getType() != MoveRangeType.CAPTURE_OBLIGATORY){
-                        result.add(PieceMove.getInstance(field, to));
+                        addPieceMoveOrPromotions(state, field, to, result);
                     }
                 } else if(captured.getColor() == state.getToMove()){
                     done = true;
                 } else {
-                    result.add(PieceMove.getInstance(field, to));
+                     addPieceMoveOrPromotions(state, field, to, result);
                     done = true;
                 }
             }
+        }
+    }
+    
+    /**\
+     * 
+     * @param state
+     * @param from
+     * @param to
+     * @param result
+     * 
+     * The logic to either add a PieceMove or promotions is contained in this method
+     */
+    private void addPieceMoveOrPromotions(GameState state, Field from, Field to, Set<Move> result){
+        
+        PieceType movingPiece = state.getFieldContent(from);
+        int y = to.getY();
+        
+        boolean promotionW =  (movingPiece == PieceType.WHITE_PAWN)&&(y == 7);
+        boolean promotionB =  (movingPiece == PieceType.BLACK_PAWN)&&(y == 0);
+        
+        if(!promotionW && !promotionB){
+            result.add(PieceMove.getInstance(from, to));
+            return;
+        }
+        
+        if(promotionW){
+            result.add(Promotion.getInstance(from, to, PieceType.WHITE_QUEEN));
+            result.add(Promotion.getInstance(from, to, PieceType.WHITE_ROOK));
+            result.add(Promotion.getInstance(from, to, PieceType.WHITE_BISHOP));
+            result.add(Promotion.getInstance(from, to, PieceType.WHITE_KNIGHT));            
+        } else if(promotionB){
+            result.add(Promotion.getInstance(from, to, PieceType.BLACK_QUEEN));
+            result.add(Promotion.getInstance(from, to, PieceType.BLACK_ROOK));
+            result.add(Promotion.getInstance(from, to, PieceType.BLACK_BISHOP));
+            result.add(Promotion.getInstance(from, to, PieceType.BLACK_KNIGHT));  
         }
     }
 
