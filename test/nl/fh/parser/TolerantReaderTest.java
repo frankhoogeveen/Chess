@@ -513,4 +513,101 @@ public class TolerantReaderTest {
         assertEquals(fen2, report.getFinalState().toFEN());
     }
     
+    @Test
+    public void testPromotion2(){
+        String pgn =    "[Variant \"From Position\"]\n" +
+                        "[FEN \"rnbqk3/ppppp1P1/8/8/8/8/PPPPPP1P/RNBQKBNR w KQq - 0 1\"]\n" +
+                        "\n" +
+                        "1. g8=N# *";
+        
+        PGN_Reader parser = new TolerantReader();
+        List<GameReport> reports = parser.getGames(pgn);
+        
+        assertEquals(1, reports.size());        
+        
+        GameReport report = reports.get(0);
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        
+        String fen2 = "rnbqk1N1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
+        assertEquals(fen2, report.getFinalState().toFEN());
+    }    
+    
+    @Test
+    public void testCastlingWhiteKingside(){
+        String pgn =    "[Variant \"From Position\"]\n" +
+                        "[FEN \"4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1\"]\n" +
+                        "\n" +
+                        "1. O-O *";
+        
+        PGN_Reader parser = new TolerantReader();
+        List<GameReport> reports = parser.getGames(pgn);
+        
+        assertEquals(1, reports.size());        
+        
+        GameReport report = reports.get(0);
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        assertEquals(1, report.getMoveList().size());
+        
+        
+        String fen2 = "4k3/8/8/8/8/8/8/R4RK1 b - - 1 1";
+        assertEquals(fen2, report.getFinalState().toFEN());        
+    }
+    @Test
+    public void testCastlingWhiteQueenside(){
+        String pgn =    "[Variant \"From Position\"]\n" +
+                        "[FEN \"4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1\"]\n" +
+                        "\n" +
+                        "1. O-O-O *";
+        
+        PGN_Reader parser = new TolerantReader();
+        List<GameReport> reports = parser.getGames(pgn);
+        
+        assertEquals(1, reports.size());        
+        
+        GameReport report = reports.get(0);
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        assertEquals(1, report.getMoveList().size());        
+        
+        String fen2 = "4k3/8/8/8/8/8/8/2KR3R b - - 1 1";
+        assertEquals(fen2, report.getFinalState().toFEN());        
+    }    
+    
+    @Test
+    public void testCastlingBlackKingside(){
+        String pgn =    "[Variant \"From Position\"]\n" +
+                        "[FEN \"r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1\"]\n" +
+                        "\n" +
+                        "1. O-O *";
+        
+        PGN_Reader parser = new TolerantReader();
+        List<GameReport> reports = parser.getGames(pgn);
+        
+        assertEquals(1, reports.size());        
+        
+        GameReport report = reports.get(0);
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        assertEquals(1, report.getMoveList().size());        
+        
+        String fen2 = "r4rk1/8/8/8/8/8/8/4K3 w - - 1 2";
+        assertEquals(fen2, report.getFinalState().toFEN());        
+    }
+    @Test
+    public void testCastlingBlackQueenside(){
+        String pgn =    "[Variant \"From Position\"]\n" +
+                        "[FEN \"r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1\"]\n" +
+                        "\n" +
+                        "1. O-O-O *";
+        
+        PGN_Reader parser = new TolerantReader();
+        List<GameReport> reports = parser.getGames(pgn);
+        
+        assertEquals(1, reports.size());        
+        
+        GameReport report = reports.get(0);
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        assertEquals(1, report.getMoveList().size());        
+        
+        String fen2 = "2kr3r/8/8/8/8/8/8/4K3 w - - 1 2";
+        assertEquals(fen2, report.getFinalState().toFEN());        
+    }       
 }
