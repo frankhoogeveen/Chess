@@ -21,6 +21,7 @@ import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
 import nl.fh.move.DrawOfferAccepted;
+import nl.fh.move.EnPassantCapture;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
@@ -57,6 +58,10 @@ public class SimpleRules implements Rules{
         addAllPieceMoves(state, result);
         
         addAllCastlingMoves(state, result);
+        
+        if(state.allowsEnPassant()){
+            addAllEnPassantMoves(state, result);
+        }
         
         //remove all moves that leave the king in check
         Set<Move> excludes = movesLeavingKingInCheck(result, state);
@@ -256,6 +261,52 @@ public class SimpleRules implements Rules{
         }
         return result;
     }
+    
+    /**
+     * 
+     * @param state
+     * @param result set to which all allowed castling moves are added 
+     */
+    private void addAllEnPassantMoves(GameState state, Set<Move> result) {
+        if(!state.allowsEnPassant()){
+            return;
+        }
+        
+        Field to = state.getEnPassantField();
+        
+        int x = to.getX();
+        if(state.getToMove() == Color.WHITE){
+            if(x>0){
+                Field from = Field.getInstance(x-1, 5);
+                if(state.getFieldContent(from) == PieceType.WHITE_PAWN){
+                    result.add(EnPassantCapture.getInstance(from, to));
+                }
+            } 
+            if(x < 7){
+                Field from = Field.getInstance(x+1, 5);
+                if(state.getFieldContent(from) == PieceType.WHITE_PAWN){                
+                    result.add(EnPassantCapture.getInstance(from, to)); 
+                }
+            }
+            
+        } else if(state.getToMove() == Color.BLACK) {
+            if(x>0){
+                Field from = Field.getInstance(x-1, 2);
+                if(state.getFieldContent(from) == PieceType.BLACK_PAWN){
+                    result.add(EnPassantCapture.getInstance(from, to));
+                }
+            } 
+            if(x < 7){
+                Field from = Field.getInstance(x+1, 2);
+                if(state.getFieldContent(from) == PieceType.BLACK_PAWN){                
+                    result.add(EnPassantCapture.getInstance(from, to)); 
+                }
+            }            
+            
+        }
+        
+        
+    }    
 
     /**
      * 
@@ -431,4 +482,5 @@ public class SimpleRules implements Rules{
         
         throw new IllegalStateException("this should not happen");
     }
+
 }

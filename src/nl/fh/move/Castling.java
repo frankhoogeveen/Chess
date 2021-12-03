@@ -48,8 +48,10 @@ public class Castling implements Move {
         // update the castling flags
         Color toMove = state.getToMove();        
         result.clearCastlingAllowedFlag(toMove, BoardSide.KINGSIDE);
-        result.clearCastlingAllowedFlag(toMove, BoardSide.QUEENSIDE);        
+        result.clearCastlingAllowedFlag(toMove, BoardSide.QUEENSIDE); 
         
+        // update the en passant information
+        result.clearEnPassant();
         
         // move the pieces
         if((toMove == Color.WHITE) && (this.boardSide == BoardSide.KINGSIDE)){

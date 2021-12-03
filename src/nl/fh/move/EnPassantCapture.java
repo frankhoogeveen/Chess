@@ -6,8 +6,6 @@
 
 package nl.fh.move;
 
-import nl.fh.chess.BoardSide;
-import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
@@ -16,13 +14,13 @@ import nl.fh.gamestate.GameState;
  * copyright GPL v3
  * @author frank
  */
-public class EnPassentCapture implements Move {
+public class EnPassantCapture implements Move {
 
     private Field from;
     private Field to;
     private boolean offeredDraw;
     
-    private EnPassentCapture(){
+    private EnPassantCapture(){
         
     }
     
@@ -34,8 +32,8 @@ public class EnPassentCapture implements Move {
      * 
      * @return a move 
      */
-    public Move getInstance(Field from, Field to){
-        EnPassentCapture result = new EnPassentCapture();
+    public static Move getInstance(Field from, Field to){
+        EnPassantCapture result = new EnPassantCapture();
         
         result.from = from;
         result.to = to;
@@ -52,6 +50,9 @@ public class EnPassentCapture implements Move {
         result.increment();
         result.resetHalfMoveClock();   
         
+        // update the en passant information
+        result.clearEnPassant();
+        
         //move the piece
         PieceType piece = result.getFieldContent(this.from);
         result.setFieldContent(this.from, PieceType.EMPTY);
@@ -63,11 +64,11 @@ public class EnPassentCapture implements Move {
         
         Field capturedPawn;
         switch(y){
-            case 6:
-                capturedPawn = Field.getInstance(x, 5);
-                break;
-            case 3:
+            case 5:
                 capturedPawn = Field.getInstance(x, 4);
+                break;
+            case 2:
+                capturedPawn = Field.getInstance(x, 3);
                 break;                
             default:
                 throw new IllegalStateException("illegal en passent");

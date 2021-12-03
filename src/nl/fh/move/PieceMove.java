@@ -80,6 +80,15 @@ public class PieceMove implements Move {
             result.resetHalfMoveClock();
         }
         
+        // update the en passant information
+        if((result.getFieldContent(from) == PieceType.WHITE_PAWN) && (to.getY() == 3)){
+            result.setEnPassantField(Field.getInstance(to.getX(), 2));
+        } else if((result.getFieldContent(from) == PieceType.BLACK_PAWN) && (to.getY() == 4)){
+            result.setEnPassantField(Field.getInstance(to.getX(), 5));
+        } else {
+            result.clearEnPassant();
+        }
+        
         // update the castling flags
         Color mover = state.getToMove();
         boolean affectWhiteKingside = from.equals(Field.getInstance("e1")) 

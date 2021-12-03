@@ -95,6 +95,9 @@ public class Promotion implements Move {
             result.resetHalfMoveClock();
         }
         
+        // update the en passant information
+        result.clearEnPassant();
+        
         // update the castling flags
         Color mover = state.getToMove();
         boolean affectWhiteKingside = from.equals(Field.getInstance("e1")) 

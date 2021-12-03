@@ -18,6 +18,7 @@ import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
+import nl.fh.move.EnPassantCapture;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
@@ -33,6 +34,8 @@ import nl.fh.rules.SimpleRules;
  *   game report. It is not necessary that the game report is consistent
  * - if there is a tag with key "FEN" present, its value is used as the starting position
  *   having other keys present ("SetUp"  or "VariantFromPosition") is NOT required
+ * 
+ * In the current version the brackets (), {} and <> are not supported yet.
  * 
  * 
  * copyright F. Hoogeveen
@@ -492,8 +495,33 @@ public class TolerantReader implements PGN_Reader{
             extraChar = c[0];
         }
         
+        Field to = Field.getInstance(colChar-'a', rowChar-'1');
+        if(state.allowsEnPassant() && state.getEnPassantField().equals(to)){
+            return decodeEnPassantMove(rowChar, colChar, extraChar, state);
+        }
+        
         Move move = reconstructMove(pieceChar, rowChar, colChar, extraChar, state);
         return move;
+    }
+    
+    private Move decodeEnPassantMove(char rowChar, char colChar,char extraChar,GameState state) throws PgnException{
+        Field from = null;
+        Field to = null;
+        if(state.getToMove() == Color.WHITE){
+            from = Field.getInstance(extraChar - 'a', 4);
+            to = Field.getInstance(colChar - 'a', 5);
+            if(rowChar != '6'){
+                throw new PgnException("en passant: this should not happen");
+            }
+        } else if(state.getToMove() == Color.BLACK) {
+            from = Field.getInstance(extraChar - 'a', 3);
+            to = Field.getInstance(colChar - 'a', 3);   
+            if(rowChar != '3'){
+                throw new PgnException("en passant: this should not happen");
+            }            
+        }
+        
+        return EnPassantCapture.getInstance(from, to);
     }
 
     private Move reconstructMove(char pieceChar, char rowChar, char colChar, char extraChar, GameState state) throws PgnException {

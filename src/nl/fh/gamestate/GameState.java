@@ -564,7 +564,36 @@ public class GameState {
             this.blackCanCastleQueenside = false;
         } 
     }    
+    
+    /**
+     * 
+     * @return true if en passant moves are allowed 
+     */
+    public boolean allowsEnPassant() {
+        return (this.enPassantField != null);
+    }
 
+    public Field getEnPassantField(){
+        return this.enPassantField;
+    }
+    
+    /**
+     * 
+     * @param field the field where en passant capture can take place
+     * 
+     * E.g. after the move e2-e4, this method should return e3
+     */
+    public void setEnPassantField(Field field){
+        this.enPassantField = field;
+    }
+    
+    /**
+     * calling this method resets the en passant information of this GameState
+     */
+    public void clearEnPassant(){
+        this.enPassantField = null;
+    }
+    
     /**
      * resets the half move clock. This is needed to keep track of e.g.
      * the fifty move rule.
@@ -641,6 +670,4 @@ public class GameState {
         }
         return true;
     }
-    
-
 }
