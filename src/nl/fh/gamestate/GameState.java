@@ -37,9 +37,7 @@ public class GameState {
     private boolean blackCanCastleKingside;
     private boolean blackCanCastleQueenside;
  
-    private boolean enpassant;
-    private int enpassantTargetFile;    
-    private int enpassantTargetRank;
+    private Field enPassantField;  // field where an en passent capture is possible, null otherwise
     
     private int halfMoveClock;
     private int fullMoveNumber;
@@ -99,9 +97,7 @@ public class GameState {
         blackCanCastleKingside = true;
         blackCanCastleQueenside = true;
         
-        enpassant = false;
-        enpassantTargetFile = 0;
-        enpassantTargetRank = 0;        
+        enPassantField = null;
         
         halfMoveClock = 0;
         fullMoveNumber = 1;  
@@ -127,9 +123,7 @@ public class GameState {
         blackCanCastleKingside = true;
         blackCanCastleQueenside = true;
         
-        enpassant = false;
-        enpassantTargetFile = 0;
-        enpassantTargetRank = 0;        
+        enPassantField = null;
         
         halfMoveClock = 0;
         fullMoveNumber = 1;   
@@ -199,9 +193,8 @@ public class GameState {
         sb.append(" ");
         
         // the en passent information
-        if(enpassant){
-            sb.append(file[enpassantTargetFile]);
-            sb.append(rank[enpassantTargetRank]);
+        if(enPassantField != null){
+            sb.append(enPassantField.toString());
         } else {
             sb.append("-");
         }
@@ -217,8 +210,8 @@ public class GameState {
     
     /**
      * 
-     * @param fen a string that contains a gamestate in FEN notation
-     * @return a gamestate corresponding to the FEN string
+     * @param fen a string that contains a game state in FEN notation
+     * @return a game state corresponding to the FEN string
      * 
      * https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      * https://www.chessclub.com/help/PGN-spec
@@ -367,9 +360,7 @@ public class GameState {
         
         // the enpassant information
         if(piece[3].equals("-")){
-            result.enpassant = false;
-            result.enpassantTargetFile = 0;
-            result.enpassantTargetRank = 0;
+            result.enPassantField = null;
         } else if(piece[3].length() != 2){
             throw new IllegalArgumentException("FEN enpassant information incorrect length: " + fen);
         } else {
@@ -388,13 +379,11 @@ public class GameState {
                 throw new IllegalArgumentException("FEN enpassant information incorrect square: " + fen);
             }
 
-            result.enpassant = true;
-            result.enpassantTargetFile = nFile;
-            result.enpassantTargetRank = nRank;
+            result.enPassantField = Field.getInstance(nFile, nRank);
  
 
-            if(((result.activeColor == Color.BLACK) && (result.enpassantTargetRank) != 2)
-                    || ((result.activeColor == Color.WHITE) && (result.enpassantTargetRank) != 5))     
+            if(((result.activeColor == Color.BLACK) && (result.enPassantField.getY()) != 2)
+                    || ((result.activeColor == Color.WHITE) && (result.enPassantField.getY()) != 5))     
               {
                 throw new IllegalArgumentException("FEN enpassant information inconsistent with who is to move: " + fen);
             }
@@ -519,9 +508,7 @@ public class GameState {
         result.blackCanCastleKingside = this.blackCanCastleKingside;
         result.blackCanCastleQueenside = this.blackCanCastleQueenside;
 
-        result.enpassant = this.enpassant;
-        result.enpassantTargetFile = this.enpassantTargetFile;    
-        result.enpassantTargetRank = this.enpassantTargetRank;
+        result.enPassantField = this.enPassantField;
 
         result.halfMoveClock =this.halfMoveClock;
         result.fullMoveNumber =this.fullMoveNumber;
@@ -593,21 +580,20 @@ public class GameState {
     public int getHalfMoveClock(){
         return this.halfMoveClock;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Arrays.deepHashCode(this.board);
-        hash = 67 * hash + Objects.hashCode(this.activeColor);
-        hash = 67 * hash + (this.whiteCanCastleKingside ? 1 : 0);
-        hash = 67 * hash + (this.whiteCanCastleQueenside ? 1 : 0);
-        hash = 67 * hash + (this.blackCanCastleKingside ? 1 : 0);
-        hash = 67 * hash + (this.blackCanCastleQueenside ? 1 : 0);
-        hash = 67 * hash + (this.enpassant ? 1 : 0);
-        hash = 67 * hash + this.enpassantTargetFile;
-        hash = 67 * hash + this.enpassantTargetRank;
-        hash = 67 * hash + this.halfMoveClock;
-        hash = 67 * hash + this.fullMoveNumber;
+        int hash = 5;
+        hash = 79 * hash + Arrays.deepHashCode(this.board);
+        hash = 79 * hash + Objects.hashCode(this.activeColor);
+        hash = 79 * hash + (this.whiteCanCastleKingside ? 1 : 0);
+        hash = 79 * hash + (this.whiteCanCastleQueenside ? 1 : 0);
+        hash = 79 * hash + (this.blackCanCastleKingside ? 1 : 0);
+        hash = 79 * hash + (this.blackCanCastleQueenside ? 1 : 0);
+        hash = 79 * hash + Objects.hashCode(this.enPassantField);
+        hash = 79 * hash + this.halfMoveClock;
+        hash = 79 * hash + this.fullMoveNumber;
+        hash = 79 * hash + (this.drawOffered ? 1 : 0);
         return hash;
     }
 
@@ -635,19 +621,13 @@ public class GameState {
         if (this.blackCanCastleQueenside != other.blackCanCastleQueenside) {
             return false;
         }
-        if (this.enpassant != other.enpassant) {
-            return false;
-        }
-        if (this.enpassantTargetFile != other.enpassantTargetFile) {
-            return false;
-        }
-        if (this.enpassantTargetRank != other.enpassantTargetRank) {
-            return false;
-        }
         if (this.halfMoveClock != other.halfMoveClock) {
             return false;
         }
         if (this.fullMoveNumber != other.fullMoveNumber) {
+            return false;
+        }
+        if (this.drawOffered != other.drawOffered) {
             return false;
         }
         if (!Arrays.deepEquals(this.board, other.board)) {
@@ -656,6 +636,11 @@ public class GameState {
         if (this.activeColor != other.activeColor) {
             return false;
         }
+        if (!Objects.equals(this.enPassantField, other.enPassantField)) {
+            return false;
+        }
         return true;
-    }    
+    }
+    
+
 }
