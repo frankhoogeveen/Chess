@@ -5,8 +5,6 @@
 package nl.fh.rules;
 
 import java.util.Set;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
@@ -15,6 +13,10 @@ import nl.fh.player.Player;
 /**
  * Represents the rules of the game. Different implementations may e.g. cater
  * for variants of chess. 
+ * 
+ * At the moment Rules is concerned with:
+ * - in a given state what are the legal moves
+ * - driving games, i.e. determining wins, losses and draws
  */
 public interface Rules {
 
@@ -47,14 +49,4 @@ public interface Rules {
      * @return the set of all legal moves in the game state
      */
     public Set<Move> getAllLegalMoves(GameState state);
-
-    /**
-     * 
-     * @param field
-     * @param state
-     * @param color
-     * @return  true if the field is covered by color in the state
-     */
-    public boolean isCovered(Field field, GameState state, Color color);
-      
 }

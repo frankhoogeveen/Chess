@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
 /**
  *
  */
-public class RulesTest {
+public class SimpleRulesTest {
     
-    public RulesTest() {
+    public SimpleRulesTest() {
     }
       
     @Test
@@ -67,7 +67,7 @@ public class RulesTest {
     public void testIsCovered(){
         String fen = "4k3/6b1/8/8/2R3r1/3n4/8/4K3 w - - 0 1";
         
-        Rules rules = new SimpleRules();
+        SimpleRules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen);
         
         assertTrue(!rules.isCovered(Field.getInstance("a4"), state, Color.BLACK));

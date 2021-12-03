@@ -224,8 +224,7 @@ public class SimpleRules implements Rules{
      * @param color of a player
      * @return true if the field is covered by the player color 
      */
-    @Override
-    public boolean isCovered(Field field, GameState state, Color color){
+    boolean isCovered(Field field, GameState state, Color color){
         return (controllingFields(field, state, color).size() > 0);
     }
     

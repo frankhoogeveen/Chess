@@ -10,7 +10,7 @@ import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
 import nl.fh.rules.EnPassantRulesTest;
 import nl.fh.rules.PromotionRulesTest;
-import nl.fh.rules.RulesTest;
+import nl.fh.rules.SimpleRulesTest;
 import nl.fh.rules.ShortGamesTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -26,7 +26,7 @@ import org.junit.runners.Suite;
     GameReportTest.class,
     FieldTest.class,
     TolerantReaderTest.class,
-    RulesTest.class,
+    SimpleRulesTest.class,
     CastlingRulesTest.class,
     PromotionRulesTest.class,
     EnPassantRulesTest.class,
