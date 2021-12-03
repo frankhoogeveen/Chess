@@ -81,12 +81,12 @@ public class EnPassantCapture implements Move {
 
     @Override
     public Field getTo() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.to;
     }
 
     @Override
     public Field getFrom() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this.from;
     }
 
     @Override
@@ -107,6 +107,11 @@ public class EnPassantCapture implements Move {
     @Override
     public void offerDraw() {
         this.offeredDraw = true;
+    }
+    
+    @Override
+    public String toString(){
+        return moveString();
     }
 
 }

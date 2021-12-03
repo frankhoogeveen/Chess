@@ -277,13 +277,13 @@ public class SimpleRules implements Rules{
         int x = to.getX();
         if(state.getToMove() == Color.WHITE){
             if(x>0){
-                Field from = Field.getInstance(x-1, 5);
+                Field from = Field.getInstance(x-1, 4);
                 if(state.getFieldContent(from) == PieceType.WHITE_PAWN){
                     result.add(EnPassantCapture.getInstance(from, to));
                 }
             } 
             if(x < 7){
-                Field from = Field.getInstance(x+1, 5);
+                Field from = Field.getInstance(x+1, 4);
                 if(state.getFieldContent(from) == PieceType.WHITE_PAWN){                
                     result.add(EnPassantCapture.getInstance(from, to)); 
                 }
@@ -291,13 +291,13 @@ public class SimpleRules implements Rules{
             
         } else if(state.getToMove() == Color.BLACK) {
             if(x>0){
-                Field from = Field.getInstance(x-1, 2);
+                Field from = Field.getInstance(x-1, 3);
                 if(state.getFieldContent(from) == PieceType.BLACK_PAWN){
                     result.add(EnPassantCapture.getInstance(from, to));
                 }
             } 
             if(x < 7){
-                Field from = Field.getInstance(x+1, 2);
+                Field from = Field.getInstance(x+1, 3);
                 if(state.getFieldContent(from) == PieceType.BLACK_PAWN){                
                     result.add(EnPassantCapture.getInstance(from, to)); 
                 }

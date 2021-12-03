@@ -15,6 +15,7 @@ import nl.fh.gamestate.GameStateTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
+import nl.fh.rules.EnPassantRulesTest;
 import nl.fh.rules.PromotionRulesTest;
 import nl.fh.rules.RulesTest;
 import nl.fh.rules.ShortGamesTest;
@@ -36,6 +37,7 @@ import org.junit.runners.Suite;
     RulesTest.class,
     CastlingRulesTest.class,
     PromotionRulesTest.class,
+    EnPassantRulesTest.class,
     ShortGamesTest.class,
     
     //
