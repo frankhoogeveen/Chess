@@ -1,13 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
 package nl.fh.chess;
 
 /**
- *
- * @author frank
+ * Enumerates the colors of field contents (pieces or emptiness)
+ * and players. The case UNDEFINED is included to describe the color of the
+ * contents of an empty field.
  */
 public enum Color {
     WHITE, BLACK, UNDEFINED;

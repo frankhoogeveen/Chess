@@ -1,3 +1,7 @@
+/*
+ * License: GPL v3
+ * 
+ */
 package nl.fh.rules;
 
 import java.util.Set;
@@ -10,15 +14,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * copyright GPL v3
- * @author frank
+ * 
  */
 public class EnPassantRulesTest {
     

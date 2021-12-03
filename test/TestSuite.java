@@ -1,14 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
-
-/**
- * copyright F. Hoogeveen
- * @author frank
- */
-
 import nl.fh.chess.FieldTest;
 import nl.fh.gamereport.GameReportTest;
 import nl.fh.gamestate.GameStateTest;
@@ -24,7 +17,6 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author frank
  */
 
 @RunWith(Suite.class)

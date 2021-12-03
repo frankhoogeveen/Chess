@@ -1,20 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
 package nl.fh.rules;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
-import nl.fh.move.PieceMove;
-import nl.fh.move.Promotion;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import org.junit.Test;

@@ -1,7 +1,10 @@
+/*
+ * License: GPL v3
+ * 
+ */
 package nl.fh.gamereport;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /*

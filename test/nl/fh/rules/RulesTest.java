@@ -1,11 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
 package nl.fh.rules;
 
-import java.util.HashSet;
 import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
@@ -19,7 +17,6 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author frank
  */
 public class RulesTest {
     

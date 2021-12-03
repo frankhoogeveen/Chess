@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
 
 package nl.fh.parser;
@@ -35,7 +34,7 @@ import nl.fh.rules.SimpleRules;
  * - if there is a tag with key "FEN" present, its value is used as the starting position
  *   having other keys present ("SetUp"  or "VariantFromPosition") is NOT required
  * 
- * In the current version the brackets (), {} and <> are not supported yet.
+ * In the current version the brackets (), {} and &lt;&gt; are not supported yet.
  * 
  * 
  * copyright F. Hoogeveen

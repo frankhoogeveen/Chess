@@ -1,20 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
 
 package nl.fh.chess;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * copyright F. Hoogeveen
- * @author frank
- * 
  * Objects of this class represent the fields of a chessboard, including
  * - location
  * - name
@@ -48,7 +45,7 @@ public class Field {
     private String name;
     
     // location where the potential moves are stored
-    private Map<PieceType, Set<MoveRange>> map = new HashMap<PieceType, Set<MoveRange>>();
+    private Map<PieceType, Set<MoveRange>> map = new EnumMap<PieceType, Set<MoveRange>>(PieceType.class);
     
     /**
      * 
@@ -416,6 +413,10 @@ public class Field {
         return (0<= x) && (x < 8) && (0 <= y) && (y <8);
     }
 
+    /**
+     * 
+     * @return a set containing all the fields of the chessboard 
+     */
     public static Set<Field> getAll(){
         if(Field.all == null){
             setUp();
@@ -423,10 +424,20 @@ public class Field {
         return Field.all;
     }
     
+    /**
+     * 
+     * @return the x-coordinate if this field in the range 0..7.
+     * The a-file corresponds to 0, the h-file to 7.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * 
+     * @return the y coordinate of this field in the range 0..7.
+     * The first rank corresponds to 0, the eighth ranks to 7.
+     */
     public int getY() {
         return y;
     }

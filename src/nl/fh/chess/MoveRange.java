@@ -15,7 +15,7 @@ import java.util.List;
  * 
  * This contains the set of fields that can be reached by 
  * consecutive moves in a single direction. 
- * A Queen has eight move ranges, a knight eight, a pawn three, roughly speaking.
+ * A Queen has eight move ranges, a knight upto eight, a pawn three.
  */
 public class MoveRange {
 

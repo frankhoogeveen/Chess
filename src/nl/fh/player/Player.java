@@ -1,9 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
-
 package nl.fh.player;
 
 import java.util.Set;
@@ -11,8 +9,8 @@ import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 
 /**
- * copyright F. Hoogeveen
- * @author frank
+ * Objects displaying this interface can play games by interacting with a 
+ * proper game driver.
  */
 public interface Player {
 

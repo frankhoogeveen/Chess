@@ -1,9 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
-
 package nl.fh.rules;
 
 import java.time.LocalDateTime;
@@ -29,8 +27,7 @@ import nl.fh.move.Resignation;
 import nl.fh.player.Player;
 
 /**
- * copyright F. Hoogeveen
- * @author frank
+ * Represent the rules of the game
  */
 public class SimpleRules implements Rules{
 

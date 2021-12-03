@@ -1,14 +1,14 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * License: GPL v3
+ * 
  */
 
 package nl.fh.chess;
 
 /**
- * copyright F. Hoogeveen
- * @author frank
+ * Discriminates between the different types of move  ranges. This accommodates
+ * for the fact that pawns move forward and capture diagonally, whereas other
+ * pieces move and capture in the same way.
  */
 public enum MoveRangeType {
     CAPTURE_OPTIONAL,           // all pieces, but pawns
