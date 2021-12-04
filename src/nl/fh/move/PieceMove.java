@@ -54,6 +54,7 @@ public class PieceMove implements Move {
         sb.append(piece);
         
         // determine if there is ambiguity and, if yes, add resolver
+        boolean resolver = false;
         Set<Move> movesTo = new HashSet<Move>();
         for(Move m : rules.getAllLegalMoves(state)){
             if(m instanceof PieceMove){
@@ -65,6 +66,8 @@ public class PieceMove implements Move {
             }
         }
         if(movesTo.size() > 1){
+            resolver = true;
+            
             int fromX = from.getX();
             int fromY = from.getY();
             int countSameX = 0;
@@ -85,8 +88,13 @@ public class PieceMove implements Move {
             }
         }
         
-        // add the indicator for capture
+        // add the indicator for capture and make sure that the
+        // file is added for all pawn moves, even if there is no 
+        // resolver
         if(!state.getFieldContent(to).equals(PieceType.EMPTY)){
+            if(!resolver && piece.equals("")){
+                sb.append(from.toString().substring(0,1));
+            }
             sb.append("x");
         }
         

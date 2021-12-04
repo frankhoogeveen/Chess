@@ -113,7 +113,9 @@ public class SimpleRules implements Rules{
                 } else if(captured.getColor() == state.getToMove()){
                     done = true;
                 } else {
-                     addPieceMoveOrPromotions(state, field, to, result);
+                    if(range.getType() != MoveRangeType.CAPTURE_FORBIDDEN){
+                        addPieceMoveOrPromotions(state, field, to, result);
+                    }
                     done = true;
                 }
             }
@@ -446,6 +448,9 @@ public class SimpleRules implements Rules{
             legalMoves = this.getAllLegalMoves(currentState);
 
             report.addGameState(currentState);
+            
+            //insufficient material ends the game on the spot
+            //TODO terminate when insufficient material
 
             // (stale) mate ends the game
             if(legalMoves.isEmpty()){

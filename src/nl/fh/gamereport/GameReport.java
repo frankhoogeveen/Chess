@@ -187,7 +187,7 @@ public class GameReport {
     }
 
     private String movesString(Rules rules) {
-        //TODO this dviates from the pgn standard by having two plies per line
+        //TODO this deviates from the pgn standard by having two plies per line
         // in stead of lines filled out to 80 char
         StringBuilder sb = new StringBuilder();
         int moveCounter = 0;

@@ -96,6 +96,16 @@ public class EnPassantCapture implements Move {
         sb.append(this.from.toString().substring(0,1));
         sb.append("x");
         sb.append(this.to.toString());
+        
+        //the indicators for check and checkmate
+        GameState state2 = this.applyTo(state);
+        if(rules.isMate(state2)){
+            sb.append("#");
+        } else {
+            if(rules.isCheck(state2)){
+                sb.append("+");
+            }
+        }        
 
         return sb.toString();
     }

@@ -593,7 +593,6 @@ public class TolerantReader implements PGN_Reader{
         
         // if there is more than one piece of the type that has been moved, 
         // check which ones could have legally been moved
-        //TODO take care of pen passent here
         Set<Move> legalMovesToField = new HashSet<Move>();
         Field to = Field.getInstance(colChar-'a',rowChar-'1');
         
