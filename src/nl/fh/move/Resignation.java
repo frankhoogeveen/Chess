@@ -7,6 +7,7 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Rules;
 
 /**
  * copyright F. Hoogeveen
@@ -20,8 +21,8 @@ public class Resignation implements Move {
     }
 
     @Override
-    public String moveString() {
-        return "resigns";
+    public String moveString(GameState state, Rules rules) {
+        return "";
     }
 
     @Override

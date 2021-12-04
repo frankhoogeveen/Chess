@@ -47,5 +47,16 @@ public enum PieceType{
     public Color getColor(){
         return color;
     }
-    
+
+    /**
+     * 
+     * @return the character the is used to represent the piece type in a PGN file 
+     */
+    public String getPGNcode() {
+        if((this == WHITE_PAWN) || (this == BLACK_PAWN)){
+            return "";
+        } else{
+            return getFENcode().toUpperCase();
+        }
+    }
 }

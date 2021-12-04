@@ -4,12 +4,15 @@
  */
 package nl.fh.move;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Rules;
 
 /**
  *
@@ -53,8 +56,66 @@ public class Promotion implements Move {
     }
 
     @Override
-    public String moveString(){
-        return "moveString() not yet coded";
+    public String moveString(GameState state, Rules rules){
+        StringBuilder sb = new StringBuilder();
+        
+        // determine if there is ambiguity and, if yes, add resolver
+        Set<Move> movesTo = new HashSet<Move>();
+        for(Move m : rules.getAllLegalMoves(state)){
+            if(m instanceof PieceMove){
+                if (to.equals(((PieceMove)m).getTo()) && 
+                        state.getFieldContent(from) == state.getFieldContent(m.getFrom())) {
+                    movesTo.add(m);
+                }
+            }
+        }
+        if(movesTo.size() > 1){
+            int fromX = from.getX();
+            int fromY = from.getY();
+            int countSameX = 0;
+            int countSameY = 0;
+            for(Move m : movesTo){
+                if(m.getFrom().getX() == fromX){
+                    countSameX += 1;
+                }
+                if(m.getFrom().getY() == fromY){
+                    countSameY += 1;
+                }
+            }
+            
+            if(countSameX == 1){
+                sb.append(from.toString().substring(0,1));
+            } else if(countSameY == 1){
+                sb.append(from.toString().substring(1, 2));
+            }
+        }
+        
+        
+        // add the indicator for capture
+        if(!state.getFieldContent(to).equals(PieceType.EMPTY)){
+            sb.append("x");
+        }
+        
+        // the destination field
+        sb.append(to);
+        
+        //the promotion info
+        sb.append("=");
+        sb.append(piece.getPGNcode());
+        
+        //the indicators for check and checkmate
+        GameState state2 = this.applyTo(state);
+        if(rules.isMate(state2)){
+            sb.append("#");
+        } else {
+            if(rules.isCheck(state2)){
+                sb.append("+");
+            }
+        }
+        
+        return sb.toString();
+        
+        
     }
 
     @Override

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
+import nl.fh.rules.Rules;
 
 /**
  * 
@@ -143,12 +144,12 @@ public class GameReport {
      * 
      * @return a formatted report of the tags, moves and result; 
      */
-    public String toPGN(){
+    public String toPGN(Rules rules){
         StringBuilder sb = new StringBuilder();
         sb.append(sevenTagRoster());
         sb.append(otherTags());
         sb.append("\n");
-        sb.append(movesString());
+        sb.append(movesString(rules));
         sb.append("\n");
         sb.append(resultString());
         sb.append("\n");
@@ -185,24 +186,34 @@ public class GameReport {
         return sb.toString();
     }
 
-    private String movesString() {
+    private String movesString(Rules rules) {
+        //TODO this dviates from the pgn standard by having two plies per line
+        // in stead of lines filled out to 80 char
         StringBuilder sb = new StringBuilder();
         int moveCounter = 0;
         int currentPly = 0;
+
+        GameState state;
+        if(this.TagValuePairs.keySet().contains("FEN")){
+            state = GameState.fromFEN(TagValuePairs.get("FEN"));
+        } else {
+            state = rules.getInitialState();
+        }
         
         while(currentPly < moveList.size()){
             if(currentPly % 2 == 0){
                 // white's moves
                 moveCounter += 1;
-                sb.append(Integer.toString(currentPly));
+                sb.append(Integer.toString(moveCounter));
                 sb.append(". ");
-                sb.append(moveList.get(currentPly).moveString());
+                sb.append(moveList.get(currentPly).moveString(state, rules));
                 sb.append(" ");
             } else {
                 // black's moves
-                sb.append(moveList.get(currentPly).moveString());
+                sb.append(moveList.get(currentPly).moveString(state, rules));
                 sb.append("\n");
             }
+            state = moveList.get(currentPly).applyTo(state);
             currentPly += 1;
         }
         
@@ -216,10 +227,20 @@ public class GameReport {
         
         switch(gameResult){
             case WIN_WHITE:
+            case ILLEGAL_MOVE_BY_BLACK:
+            case RESIGNATION_BY_BLACK:
+                
                 return "1-0";
             case WIN_BLACK:
+            case ILLEGAL_MOVE_BY_WHITE:
+            case RESIGNATION_BY_WHITE:
                 return "0-1";
             case DRAW :
+            case DRAW_AGREED:
+            case DRAW_STALEMATE:
+            case DRAW_BY_THREEFOLD_REPETITION:
+            case DRAW_BY_50_MOVE_RULE:
+            
                 return "1/2-1/2";
             case UNDECIDED:
                 return "*";
@@ -237,8 +258,8 @@ public class GameReport {
         if(s == null){
             return "null";
         }
-        String result = s.replaceAll("\\", "\\\\");
-        result = result.replaceAll("\"", "\\\"");
+        String result = s.replace("\\", "\\\\");
+        result = result.replace("\"", "\\\"");
         return result;
     }
 }

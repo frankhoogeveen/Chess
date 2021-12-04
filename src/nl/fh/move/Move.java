@@ -6,6 +6,7 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Rules;
 
 
 /**
@@ -43,10 +44,20 @@ public interface Move {
     public Field getFrom();
     
     /**
-     * 
+     * @param state
+     * @param rules
      * @return the string the represents the move in an exported PGN 
+     * 
+     * The game state and the rules are needed as arguments in order
+     * to:
+     * - attach the indicator of the moving piece
+     * - add the check(+) and mate(#) indicators
+     * - to add the supplemental rank or file info when needed
+     * - to add the x when capturing
+     * - to add the promoted piece
+     * - to add the e.p. indicator
      */
-    public String moveString();
+    public String moveString(GameState state, Rules rules);
     
     /**
      * @return true if the player that made this move offered draw when playing

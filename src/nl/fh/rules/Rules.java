@@ -49,4 +49,25 @@ public interface Rules {
      * @return the set of all legal moves in the game state
      */
     public Set<Move> getAllLegalMoves(GameState state);
+
+    /**
+     * 
+     * @param state
+     * @return true if the position is checkmate
+     */
+    public boolean isMate(GameState state);
+    
+    /**
+     * 
+     * @param state
+     * @return true if the position is stalemate
+     */
+    public boolean isStaleMate(GameState state);    
+
+    /**
+     * 
+     * @param state
+     * @return true if the player that is to move is in check
+     */
+    public boolean isCheck(GameState state);
 }

@@ -7,6 +7,7 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Rules;
 
 /**
  * copyright F. Hoogeveen
@@ -24,8 +25,8 @@ public class DrawOfferAccepted implements Move {
     }
 
     @Override
-    public String moveString() {
-        return "draw offer accepted";
+    public String moveString(GameState state, Rules rules) {
+        return "";
     }
 
     @Override

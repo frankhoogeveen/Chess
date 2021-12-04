@@ -8,6 +8,7 @@ package nl.fh.move;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Rules;
 
 /**
  * copyright GPL v3
@@ -89,9 +90,10 @@ public class EnPassantCapture implements Move {
     }
 
     @Override
-    public String moveString() {
+    public String moveString(GameState state, Rules rules) {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.from.toString());
+        
+        sb.append(this.from.toString().substring(0,1));
         sb.append("x");
         sb.append(this.to.toString());
         sb.append(" e.p.");
@@ -107,10 +109,4 @@ public class EnPassantCapture implements Move {
     public void offerDraw() {
         this.offeredDraw = true;
     }
-    
-    @Override
-    public String toString(){
-        return moveString();
-    }
-
 }

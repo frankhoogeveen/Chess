@@ -348,7 +348,8 @@ public class SimpleRules implements Rules{
      * @param state
      * @return true if the king that has to move next is in check 
      */
-    private boolean isCheck(GameState state){
+    @Override
+    public boolean isCheck(GameState state){
         Color playerColor = state.getToMove();
         Color opponentColor = Color.flip(playerColor);
         Field kingField = findKing(playerColor, state);
@@ -384,20 +385,30 @@ public class SimpleRules implements Rules{
     }
     
     @Override
+    public boolean isMate(GameState state){
+        return getAllLegalMoves(state).isEmpty() && isCheck(state);
+    }
+    
+    @Override
+    public boolean isStaleMate(GameState state){
+        return getAllLegalMoves(state).isEmpty() && !isCheck(state);
+    }
+    
+    @Override
     public GameReport playGame(Player whitePlayer, Player blackPlayer) {
         GameReport report = new GameReport();
         report.addTag("White", whitePlayer.toString());
         report.addTag("Black", blackPlayer.toString());
         
         LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss z");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
         report.addTag("Date", formattedDate);
         
         Player currentPlayer = whitePlayer;        
         GameState currentState = this.getInitialState();
+        report.addGameState(currentState);        
         Set<Move> legalMoves = this.getAllLegalMoves(currentState);        
-        report.addGameState(this.getInitialState());
         
         while(report.getGameResult() == GameResult.UNDECIDED){
             // invite the current player to make a move
@@ -476,7 +487,7 @@ public class SimpleRules implements Rules{
             }
         }
         
-        throw new IllegalStateException("this should not happen");
+        return report;
     }
-
 }
+
