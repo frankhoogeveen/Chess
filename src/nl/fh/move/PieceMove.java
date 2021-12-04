@@ -57,7 +57,9 @@ public class PieceMove implements Move {
         Set<Move> movesTo = new HashSet<Move>();
         for(Move m : rules.getAllLegalMoves(state)){
             if(m instanceof PieceMove){
-                if (to.equals(((PieceMove)m).getTo())) {
+                boolean samePiece = (state.getFieldContent(from) == state.getFieldContent(((PieceMove) m).from));
+                boolean sameTo    = to.equals(((PieceMove)m).getTo());
+                if (samePiece && sameTo) {
                     movesTo.add(m);
                 }
             }
@@ -82,7 +84,6 @@ public class PieceMove implements Move {
                 sb.append(from.toString().substring(1, 2));
             }
         }
-        
         
         // add the indicator for capture
         if(!state.getFieldContent(to).equals(PieceType.EMPTY)){

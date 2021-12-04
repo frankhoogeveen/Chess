@@ -49,7 +49,7 @@ public class SimpleRules implements Rules{
         // checks to check e.g. 50 move rule, or king remaining in check here
         
         if(state.isDrawOffered()){
-            result.add(new DrawOfferAccepted());
+            result.add(DrawOfferAccepted.getInstance());
         }
        
         addAllPieceMoves(state, result);

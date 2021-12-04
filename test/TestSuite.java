@@ -4,6 +4,7 @@
  */
 import nl.fh.chess.FieldTest;
 import nl.fh.gamereport.GameReportTest;
+import nl.fh.gamereport.MoveCodesTest;
 import nl.fh.gamestate.GameStateTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.parser.TolerantReaderTest;
@@ -24,6 +25,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     GameStateTest.class,
     GameReportTest.class,
+    MoveCodesTest.class,
     FieldTest.class,
     TolerantReaderTest.class,
     SimpleRulesTest.class,

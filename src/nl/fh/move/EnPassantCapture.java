@@ -96,7 +96,7 @@ public class EnPassantCapture implements Move {
         sb.append(this.from.toString().substring(0,1));
         sb.append("x");
         sb.append(this.to.toString());
-        sb.append(" e.p.");
+
         return sb.toString();
     }
 

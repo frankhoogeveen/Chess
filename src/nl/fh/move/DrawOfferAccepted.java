@@ -17,6 +17,14 @@ import nl.fh.rules.Rules;
  * previous move. Nothing changes on the board
  */
 public class DrawOfferAccepted implements Move {
+    
+    private DrawOfferAccepted(){
+        
+    }
+    
+    public static DrawOfferAccepted getInstance(){
+        return new DrawOfferAccepted();
+    }
 
     @Override
     public GameState applyTo(GameState state) {
