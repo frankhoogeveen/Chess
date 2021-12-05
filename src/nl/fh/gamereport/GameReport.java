@@ -133,11 +133,15 @@ public class GameReport {
     }
     
     /**
-     * set the result of this game
+     * set the result of this game. In case a tag "Result" is defined,
+     * it is overwritten
      * @param result 
      */
     public void setResult(GameResult result){
        gameResult = result;
+       if(this.TagValuePairs.keySet().contains("Result")){
+            this.addTag("Result", result.toString());
+       }
     }
     
     /** write the report in .pgn format
@@ -229,19 +233,21 @@ public class GameReport {
             case WIN_WHITE:
             case ILLEGAL_MOVE_BY_BLACK:
             case RESIGNATION_BY_BLACK:
-                
                 return "1-0";
+                
             case WIN_BLACK:
             case ILLEGAL_MOVE_BY_WHITE:
             case RESIGNATION_BY_WHITE:
                 return "0-1";
+                
             case DRAW :
             case DRAW_AGREED:
             case DRAW_STALEMATE:
             case DRAW_BY_THREEFOLD_REPETITION:
             case DRAW_BY_50_MOVE_RULE:
-            
+            case DRAW_INSUFFICIENT_MATERIAL:
                 return "1/2-1/2";
+                
             case UNDECIDED:
                 return "*";
         }

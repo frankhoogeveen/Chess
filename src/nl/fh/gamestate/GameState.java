@@ -20,6 +20,7 @@ import nl.fh.chess.PieceType;
  * @author frank
  */
 public class GameState {
+    //TODO add dirty flag and buffer legal moves
     
     private static char[] file = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
     private static char[] rank = {'1', '2', '3', '4', '5', '6', '7', '8'};    

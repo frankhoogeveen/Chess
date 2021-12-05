@@ -22,7 +22,8 @@ public enum GameResult {
     DRAW_BY_THREEFOLD_REPETITION(0),
     DRAW_BY_50_MOVE_RULE(0), 
     RESIGNATION_BY_WHITE(-1), 
-    RESIGNATION_BY_BLACK(+1);
+    RESIGNATION_BY_BLACK(+1), 
+    DRAW_INSUFFICIENT_MATERIAL(0);
     
     private int value;
     

@@ -401,6 +401,7 @@ public class SimpleRules implements Rules{
         GameReport report = new GameReport();
         report.addTag("White", whitePlayer.toString());
         report.addTag("Black", blackPlayer.toString());
+        report.addTag("Result", "*");
         
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
@@ -450,7 +451,10 @@ public class SimpleRules implements Rules{
             report.addGameState(currentState);
             
             //insufficient material ends the game on the spot
-            //TODO terminate when insufficient material
+            if(!sufficientMaterial(currentState)){
+                report.setResult(GameResult.DRAW_INSUFFICIENT_MATERIAL);                
+                return report;
+            }
 
             // (stale) mate ends the game
             if(legalMoves.isEmpty()){
@@ -493,6 +497,70 @@ public class SimpleRules implements Rules{
         }
         
         return report;
+    }
+
+    /**
+     * 
+     * @param currentState
+     * @return true if there still is sufficient material on the board to mate 
+     * 
+     * This method only declares insufficient material for 
+     * - K vs K
+     * - K vs KN
+     * - K vs KB
+     */
+    private boolean sufficientMaterial(GameState currentState) {
+        int whiteB = 0;
+        int whiteN = 0;
+        int blackB = 0;
+        int blackN = 0;
+        for(Field f : Field.getAll()){
+            switch(currentState.getFieldContent(f)){
+                case EMPTY:
+                    break;
+                case WHITE_PAWN:
+                case BLACK_PAWN:
+                case WHITE_ROOK:
+                case BLACK_ROOK:
+                case WHITE_QUEEN:
+                case BLACK_QUEEN:
+                    return true;
+                case WHITE_KING:
+                case BLACK_KING:
+                    break;
+                case WHITE_BISHOP:
+                    whiteB += 1;
+                    if(whiteB > 1){
+                        return true;
+                    }
+                    break;
+                case BLACK_BISHOP:
+                    blackB += 1;
+                    if(blackB > 1){
+                        return true;
+                    }
+                    break;
+                case WHITE_KNIGHT:
+                    whiteN += 1;
+                    if(whiteN > 1){
+                        return true;
+                    }
+                    break;
+                case BLACK_KNIGHT:
+                    blackN += 1;
+                    if(blackN > 1){
+                        return true;
+                    }
+                    break;
+                default:
+                    System.out.println(currentState.toFEN());
+                    System.out.println(f);
+                    System.out.println(currentState.getFieldContent(f));
+                    throw new IllegalStateException("switch statement not complete");
+            }
+        }
+        
+        return false;
     }
 }
 

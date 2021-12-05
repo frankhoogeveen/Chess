@@ -36,6 +36,5 @@ public class Job_001_game_between_two_random_players {
       */
       
       System.out.println(report.toPGN(rules));
-      System.out.println(report.getGameResult());
     }
 }
