@@ -24,7 +24,7 @@ public class Job_001_game_between_two_random_players {
       
       GameReport report = rules.playGame(player1, player2);
 
-      
+      /*
       System.out.println(report.getStateList().get(0));
       for(int i = 0; i < report.getMoveList().size(); i++ ){
           System.out.print(report.getMoveList().get(i).toString());
@@ -33,7 +33,9 @@ public class Job_001_game_between_two_random_players {
           System.out.println(report.getStateList().get(i+1).toFEN());
           System.out.println();
       }
+      */
       
       System.out.println(report.toPGN(rules));
+      System.out.println(report.getGameResult());
     }
 }
