@@ -191,8 +191,9 @@ public class GameReport {
     }
 
     private String movesString(Rules rules) {
-        //TODO this deviates from the pgn standard by having two plies per line
-        // in stead of lines filled out to 80 char
+        int triggerLineLength = 65;
+        int startSBcontent = 0;
+        
         StringBuilder sb = new StringBuilder();
         int moveCounter = 0;
         int currentPly = 0;
@@ -206,6 +207,11 @@ public class GameReport {
         
         while(currentPly < moveList.size()){
             if(currentPly % 2 == 0){
+                // break the line when it gets too large
+                if((sb.length() - startSBcontent) > triggerLineLength){
+                    sb.append("\n");
+                    startSBcontent = sb.length();
+                }                
                 // white's moves
                 moveCounter += 1;
                 sb.append(Integer.toString(moveCounter));
@@ -215,7 +221,7 @@ public class GameReport {
             } else {
                 // black's moves
                 sb.append(moveList.get(currentPly).moveString(state, rules));
-                sb.append("\n");
+                sb.append(" ");
             }
             state = moveList.get(currentPly).applyTo(state);
             currentPly += 1;
