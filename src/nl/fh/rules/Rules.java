@@ -4,9 +4,9 @@
  */
 package nl.fh.rules;
 
+import nl.fh.gamestate.GameState;
 import java.util.Set;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
 
@@ -47,8 +47,12 @@ public interface Rules {
     /**
      * @param state
      * @return the set of all legal moves in the game state
+     * 
+     * This is an expensive method to call. It is encouraged to 
+     * retrieve the legal moves from the GameState which is buffering
+     * previously calculated move sets.
      */
-    public Set<Move> getAllLegalMoves(GameState state);
+    public Set<Move> calculateAllLegalMoves(GameState state);
 
     /**
      * 

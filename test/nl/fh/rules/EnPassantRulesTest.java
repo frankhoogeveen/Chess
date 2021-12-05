@@ -4,9 +4,9 @@
  */
 package nl.fh.rules;
 
+import nl.fh.gamestate.GameState;
 import java.util.Set;
 import nl.fh.chess.Field;
-import nl.fh.gamestate.GameState;
 import nl.fh.move.EnPassantCapture;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
@@ -25,7 +25,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen);
-    Set<Move> moves = rules.getAllLegalMoves(state);
+    Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
     for(Move m : moves){
@@ -46,7 +46,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen);
-    Set<Move> moves = rules.getAllLegalMoves(state);
+    Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
     for(Move m : moves){
@@ -67,7 +67,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen);
-    Set<Move> moves = rules.getAllLegalMoves(state);
+    Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
     for(Move m : moves){
@@ -89,7 +89,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen);
-    Set<Move> moves = rules.getAllLegalMoves(state);
+    Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
     for(Move m : moves){
@@ -110,7 +110,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen);
-    Set<Move> moves = rules.getAllLegalMoves(state);
+    Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
     for(Move m : moves){
@@ -131,7 +131,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen);
-    Set<Move> moves = rules.getAllLegalMoves(state);
+    Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
     for(Move m : moves){

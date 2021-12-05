@@ -4,9 +4,9 @@
  */
 package nl.fh.rules;
 
+import nl.fh.gamestate.GameState;
 import java.util.List;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamestate.GameState;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import static org.junit.Assert.assertEquals;

@@ -4,11 +4,11 @@
  */
 package nl.fh.rules;
 
+import nl.fh.gamestate.GameState;
 import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
-import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
@@ -59,7 +59,7 @@ public class SimpleRulesTest {
         
         state = state.apply(move);
         
-        Set<Move> moves = rules.getAllLegalMoves(state);        
+        Set<Move> moves = rules.calculateAllLegalMoves(state);        
         assertEquals(20, moves.size());
     }
     
@@ -90,7 +90,7 @@ public class SimpleRulesTest {
         GameState state = GameState.fromFEN(fen);
         Rules rules = new SimpleRules();
         
-        Set<Move> moves = rules.getAllLegalMoves(state);
+        Set<Move> moves = rules.calculateAllLegalMoves(state);
         assertEquals(1, moves.size());
     }
     
@@ -101,7 +101,7 @@ public class SimpleRulesTest {
         String fen = "rnbqk3/ppppp1P1/8/8/8/8/PPPPPP1P/RNBQKBNR w KQq - 0 1";
         GameState state = GameState.fromFEN(fen);
         
-        Set<Move> set = rules.getAllLegalMoves(state);
+        Set<Move> set = rules.calculateAllLegalMoves(state);
         
         Field from = Field.getInstance("g7");        
         Field to = Field.getInstance("g8");

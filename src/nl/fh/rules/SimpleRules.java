@@ -4,6 +4,7 @@
  */
 package nl.fh.rules;
 
+import nl.fh.gamestate.GameState;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -16,7 +17,6 @@ import nl.fh.chess.MoveRangeType;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
-import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
 import nl.fh.move.DrawOfferAccepted;
 import nl.fh.move.EnPassantCapture;
@@ -29,7 +29,7 @@ import nl.fh.player.Player;
 /**
  * Represent the rules of the game
  */
-public class SimpleRules implements Rules{
+public class SimpleRules implements Rules {
 
     @Override
     public GameState getInitialState() {
@@ -39,11 +39,16 @@ public class SimpleRules implements Rules{
 
     @Override
     public boolean isLegalMove(Move move, GameState state) {
-        return getAllLegalMoves(state).contains(move);
+        return state.getLegalMoves(this).contains(move);
     }
-
+    
     @Override
-    public Set<Move> getAllLegalMoves(GameState state) {
+    public Set<Move> calculateAllLegalMoves(GameState state) {
+        // if the legal moves are already buffered, reuse them
+        if(!state.isDirty(this)){
+            return state.getLegalMoves(this);
+        }
+        
         Set<Move> result = new HashSet<Move>();
        
         // checks to check e.g. 50 move rule, or king remaining in check here
@@ -388,12 +393,12 @@ public class SimpleRules implements Rules{
     
     @Override
     public boolean isMate(GameState state){
-        return getAllLegalMoves(state).isEmpty() && isCheck(state);
+        return state.getLegalMoves(this).isEmpty() && isCheck(state);
     }
     
     @Override
     public boolean isStaleMate(GameState state){
-        return getAllLegalMoves(state).isEmpty() && !isCheck(state);
+        return state.getLegalMoves(this).isEmpty() && !isCheck(state);
     }
     
     @Override
@@ -411,7 +416,7 @@ public class SimpleRules implements Rules{
         Player currentPlayer = whitePlayer;        
         GameState currentState = this.getInitialState();
         report.addGameState(currentState);        
-        Set<Move> legalMoves = this.getAllLegalMoves(currentState);        
+        Set<Move> legalMoves = currentState.getLegalMoves(this);        
         
         while(report.getGameResult() == GameResult.UNDECIDED){
             // invite the current player to make a move
@@ -446,7 +451,7 @@ public class SimpleRules implements Rules{
             
             // update and register the currentstate
             currentState = move.applyTo(currentState);
-            legalMoves = this.getAllLegalMoves(currentState);
+            legalMoves = currentState.getLegalMoves(this);
 
             report.addGameState(currentState);
             
@@ -562,5 +567,6 @@ public class SimpleRules implements Rules{
         
         return false;
     }
+
 }
 

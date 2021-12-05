@@ -5,10 +5,10 @@
 package nl.fh.rules;
 
 
+import nl.fh.gamestate.GameState;
 import java.util.List;
 import nl.fh.chess.BoardSide;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
 import nl.fh.move.Move;
 import nl.fh.parser.PGN_Reader;

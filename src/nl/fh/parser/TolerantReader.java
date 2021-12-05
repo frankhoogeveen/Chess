@@ -596,7 +596,7 @@ public class TolerantReader implements PGN_Reader{
         Set<Move> legalMovesToField = new HashSet<Move>();
         Field to = Field.getInstance(colChar-'a',rowChar-'1');
         
-        Set<Move> allLegalMoves = rules.getAllLegalMoves(state);
+        Set<Move> allLegalMoves = state.getLegalMoves(rules);
         
         for(Field from : fields){
             Move move = PieceMove.getInstance(from, to);

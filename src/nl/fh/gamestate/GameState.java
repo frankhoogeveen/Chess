@@ -14,16 +14,31 @@ import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
+import nl.fh.rules.Rules;
+import nl.fh.rules.Rules;
+import nl.fh.rules.SimpleRules;
 
 /**
  * copyright F. Hoogeveen
  * @author frank
+ * 
+ * Keeps track of the state of the game and acts as a buffer to ensure 
+ * that derived information (in particular, the set of legal moves) is not
+ * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
+ * 
  */
 public class GameState {
-    //TODO add dirty flag and buffer legal moves
+
+////////////////////////////////////////////////////////////////////////////////
+// static data
+////////////////////////////////////////////////////////////////////////////////    
     
     private static char[] file = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
-    private static char[] rank = {'1', '2', '3', '4', '5', '6', '7', '8'};    
+    private static char[] rank = {'1', '2', '3', '4', '5', '6', '7', '8'};   
+    
+////////////////////////////////////////////////////////////////////////////////
+// the data independently describing the board state
+////////////////////////////////////////////////////////////////////////////////       
     
     private PieceType[][] board;  // first coordinate is file, second is rank:
                                   // board[0][0] is a1
@@ -44,17 +59,28 @@ public class GameState {
     
     private boolean drawOffered;
     
+////////////////////////////////////////////////////////////////////////////////
+// the dirty flag, the rules used and the derived information
+////////////////////////////////////////////////////////////////////////////////     
+    
+    private boolean isDirty;
+    private Rules rules;
+    private Set<Move> legalMoves;
+    
+    
     /**
      * set up the board for a new game
      */
     public GameState(){
         board = new PieceType[8][8];
+        isDirty = true;
         reset();
     }
     
     /**
      * reset the board to the state for a new game
      * 
+     * //TODO migrate the initial board setup to Rules
      * this might migrate to the concern of the Rules in future
      */
     private void reset(){
@@ -462,6 +488,7 @@ public class GameState {
      */
     public void setFieldContent(Field field, PieceType type){
         this.board[field.getX()][field.getY()] = type;
+        this.isDirty = true;
     }
     
     /**
@@ -486,6 +513,8 @@ public class GameState {
             this.fullMoveNumber += 1;
         }
         this.activeColor = Color.flip(this.activeColor);
+        
+        this.isDirty = true;
     }
     
     /**
@@ -585,6 +614,7 @@ public class GameState {
      */
     public void setEnPassantField(Field field){
         this.enPassantField = field;
+        this.isDirty = true;
     }
     
     /**
@@ -592,6 +622,7 @@ public class GameState {
      */
     public void clearEnPassant(){
         this.enPassantField = null;
+        this.isDirty = true;
     }
     
     /**
@@ -600,6 +631,7 @@ public class GameState {
      */
     public void resetHalfMoveClock() {
         this.halfMoveClock = 0;
+        this.isDirty = true;
     }
     
     /**
@@ -609,6 +641,31 @@ public class GameState {
     public int getHalfMoveClock(){
         return this.halfMoveClock;
     }
+    
+    /**
+     * 
+     * @param rules a rule set
+     * @return all legal moves, given the rule set  
+     */
+    public Set<Move> getLegalMoves(Rules rules){
+        
+        if(isDirty(rules)){
+            this.legalMoves = rules.calculateAllLegalMoves(this);
+            isDirty = false;
+        }
+        
+        return this.legalMoves;
+    }
+    
+    /**
+     * 
+     * @param rules
+     * @return true if the cached information needs to be recalculated or is 
+     * calculated using a different rules
+     */
+    public boolean isDirty(Rules rules) {
+        return isDirty || !(rules.equals(this.rules));
+    }    
 
     @Override
     public int hashCode() {

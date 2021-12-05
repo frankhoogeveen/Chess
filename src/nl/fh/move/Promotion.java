@@ -62,7 +62,7 @@ public class Promotion implements Move {
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;        
         Set<Move> movesTo = new HashSet<Move>();
-        for(Move m : rules.getAllLegalMoves(state)){
+        for(Move m : state.getLegalMoves(rules)){
             if(m instanceof Promotion){
                 if (to.equals(((Promotion)m).getTo()) && 
                         this.piece == ((Promotion) m).getPiece()) {

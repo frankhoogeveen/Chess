@@ -56,7 +56,7 @@ public class PieceMove implements Move {
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;
         Set<Move> movesTo = new HashSet<Move>();
-        for(Move m : rules.getAllLegalMoves(state)){
+        for(Move m : state.getLegalMoves(rules)){
             if(m instanceof PieceMove){
                 boolean samePiece = (state.getFieldContent(from) == state.getFieldContent(((PieceMove) m).from));
                 boolean sameTo    = to.equals(((PieceMove)m).getTo());
