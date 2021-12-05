@@ -15,8 +15,6 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.rules.Rules;
-import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
 
 /**
  * copyright F. Hoogeveen
@@ -38,7 +36,9 @@ public class GameState {
     
 ////////////////////////////////////////////////////////////////////////////////
 // the data independently describing the board state
-////////////////////////////////////////////////////////////////////////////////       
+////////////////////////////////////////////////////////////////////////////////     
+    
+    private Rules rules;          // the rules used for this gamestate    
     
     private PieceType[][] board;  // first coordinate is file, second is rank:
                                   // board[0][0] is a1
@@ -64,16 +64,17 @@ public class GameState {
 ////////////////////////////////////////////////////////////////////////////////     
     
     private boolean isDirty;
-    private Rules rules;
     private Set<Move> legalMoves;
     
     
     /**
+     * @param rules the Rules object that governs the play
      * set up the board for a new game
      */
-    public GameState(){
+    public GameState(Rules rules){
         board = new PieceType[8][8];
         isDirty = true;
+        this.rules = rules;
         clear();
     }
     
@@ -190,9 +191,9 @@ public class GameState {
      * 
      * The FEN parser is tolerant of small deviations in the syntax
      */
-    public static GameState fromFEN(String fen){
+    public static GameState fromFEN(String fen, Rules rules){
         
-        GameState result = new GameState();
+        GameState result = new GameState(rules);
         result.clear();
         
         // remove leading and trailing blanks
@@ -378,6 +379,53 @@ public class GameState {
 
     /**
      * 
+     * @return the game state as an ASCII string suitable for display
+     * on a terminal
+     */
+    public String toASCII(Color color){
+        StringBuilder sb = new StringBuilder();
+        
+        
+        if(color == Color.WHITE){
+            for(int i = 7; i >= 0; i--){
+                for(int j = 0; j < 8; j++){
+                    PieceType piece = board[j][i];
+                    if(piece == PieceType.EMPTY){
+                        if( ((i+j)%2) == 0){
+                            sb.append(".");
+                        } else {
+                            sb.append(" ");
+                        }
+                    } else {
+                        sb.append(piece.getFENcode());                    
+                    }
+                }         
+                sb.append("\n");
+            }
+        } else {
+            for(int i = 0; i <8; i++){
+                for(int j = 7; j >= 0; j--){
+                    PieceType piece = board[j][i];
+                    if(piece == PieceType.EMPTY){
+                        if( ((i+j)%2) == 0){
+                            sb.append(".");
+                        } else {
+                            sb.append(" ");
+                        }
+                    } else {
+                        sb.append(piece.getFENcode());                    
+                    }
+                }         
+                sb.append("\n");
+            }            
+            
+        }
+        
+        return sb.toString();
+    }    
+    
+    /**
+     * 
      * @return the color of the player that is to move next 
      */
     public Color getToMove() {
@@ -439,6 +487,14 @@ public class GameState {
     
     /**
      * 
+     * @return 
+     */
+    public Rules getRules(){
+        return this.rules;
+    }
+    
+    /**
+     * 
      * @param move
      * @return a new game state by applying the move to this state
      * 
@@ -468,7 +524,7 @@ public class GameState {
      * @return a copy of this game state 
      */
     public GameState copy(){
-        GameState result = new GameState();
+        GameState result = new GameState(this.rules);
         
         result.board = new PieceType[8][8];
         for(int x = 0; x < 8; x++){
@@ -488,7 +544,11 @@ public class GameState {
         result.halfMoveClock =this.halfMoveClock;
         result.fullMoveNumber =this.fullMoveNumber;
 
-        result.drawOffered = this.drawOffered;        
+        result.drawOffered = this.drawOffered; 
+        
+        // 
+        result.isDirty = true;
+        result.rules = this.rules;
         
         return result;
     }
@@ -596,6 +656,21 @@ public class GameState {
     public Set<Move> getLegalMoves(Rules rules){
         
         if(isDirty(rules)){
+            this.legalMoves = rules.calculateAllLegalMoves(this);
+            isDirty = false;
+        }
+        
+        return this.legalMoves;
+    }
+    /**
+     * 
+     * @param rules a rule set
+     * @return all legal moves, given the rule set used to pre-calculate the
+     * legal Moves
+     */
+    public Set<Move> getLegalMoves(){
+        
+        if(isDirty){
             this.legalMoves = rules.calculateAllLegalMoves(this);
             isDirty = false;
         }

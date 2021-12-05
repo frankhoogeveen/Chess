@@ -56,7 +56,8 @@ public class Promotion implements Move {
     }
 
     @Override
-    public String moveString(GameState state, Rules rules){
+    public String moveString(GameState state){
+        Rules rules = state.getRules();        
         StringBuilder sb = new StringBuilder();
         
         // determine if there is ambiguity and, if yes, add resolver

@@ -45,10 +45,9 @@ public interface Move {
     
     /**
      * @param state
-     * @param rules
      * @return the string the represents the move in an exported PGN 
      * 
-     * The game state and the rules are needed as arguments in order
+     * The game state is needed as arguments in order
      * to:
      * - attach the indicator of the moving piece
      * - add the check(+) and mate(#) indicators
@@ -56,8 +55,10 @@ public interface Move {
      * - to add the x when capturing
      * - to add the promoted piece
      * - to add the e.p. indicator
+     * 
+     * The rules used are read from the game state
      */
-    public String moveString(GameState state, Rules rules);
+    public String moveString(GameState state);
     
     /**
      * @return true if the player that made this move offered draw when playing

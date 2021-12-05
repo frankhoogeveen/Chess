@@ -21,7 +21,7 @@ public class Resignation implements Move {
     }
 
     @Override
-    public String moveString(GameState state, Rules rules) {
+    public String moveString(GameState state) {
         return "";
     }
 

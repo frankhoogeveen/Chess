@@ -90,7 +90,8 @@ public class EnPassantCapture implements Move {
     }
 
     @Override
-    public String moveString(GameState state, Rules rules) {
+    public String moveString(GameState state) {
+        Rules rules = state.getRules();
         StringBuilder sb = new StringBuilder();
         
         sb.append(this.from.toString().substring(0,1));

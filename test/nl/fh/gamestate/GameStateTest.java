@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
 public class GameStateTest {
     
     static ArrayList<String> fenList = new ArrayList<String>();
+    static Rules rules = new SimpleRules();
 
 
     
@@ -53,7 +54,7 @@ public class GameStateTest {
 
     @Test
     public void testToFEN() {
-        GameState instance = new GameState();
+        GameState instance = new GameState(rules);
         String expResult = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
         String result = instance.toFEN();
         assertEquals(expResult, result);
@@ -71,8 +72,8 @@ public class GameStateTest {
     @Test
     public void testFromFEN() {
         String fen = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
-        GameState expResult = new GameState();
-        GameState result = GameState.fromFEN(fen);
+        GameState expResult = new GameState(rules);
+        GameState result = GameState.fromFEN(fen, rules);
         assertEquals(expResult, result);
     }
     
@@ -81,13 +82,13 @@ public class GameStateTest {
         String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         Rules rules = new SimpleRules();
         GameState expResult = rules.getInitialState();
-        GameState result = GameState.fromFEN(fen);
+        GameState result = GameState.fromFEN(fen, rules);
         assertEquals(expResult, result);
     }    
     @Test
     public void testList(){
         for(String fen : fenList){
-            GameState state = GameState.fromFEN(fen);
+            GameState state = GameState.fromFEN(fen, rules);
             String result = state.toFEN();
             assertEquals(fen, result);
         }

@@ -34,7 +34,7 @@ public class SimpleRules implements Rules {
     @Override
     public GameState getInitialState() {
         String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        return GameState.fromFEN(fen);
+        return GameState.fromFEN(fen, this);
     }
 
     @Override
@@ -420,7 +420,7 @@ public class SimpleRules implements Rules {
         
         while(report.getGameResult() == GameResult.UNDECIDED){
             // invite the current player to make a move
-            Move move = currentPlayer.getMove(currentState, legalMoves);
+            Move move = currentPlayer.getMove(currentState);
             report.addMove(move); 
             
             // resignation ends the game on the spot

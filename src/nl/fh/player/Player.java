@@ -4,7 +4,6 @@
  */
 package nl.fh.player;
 
-import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 
@@ -14,12 +13,13 @@ import nl.fh.move.Move;
  */
 public interface Player {
 
+   
     /**
      * 
      * @param currentState
      * @param legalMoves
      * @return a move  without time control
      */
-    public Move getMove(GameState currentState, Set<Move> legalMoves);
+    public Move getMove(GameState currentState);
 
 }

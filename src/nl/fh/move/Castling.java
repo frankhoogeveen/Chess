@@ -83,7 +83,7 @@ public class Castling implements Move {
     }
 
     @Override
-    public String moveString(GameState state, Rules rules) {
+    public String moveString(GameState state) {
         switch(boardSide){
             case KINGSIDE:
                 return "O-O";
@@ -106,7 +106,7 @@ public class Castling implements Move {
     
     @Override
     public String toString(){
-        return moveString(null, null);
+        return moveString(null);
     }
 
     @Override

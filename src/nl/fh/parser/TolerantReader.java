@@ -54,9 +54,9 @@ public class TolerantReader implements PGN_Reader{
     ArrayList<String> moveCodes;// temporary list of moveCodes
    
     @Override
-    public List<GameReport> getGames(String pgn) {
+    public List<GameReport> getGames(String pgn, Rules rules) {
         this.pgn = pgn;
-        this.rules = new SimpleRules();
+        this.rules = rules;
         
         result = new ArrayList<GameReport>();
         currentReport = new GameReport();
@@ -354,7 +354,7 @@ public class TolerantReader implements PGN_Reader{
         // get the initial state from the ruleset
         if(currentReport.getTags().contains("FEN")){
             String fen = currentReport.getTag("FEN");
-            state = GameState.fromFEN(fen);
+            state = GameState.fromFEN(fen, rules);
         } else {
             state = this.rules.getInitialState();
         }

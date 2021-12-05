@@ -18,13 +18,14 @@ import org.junit.Test;
  * 
  */
 public class EnPassantRulesTest {
+    private static final Rules rules = new SimpleRules();    
     
     @Test
     public void testEnPassantWhite1(){
     String fen = "4k3/8/8/1pP5/8/8/8/4K3 w - b6 0 2";
     Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen);
+    GameState state = GameState.fromFEN(fen,rules);
     Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
@@ -45,7 +46,7 @@ public class EnPassantRulesTest {
     String fen = "4k3/8/8/PpP5/8/8/8/4K3 w - b6 0 2";
     Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen);
+    GameState state = GameState.fromFEN(fen,rules);
     Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
@@ -66,7 +67,7 @@ public class EnPassantRulesTest {
     String fen = "4k3/8/1P6/pP6/8/8/8/4K3 w - a6 0 4";
     Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen);
+    GameState state = GameState.fromFEN(fen,rules);
     Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
@@ -88,7 +89,7 @@ public class EnPassantRulesTest {
     String fen = "4k3/8/8/8/1Pp5/8/8/4K3 b - b3 0 1";
     Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen);
+    GameState state = GameState.fromFEN(fen,rules);
     Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
@@ -109,7 +110,7 @@ public class EnPassantRulesTest {
     String fen = "4k3/8/8/8/pPp5/8/8/4K3 b - b3 0 1";
     Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen);
+    GameState state = GameState.fromFEN(fen,rules);
     Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
@@ -130,7 +131,7 @@ public class EnPassantRulesTest {
     String fen = "4k3/8/8/8/6pP/6p1/8/4K3 b - h3 0 4";
     Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen);
+    GameState state = GameState.fromFEN(fen,rules);
     Set<Move> moves = state.getLegalMoves(rules);
     
     int count = 0;
@@ -155,7 +156,7 @@ public class EnPassantRulesTest {
         
         
         String fen = "4k3/6p1/8/8/8/8/6P1/4K3 w - - 0 1";
-        GameState state = GameState.fromFEN(fen);
+        GameState state = GameState.fromFEN(fen,rules);
         
         Move m;
         Field g2 = Field.getInstance("g2");

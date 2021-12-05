@@ -200,7 +200,7 @@ public class GameReport {
 
         GameState state;
         if(this.TagValuePairs.keySet().contains("FEN")){
-            state = GameState.fromFEN(TagValuePairs.get("FEN"));
+            state = GameState.fromFEN(TagValuePairs.get("FEN"), rules);
         } else {
             state = rules.getInitialState();
         }
@@ -216,11 +216,11 @@ public class GameReport {
                 moveCounter += 1;
                 sb.append(Integer.toString(moveCounter));
                 sb.append(". ");
-                sb.append(moveList.get(currentPly).moveString(state, rules));
+                sb.append(moveList.get(currentPly).moveString(state));
                 sb.append(" ");
             } else {
                 // black's moves
-                sb.append(moveList.get(currentPly).moveString(state, rules));
+                sb.append(moveList.get(currentPly).moveString(state));
                 sb.append(" ");
             }
             state = moveList.get(currentPly).applyTo(state);

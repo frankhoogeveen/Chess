@@ -68,7 +68,7 @@ public class SimpleRulesTest {
         String fen = "4k3/6b1/8/8/2R3r1/3n4/8/4K3 w - - 0 1";
         
         SimpleRules rules = new SimpleRules();
-        GameState state = GameState.fromFEN(fen);
+        GameState state = GameState.fromFEN(fen, rules);
         
         assertTrue(!rules.isCovered(Field.getInstance("a4"), state, Color.BLACK));
         assertTrue( rules.isCovered(Field.getInstance("b4"), state, Color.BLACK));
@@ -86,9 +86,11 @@ public class SimpleRulesTest {
     
     @Test
     public void testCannotLeaveKingInCheck(){
-        String fen = "1r5k/8/8/8/8/8/8/K7 w - - 0 1";
-        GameState state = GameState.fromFEN(fen);
         Rules rules = new SimpleRules();
+        
+        String fen = "1r5k/8/8/8/8/8/8/K7 w - - 0 1";
+        GameState state = GameState.fromFEN(fen, rules);
+
         
         Set<Move> moves = rules.calculateAllLegalMoves(state);
         assertEquals(1, moves.size());
@@ -99,7 +101,7 @@ public class SimpleRulesTest {
         Rules rules = new SimpleRules();
         
         String fen = "rnbqk3/ppppp1P1/8/8/8/8/PPPPPP1P/RNBQKBNR w KQq - 0 1";
-        GameState state = GameState.fromFEN(fen);
+        GameState state = GameState.fromFEN(fen, rules);
         
         Set<Move> set = rules.calculateAllLegalMoves(state);
         

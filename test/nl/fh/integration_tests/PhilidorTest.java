@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 import nl.fh.gamereport.GameReport;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
+import nl.fh.rules.Rules;
+import nl.fh.rules.SimpleRules;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -20,6 +22,8 @@ import static org.junit.Assert.*;
  *
  */
 public class PhilidorTest {
+    
+    private static final Rules rules = new SimpleRules();
     
     public PhilidorTest() {
     }
@@ -40,7 +44,7 @@ public class PhilidorTest {
                 
         // process the pgn file
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn);
+        List<GameReport> reports = parser.getGames(pgn, rules);
         assertEquals(6, reports.size());
                 
     }   

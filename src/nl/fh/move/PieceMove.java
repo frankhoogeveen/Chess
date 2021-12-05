@@ -47,7 +47,8 @@ public class PieceMove implements Move {
     }
 
     @Override
-    public String moveString(GameState state, Rules rules){
+    public String moveString(GameState state){
+        Rules rules = state.getRules();        
         StringBuilder sb = new StringBuilder();
 
         String piece = state.getFieldContent(from).getPGNcode();
