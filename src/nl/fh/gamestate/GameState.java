@@ -74,61 +74,7 @@ public class GameState {
     public GameState(){
         board = new PieceType[8][8];
         isDirty = true;
-        reset();
-    }
-    
-    /**
-     * reset the board to the state for a new game
-     * 
-     * //TODO migrate the initial board setup to Rules
-     * this might migrate to the concern of the Rules in future
-     */
-    private void reset(){
-        board[0][0] = PieceType.WHITE_ROOK;
-        board[1][0] = PieceType.WHITE_KNIGHT;
-        board[2][0] = PieceType.WHITE_BISHOP;
-        board[3][0] = PieceType.WHITE_QUEEN;
-        board[4][0] = PieceType.WHITE_KING;
-        board[5][0] = PieceType.WHITE_BISHOP;
-        board[6][0] = PieceType.WHITE_KNIGHT;
-        board[7][0] = PieceType.WHITE_ROOK;
-        
-        for(int i = 0; i < 8; i++){
-            board[i][1] = PieceType.WHITE_PAWN;
-        }
-
-        board[0][7] = PieceType.BLACK_ROOK;
-        board[1][7] = PieceType.BLACK_KNIGHT;
-        board[2][7] = PieceType.BLACK_BISHOP;
-        board[3][7] = PieceType.BLACK_QUEEN;
-        board[4][7] = PieceType.BLACK_KING;
-        board[5][7] = PieceType.BLACK_BISHOP;
-        board[6][7] = PieceType.BLACK_KNIGHT;
-        board[7][7] = PieceType.BLACK_ROOK;       
-        
-        for(int i = 0; i < 8; i++){
-            board[i][6] = PieceType.BLACK_PAWN;
-        }    
-        
-        for(int i = 0; i < 8; i++){
-            for(int j = 2; j < 6; j++){
-                board[i][j] = PieceType.EMPTY;
-            }
-        }
-        
-        activeColor = Color.WHITE;
-        
-        whiteCanCastleKingside = true;
-        whiteCanCastleQueenside = true;
-        blackCanCastleKingside = true;
-        blackCanCastleQueenside = true;
-        
-        enPassantField = null;
-        
-        halfMoveClock = 0;
-        fullMoveNumber = 1;  
-        
-        drawOffered = false;
+        clear();
     }
     
     /**

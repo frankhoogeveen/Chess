@@ -5,6 +5,8 @@
 package nl.fh.gamestate;
 
 import java.util.ArrayList;
+import nl.fh.rules.Rules;
+import nl.fh.rules.SimpleRules;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,18 +54,36 @@ public class GameStateTest {
     @Test
     public void testToFEN() {
         GameState instance = new GameState();
-        String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        String expResult = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
         String result = instance.toFEN();
         assertEquals(expResult, result);
     }
+    
+    @Test
+    public void testToFEN2() {
+        Rules rules = new SimpleRules();
+        GameState instance = rules.getInitialState();
+        String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        String result = instance.toFEN();
+        assertEquals(expResult, result);
+    }    
 
     @Test
     public void testFromFEN() {
-        String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        String fen = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
         GameState expResult = new GameState();
         GameState result = GameState.fromFEN(fen);
         assertEquals(expResult, result);
     }
+    
+    @Test
+    public void testFromFEN2() {
+        String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        Rules rules = new SimpleRules();
+        GameState expResult = rules.getInitialState();
+        GameState result = GameState.fromFEN(fen);
+        assertEquals(expResult, result);
+    }    
     @Test
     public void testList(){
         for(String fen : fenList){
