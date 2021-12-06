@@ -13,6 +13,7 @@ import nl.fh.rules.EnPassantRulesTest;
 import nl.fh.rules.PromotionRulesTest;
 import nl.fh.rules.SimpleRulesTest;
 import nl.fh.rules.ShortGamesTest;
+import nl.fh.rules.ThreeFoldRepetitionTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -29,6 +30,7 @@ import org.junit.runners.Suite;
     FieldTest.class,
     TolerantReaderTest.class,
     SimpleRulesTest.class,
+    ThreeFoldRepetitionTest.class,
     CastlingRulesTest.class,
     PromotionRulesTest.class,
     EnPassantRulesTest.class,

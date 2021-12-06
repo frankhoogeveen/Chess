@@ -402,19 +402,33 @@ public class SimpleRules implements Rules {
     }
     
     @Override
-    public GameReport playGame(Player whitePlayer, Player blackPlayer) {
+    public GameReport playGame(Player whitePlayer, Player blackPlayer){
+        return playGame(whitePlayer, blackPlayer, this.getInitialState());
+    }   
+    
+    @Override
+    public GameReport playGame(Player whitePlayer, Player blackPlayer, GameState initialState) {
         GameReport report = new GameReport();
+        
+        // add the required tags
         report.addTag("White", whitePlayer.toString());
         report.addTag("Black", blackPlayer.toString());
         report.addTag("Result", "*");
+        
+        if(!initialState.equals(this.getInitialState())){
+            report.addTag("SetUp", "1");
+            report.addTag("FEN", initialState.toFEN());
+        }
         
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
         report.addTag("Date", formattedDate);
         
+        
+        // start playing the game
         Player currentPlayer = whitePlayer;        
-        GameState currentState = this.getInitialState();
+        GameState currentState = initialState;
         report.addGameState(currentState);        
         Set<Move> legalMoves = currentState.getLegalMoves();        
         
@@ -476,8 +490,7 @@ public class SimpleRules implements Rules {
                 return report;
             }
             
-            // three fold repetition ends the game
-            //TODO adapt to XFEN.... do not forget test cases
+            //three fold repetition ends the game
             int nrep = 0;
             for(GameState state : report.getStateList()){
                 if(state.repeats(currentState)){

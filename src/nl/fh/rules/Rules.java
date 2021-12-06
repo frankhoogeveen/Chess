@@ -30,6 +30,16 @@ public interface Rules {
     
     /**
      * 
+     * @param whitePlayer
+     * @param blackPlayer
+     * @param initialState 
+     * @return the report of a time unlimited game between the two players starting
+     * from the initial state
+     */
+    public GameReport playGame(Player whitePlayer, Player blackPlayer, GameState initialState);    
+    
+    /**
+     * 
      * @return the initial state of the game
      * The initial state does not have to be deterministic. It might be
      * random. Repeated calls to this method may return different values.
