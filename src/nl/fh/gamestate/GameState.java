@@ -14,6 +14,7 @@ import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
+import nl.fh.move.EnPassantCapture;
 import nl.fh.rules.Rules;
 
 /**
@@ -112,6 +113,137 @@ public class GameState {
     public String toFEN(){
         StringBuilder sb = new StringBuilder();
         
+        boardToFEN(sb);
+        sb.append(" ");
+        
+        playerToFen(sb);
+        sb.append(" ");
+        
+        castlingToFen(sb);
+        sb.append(" ");
+        
+        enPassantToFEN(sb);
+        sb.append(" ");
+        
+        moveNumberToFEN(sb);
+        
+        return sb.toString();
+    }
+    
+    /**
+     * 
+     * @return the game state in Extended Forsyth-Edwards notation 
+     * https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
+     * https://en.wikipedia.org/wiki/X-FEN
+     * 
+     * In this case the en passant information is only written when
+     * there is a pawn on an adjacent file that can ACTUALLY capture
+     * en passant. 
+     * 
+     * In this interpretation, the en passant info is NOT written, if there
+     * is a pawn that is in a proper location to capture en passant, but cannot
+     * since it is pinned to the king. 
+     * 
+     * Given this choice, repeating XFEN three times in a game, implies that the
+     * 3 fold repetition draw can be claimed. This is unlike the traditional FEN.
+     */
+    public String toXFEN(){
+        StringBuilder sb = new StringBuilder();
+        
+        boardToFEN(sb);
+        sb.append(" ");
+        
+        playerToFen(sb);
+        sb.append(" ");
+        
+        castlingToFen(sb);
+        sb.append(" ");
+        
+        enPassantToXFEN(sb);
+        sb.append(" ");
+        
+        moveNumberToFEN(sb);
+        
+        return sb.toString();
+    }    
+
+    
+    
+    private void enPassantToFEN(StringBuilder sb) {
+        // the en passent information
+        if(enPassantField != null){
+            sb.append(enPassantField.toString());
+        } else {
+            sb.append("-");
+        }
+    }
+    
+    /**
+     * 
+     * @param sb
+     * 
+     * the en passant information in the XFEN string.
+     * This will add "-", unless an en passant capture can 
+     * actually be made. When a pawn has moved two squares
+     * in the previous ply, but an en passant capture cannot be made
+     * (e.g due to empty squares or an absolute pin) "-" will be 
+     * written to the string buffer
+     */
+    private void enPassantToXFEN(StringBuilder sb) {
+        
+        boolean actual = false;
+        for(Move m : this.getLegalMoves()){
+            if((m instanceof EnPassantCapture) 
+                    && (m.getTo().equals(this.enPassantField))){
+                actual = true;
+            }
+        }
+        
+        if(enPassantField != null && actual){
+            sb.append(enPassantField.toString());
+        } else {
+            sb.append("-");
+        }
+    }    
+
+    private void moveNumberToFEN(StringBuilder sb) {
+        // the move numbers
+        sb.append(halfMoveClock);
+        sb.append(" ");
+        sb.append(fullMoveNumber);
+    }
+
+    private void castlingToFen(StringBuilder sb) {
+        // the castling information
+        if(whiteCanCastleKingside||whiteCanCastleQueenside||blackCanCastleKingside||blackCanCastleQueenside ){
+            if(whiteCanCastleKingside){
+                sb.append("K");
+            }
+            if(whiteCanCastleQueenside){
+                sb.append("Q");
+            }
+            if(blackCanCastleKingside){
+                sb.append("k");
+            }
+            if(blackCanCastleQueenside){
+                sb.append("q");
+            }
+            
+        } else {
+            sb.append("-");
+        }
+    }
+
+    private void playerToFen(StringBuilder sb) {
+        // the next player to move
+        if(activeColor == Color.WHITE){
+            sb.append("w");
+        } else {
+            sb.append("b");
+        }
+    }
+
+    private void boardToFEN(StringBuilder sb) {
         for(int i = 7; i >= 0; i--){
             int count = 0;
             for(int j = 0; j < 8; j++){
@@ -122,63 +254,17 @@ public class GameState {
                     if(count > 0){
                         sb.append(count);
                     }
-                    sb.append(piece.getFENcode());                    
+                    sb.append(piece.getFENcode());
                     count = 0;
                 }
             }
             if(count > 0){
                 sb.append(count);
-            }            
+            }
             if(i != 0){
                 sb.append("/");
             }
         }
-        
-        sb.append(" ");
-        
-        // the next player to move
-        if(activeColor == Color.WHITE){
-            sb.append("w");
-        } else {
-            sb.append("b");
-        }
-        sb.append(" ");
-        
-        
-        // the castling information
-        if(whiteCanCastleKingside||whiteCanCastleQueenside||blackCanCastleKingside||blackCanCastleQueenside ){
-            if(whiteCanCastleKingside){
-                sb.append("K");
-            }
-            if(whiteCanCastleQueenside){
-                sb.append("Q");
-            }   
-            if(blackCanCastleKingside){
-                sb.append("k");
-            }
-            if(blackCanCastleQueenside){
-                sb.append("q");
-            }              
-            
-        } else {
-            sb.append("-");
-        }
-        sb.append(" ");
-        
-        // the en passent information
-        if(enPassantField != null){
-            sb.append(enPassantField.toString());
-        } else {
-            sb.append("-");
-        }
-        sb.append(" ");
-        
-        // the move numbers
-        sb.append(halfMoveClock);
-        sb.append(" ");
-        sb.append(fullMoveNumber);
-        
-        return sb.toString();
     }
     
     /**
@@ -651,20 +737,6 @@ public class GameState {
     /**
      * 
      * @param rules a rule set
-     * @return all legal moves, given the rule set  
-     */
-    public Set<Move> getLegalMoves(Rules rules){
-        
-        if(isDirty(rules)){
-            this.legalMoves = rules.calculateAllLegalMoves(this);
-            isDirty = false;
-        }
-        
-        return this.legalMoves;
-    }
-    /**
-     * 
-     * @param rules a rule set
      * @return all legal moves, given the rule set used to pre-calculate the
      * legal Moves
      */
@@ -686,6 +758,54 @@ public class GameState {
      */
     public boolean isDirty(Rules rules) {
         return isDirty || !(rules.equals(this.rules));
+    }   
+    
+
+    /**
+     * 
+     * @param state
+     * @return true if this repeats this game state in the sense of the FIDE 
+     * rules of chess art 9.2:
+     * - the same player is to move
+     * - the castling information should be the same* 
+     * - the location of the pieces on the board should be the same
+     * - the same moves (e.g. en passant captures should be allowed). This differs from just
+     *   having the en passant fields being equal.
+     */
+    public boolean repeats(GameState state) {
+        if (this == state) {
+            return true;
+        }
+        if (state == null) {
+            return false;
+        }
+        
+        if (this.activeColor != state.activeColor) {
+            return false;
+        }        
+
+        if (this.whiteCanCastleKingside != state.whiteCanCastleKingside) {
+            return false;
+        }
+        if (this.whiteCanCastleQueenside != state.whiteCanCastleQueenside) {
+            return false;
+        }
+        if (this.blackCanCastleKingside != state.blackCanCastleKingside) {
+            return false;
+        }
+        if (this.blackCanCastleQueenside != state.blackCanCastleQueenside) {
+            return false;
+        }
+
+        if (!Arrays.deepEquals(this.board, state.board)) {
+            return false;
+        }
+        
+        if(!this.getLegalMoves().equals(state.getLegalMoves())){
+            return false;
+        }
+
+        return true;
     }    
 
     @Override

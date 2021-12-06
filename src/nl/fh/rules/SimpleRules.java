@@ -39,14 +39,14 @@ public class SimpleRules implements Rules {
 
     @Override
     public boolean isLegalMove(Move move, GameState state) {
-        return state.getLegalMoves(this).contains(move);
+        return state.getRules().equals(this) && state.getLegalMoves().contains(move);
     }
     
     @Override
     public Set<Move> calculateAllLegalMoves(GameState state) {
         // if the legal moves are already buffered, reuse them
         if(!state.isDirty(this)){
-            return state.getLegalMoves(this);
+            return state.getLegalMoves();
         }
         
         Set<Move> result = new HashSet<Move>();
@@ -393,12 +393,12 @@ public class SimpleRules implements Rules {
     
     @Override
     public boolean isMate(GameState state){
-        return state.getLegalMoves(this).isEmpty() && isCheck(state);
+        return state.getLegalMoves().isEmpty() && isCheck(state);
     }
     
     @Override
     public boolean isStaleMate(GameState state){
-        return state.getLegalMoves(this).isEmpty() && !isCheck(state);
+        return state.getLegalMoves().isEmpty() && !isCheck(state);
     }
     
     @Override
@@ -416,7 +416,7 @@ public class SimpleRules implements Rules {
         Player currentPlayer = whitePlayer;        
         GameState currentState = this.getInitialState();
         report.addGameState(currentState);        
-        Set<Move> legalMoves = currentState.getLegalMoves(this);        
+        Set<Move> legalMoves = currentState.getLegalMoves();        
         
         while(report.getGameResult() == GameResult.UNDECIDED){
             // invite the current player to make a move
@@ -451,7 +451,7 @@ public class SimpleRules implements Rules {
             
             // update and register the currentstate
             currentState = move.applyTo(currentState);
-            legalMoves = currentState.getLegalMoves(this);
+            legalMoves = currentState.getLegalMoves();
 
             report.addGameState(currentState);
             
@@ -477,9 +477,10 @@ public class SimpleRules implements Rules {
             }
             
             // three fold repetition ends the game
+            //TODO adapt to XFEN.... do not forget test cases
             int nrep = 0;
             for(GameState state : report.getStateList()){
-                if(state.equals(currentState)){
+                if(state.repeats(currentState)){
                     nrep += 1;
                 }
             }

@@ -33,7 +33,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }
@@ -46,7 +45,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w Q - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     } 
@@ -59,7 +57,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w - - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }      
@@ -72,7 +69,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/6b1/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }     
@@ -98,7 +94,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/6r1/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -111,7 +106,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/2q5/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }  
@@ -124,7 +118,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3Kn1R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }   
@@ -137,7 +130,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K1RR w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }  
@@ -165,7 +157,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -196,7 +187,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -227,7 +217,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue( rules.isLegalMove(move, finalState));
@@ -245,7 +234,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }
@@ -258,7 +246,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w Kkq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     } 
@@ -271,7 +258,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w - - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }      
@@ -284,7 +270,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/6b1/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }  
@@ -297,7 +282,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/4b3/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }      
@@ -310,7 +294,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/4n3/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -323,7 +306,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/3r4/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -338,7 +320,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/1r6/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }    
@@ -351,7 +332,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/5q2/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }  
@@ -364,7 +344,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R1b1K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }   
@@ -377,7 +356,6 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R1N1K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }  
@@ -405,7 +383,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));           
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -436,7 +413,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -467,7 +443,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue( rules.isLegalMove(move, finalState));
@@ -485,7 +460,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }
@@ -498,7 +472,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b q - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     } 
@@ -511,7 +484,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b - - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }      
@@ -524,7 +496,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/3N4/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }     
@@ -537,7 +508,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/4N3/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -549,8 +519,7 @@ public class CastlingRulesTest {
     public void testBlackKingSideCastling6(){
         String fen = "r3k2r/8/8/8/8/8/B7/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        
-        Rules rules = new SimpleRules();
+
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -562,8 +531,7 @@ public class CastlingRulesTest {
     public void testBlackKingSideCastling7(){
         String fen = "r3k2r/8/8/8/8/8/1B6/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        
-        Rules rules = new SimpleRules();
+
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }  
@@ -575,8 +543,7 @@ public class CastlingRulesTest {
     public void testBlackKingSideCastling8(){
         String fen = "r3kN1r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        
-        Rules rules = new SimpleRules();
+
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }   
@@ -588,8 +555,7 @@ public class CastlingRulesTest {
     public void testBlackKingSideCastling9(){
         String fen = "r3kq1r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        
-        Rules rules = new SimpleRules();
+
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }  
@@ -617,7 +583,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -648,7 +613,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -679,7 +643,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue( rules.isLegalMove(move, finalState));
@@ -696,7 +659,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }
@@ -709,7 +671,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b k - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     } 
@@ -721,8 +682,7 @@ public class CastlingRulesTest {
     public void testBlackQueenSideCastling3(){
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b - - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        
-        Rules rules = new SimpleRules();
+
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }      
@@ -735,7 +695,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/4Q3/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }  
@@ -748,7 +707,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/6Q1/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }      
@@ -761,7 +719,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/3QK3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -774,7 +731,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/2Q1K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }    
@@ -789,7 +745,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/1Q2K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }    
@@ -802,7 +757,6 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K2Q b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(rules.isLegalMove(move, state));
     }  
@@ -815,7 +769,6 @@ public class CastlingRulesTest {
         String fen = "r2Bk2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }   
@@ -828,7 +781,6 @@ public class CastlingRulesTest {
         String fen = "rn2k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen,rules);
         assertTrue(!rules.isLegalMove(move, state));
     }  
@@ -856,7 +808,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));           
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -887,7 +838,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue(!rules.isLegalMove(move, finalState));
@@ -918,7 +868,6 @@ public class CastlingRulesTest {
         GameState finalState = states.get(states.size()-1);  
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
-        Rules rules = new SimpleRules();
         
         assertTrue( rules.isLegalMove(move, initialState));        
         assertTrue( rules.isLegalMove(move, finalState));

@@ -22,7 +22,6 @@ import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
 
 /**
  * A basic reader implementing parts of the standard and designed to be tolerant.
@@ -596,7 +595,7 @@ public class TolerantReader implements PGN_Reader{
         Set<Move> legalMovesToField = new HashSet<Move>();
         Field to = Field.getInstance(colChar-'a',rowChar-'1');
         
-        Set<Move> allLegalMoves = state.getLegalMoves(rules);
+        Set<Move> allLegalMoves = state.getLegalMoves();
         
         for(Field from : fields){
             Move move = PieceMove.getInstance(from, to);

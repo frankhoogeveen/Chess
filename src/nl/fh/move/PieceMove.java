@@ -47,8 +47,7 @@ public class PieceMove implements Move {
     }
 
     @Override
-    public String moveString(GameState state){
-        Rules rules = state.getRules();        
+    public String moveString(GameState state){       
         StringBuilder sb = new StringBuilder();
 
         String piece = state.getFieldContent(from).getPGNcode();
@@ -57,7 +56,7 @@ public class PieceMove implements Move {
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;
         Set<Move> movesTo = new HashSet<Move>();
-        for(Move m : state.getLegalMoves(rules)){
+        for(Move m : state.getLegalMoves()){
             if(m instanceof PieceMove){
                 boolean samePiece = (state.getFieldContent(from) == state.getFieldContent(((PieceMove) m).from));
                 boolean sameTo    = to.equals(((PieceMove)m).getTo());
@@ -104,10 +103,10 @@ public class PieceMove implements Move {
         
         //the indicators for check and checkmate
         GameState state2 = this.applyTo(state);
-        if(rules.isMate(state2)){
+        if(state.getRules().isMate(state2)){
             sb.append("#");
         } else {
-            if(rules.isCheck(state2)){
+            if(state.getRules().isCheck(state2)){
                 sb.append("+");
             }
         }

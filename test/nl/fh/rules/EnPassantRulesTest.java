@@ -26,7 +26,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves(rules);
+    Set<Move> moves = state.getLegalMoves();
     
     int count = 0;
     for(Move m : moves){
@@ -47,7 +47,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves(rules);
+    Set<Move> moves = state.getLegalMoves();
     
     int count = 0;
     for(Move m : moves){
@@ -68,7 +68,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves(rules);
+    Set<Move> moves = state.getLegalMoves();
     
     int count = 0;
     for(Move m : moves){
@@ -90,7 +90,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves(rules);
+    Set<Move> moves = state.getLegalMoves();
     
     int count = 0;
     for(Move m : moves){
@@ -111,7 +111,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves(rules);
+    Set<Move> moves = state.getLegalMoves();
     
     int count = 0;
     for(Move m : moves){
@@ -132,7 +132,7 @@ public class EnPassantRulesTest {
     Rules rules = new SimpleRules();
     
     GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves(rules);
+    Set<Move> moves = state.getLegalMoves();
     
     int count = 0;
     for(Move m : moves){

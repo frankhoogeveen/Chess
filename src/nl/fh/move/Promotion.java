@@ -56,14 +56,13 @@ public class Promotion implements Move {
     }
 
     @Override
-    public String moveString(GameState state){
-        Rules rules = state.getRules();        
+    public String moveString(GameState state){      
         StringBuilder sb = new StringBuilder();
         
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;        
         Set<Move> movesTo = new HashSet<Move>();
-        for(Move m : state.getLegalMoves(rules)){
+        for(Move m : state.getLegalMoves()){
             if(m instanceof Promotion){
                 if (to.equals(((Promotion)m).getTo()) && 
                         this.piece == ((Promotion) m).getPiece()) {
@@ -114,10 +113,10 @@ public class Promotion implements Move {
         
         //the indicators for check and checkmate
         GameState state2 = this.applyTo(state);
-        if(rules.isMate(state2)){
+        if(state.getRules().isMate(state2)){
             sb.append("#");
         } else {
-            if(rules.isCheck(state2)){
+            if(state.getRules().isCheck(state2)){
                 sb.append("+");
             }
         }
