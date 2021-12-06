@@ -64,7 +64,7 @@ public class PgnReplayer implements Player {
     @Override
     public Move getMove(GameState state) {
         if(this.counter > this.moveList.size()-1){
-            return new Resignation();
+            return Resignation.getInstance();
         } else {
             Move result = this.moveList.get(counter);      
             counter += 2;

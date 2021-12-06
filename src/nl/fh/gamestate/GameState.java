@@ -868,4 +868,16 @@ public class GameState {
         }
         return true;
     }
+
+    /**
+     * 
+     * @return a game state in which the player to move has been switched and
+     * the en passant flag is not raised
+     */
+    public GameState changeColor() {
+        GameState result = this.copy();
+        result.activeColor = Color.flip(this.activeColor);
+        result.enPassantField = null;
+        return result;
+    }
 }

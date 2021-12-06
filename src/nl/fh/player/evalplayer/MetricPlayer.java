@@ -8,6 +8,7 @@ package nl.fh.player.evalplayer;
 import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
+import nl.fh.move.Resignation;
 import nl.fh.player.Player;
 
 /**
@@ -39,7 +40,7 @@ public class MetricPlayer implements Player{
         }
         
         double currentBestValue = -Double.MAX_VALUE;
-        Move currentBestMove = null;
+        Move currentBestMove = Resignation.getInstance();
         
         for(Move m : state.getLegalMoves()){
             double value = sign * this.metric.eval(m.applyTo(state));

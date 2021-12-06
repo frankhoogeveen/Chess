@@ -7,13 +7,25 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Rules;
 
 /**
  * copyright F. Hoogeveen
  * @author frank
  */
 public class Resignation implements Move {
+    
+    private static Move instance;
+    
+    private Resignation(){
+        
+    }
+    
+    public static Move getInstance(){
+        if(instance == null){
+            instance = new Resignation();
+        }
+        return instance;
+    }
 
     @Override
     public GameState applyTo(GameState state) {
