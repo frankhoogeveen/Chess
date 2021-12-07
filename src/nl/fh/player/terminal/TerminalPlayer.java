@@ -50,12 +50,14 @@ public class TerminalPlayer implements Player {
             String name;
             try {
                 String code = reader.readLine();
-                if(code.charAt(0) == '#'){
-                    processEscapedCommand(code);
-                } else {
-                    for(Move m : legalMoves){
-                        if(clean(code).equals(clean(m.moveString(currentState)))){
-                            return m;
+                if(code.length() > 0){
+                    if(code.charAt(0) == '#'){
+                        processEscapedCommand(code);
+                    } else {
+                        for(Move m : legalMoves){
+                            if(clean(code).equals(clean(m.moveString(currentState)))){
+                                return m;
+                            }
                         }
                     }
                 }
