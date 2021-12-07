@@ -148,7 +148,9 @@ public class GameReport {
      * 
      * @return a formatted report of the tags, moves and result; 
      */
-    public String toPGN(Rules rules){
+    public String toPGN(){
+        Rules rules = this.stateList.get(0).getRules();
+        
         StringBuilder sb = new StringBuilder();
         sb.append(sevenTagRoster());
         sb.append(otherTags());

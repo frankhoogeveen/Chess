@@ -30,6 +30,6 @@ public class Job_002_game_between_terminal_and_random_player {
         report = rules.playGame(player2, player1);          
       }
       
-      System.out.println(report.toPGN(rules));
+      System.out.println(report.toPGN());
     }
 }
