@@ -5,13 +5,16 @@
 
 package nl.fh.match;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import nl.fh.gamereport.GameResult;
 import nl.fh.player.Player;
 
 /**
+ * Stores the result of a match between two players. 
  * 
+ * It keeps track of the number of times a specific game result 
+ * has been achieved.
  * 
  */
 public class MatchResult {
@@ -21,8 +24,8 @@ public class MatchResult {
     
     private int score = 0;
     
-    private Map<GameResult, Integer> player1White = new HashMap<GameResult, Integer>();
-    private Map<GameResult, Integer> player2White = new HashMap<GameResult, Integer>(); 
+    private final Map<GameResult, Integer> player1White;
+    private final Map<GameResult, Integer> player2White; 
 
     private int count = 0;
     /**
@@ -32,6 +35,8 @@ public class MatchResult {
      * @param player2 
      */
     MatchResult(Player player1, Player player2) {
+        this.player2White = new EnumMap<GameResult, Integer>(GameResult.class);
+        this.player1White = new EnumMap<GameResult, Integer>(GameResult.class);
         this.player1 = player1;
         this.player2 = player2;
         

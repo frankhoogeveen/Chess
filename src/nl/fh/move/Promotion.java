@@ -98,7 +98,9 @@ public class Promotion implements Move {
         // file is added for all pawn moves, even if there is no 
         // resolver
         if(!state.getFieldContent(to).equals(PieceType.EMPTY)){
-            if(!resolver && piece.equals("")){
+            
+            PieceType movingPiece = state.getFieldContent(from);
+            if(!resolver && (movingPiece == PieceType.WHITE_PAWN) || (movingPiece == PieceType.BLACK_PAWN) ){
                 sb.append(from.toString().substring(0,1));
             }
             sb.append("x");

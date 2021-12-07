@@ -185,7 +185,19 @@ public class MoveCodesTest {
         Move m = Promotion.getInstance(from, to, PieceType.WHITE_KNIGHT);
         
         assertEquals("fxe8=N+", m.moveString(state));         
-    }     
+    } 
+
+    @Test
+    public void testPawnPromotionByCapture(){
+        GameState state = GameState.fromFEN("8/1k6/8/8/8/8/1K4p1/7R b - - 0 1", rules);
+        
+        Field from = Field.getInstance("g2");
+        Field to   = Field.getInstance("h1");
+        Move m = Promotion.getInstance(from, to, PieceType.BLACK_BISHOP);
+        
+        assertEquals("gxh1=B", m.moveString(state));          
+        
+    }
         
     
 }
