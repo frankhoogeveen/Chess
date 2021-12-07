@@ -71,7 +71,7 @@ public class EnPassantCapture implements Move {
                 capturedPawn = Field.getInstance(x, 3);
                 break;                
             default:
-                throw new IllegalStateException("illegal en passent");
+                throw new IllegalStateException("illegal en passant " + state.toFEN());
         }
         
         result.setFieldContent(capturedPawn, PieceType.EMPTY);
