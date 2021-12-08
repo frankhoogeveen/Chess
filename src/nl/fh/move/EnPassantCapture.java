@@ -5,6 +5,7 @@
 
 package nl.fh.move;
 
+import java.util.Objects;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
@@ -71,6 +72,13 @@ public class EnPassantCapture implements Move {
                 capturedPawn = Field.getInstance(x, 3);
                 break;                
             default:
+                //TODO remove debug code
+                System.out.println("Illegal en passant");
+                System.out.println(this.from.toString());
+                System.out.println(this.to.toString());
+                System.out.println(x);
+                System.out.println(y);
+                System.out.println(state.toFEN());
                 throw new IllegalStateException("illegal en passant " + state.toFEN());
         }
         
@@ -120,4 +128,40 @@ public class EnPassantCapture implements Move {
     public void offerDraw() {
         this.offeredDraw = true;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.from);
+        hash = 59 * hash + Objects.hashCode(this.to);
+        hash = 59 * hash + (this.offeredDraw ? 1 : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EnPassantCapture other = (EnPassantCapture) obj;
+        if (this.offeredDraw != other.offeredDraw) {
+            return false;
+        }
+        if (!Objects.equals(this.from, other.from)) {
+            return false;
+        }
+        if (!Objects.equals(this.to, other.to)) {
+            return false;
+        }
+        return true;
+    }
+    
+
+    
 }

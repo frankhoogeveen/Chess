@@ -54,6 +54,7 @@ public class Resignation implements Move {
     @Override
     public Field getFrom() {
         throw new UnsupportedOperationException("Not defined"); 
-    }      
-
+    }  
+    
+    //TODO add equals() and hashcode for this and DrawOfferAccepted
 }

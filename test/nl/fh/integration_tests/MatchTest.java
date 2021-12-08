@@ -6,14 +6,9 @@
 package nl.fh.integration_tests;
 
 import java.util.List;
-import static java.util.Locale.filter;
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.filter.CapFilter;
-import nl.fh.gamereport.filter.NotFilter;
-import nl.fh.gamereport.filter.OrFilter;
 import nl.fh.gamereport.filter.TransparentFilter;
-import nl.fh.gamereport.filter.WinnerFilter;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchResult;

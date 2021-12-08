@@ -55,5 +55,7 @@ public class DrawOfferAccepted implements Move {
     @Override
     public Field getFrom() {
         throw new UnsupportedOperationException("Not defined"); 
-    }    
+    }  
+    
+    
 }

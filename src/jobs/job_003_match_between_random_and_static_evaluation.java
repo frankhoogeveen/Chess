@@ -6,7 +6,6 @@
 package jobs;
 
 import nl.fh.gamereport.GameFilter;
-import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.filter.CapFilter;
 import nl.fh.gamereport.filter.NotFilter;
 import nl.fh.gamereport.filter.OrFilter;

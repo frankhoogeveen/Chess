@@ -1,5 +1,6 @@
 package nl.fh.gamereport;
 
+import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
@@ -13,6 +14,7 @@ import nl.fh.move.Promotion;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /*
@@ -64,7 +66,24 @@ public class MoveCodesTest {
         
         Move m = EnPassantCapture.getInstance(Field.getInstance("f5"), state.getEnPassantField());
         assertEquals("fxe6#", m.moveString(state));             
-    }    
+    }   
+    
+    @Test
+    public void testEnPassantCapture3(){
+        GameState state = GameState.fromFEN("rn2k1nr/ppp2ppp/8/3p4/2Pp3P/7b/P3PP1P/RNB1K1NR b KQkq c3 0 8", rules);
+        
+        Move m = EnPassantCapture.getInstance(Field.getInstance("d4"), Field.getInstance("c3"));
+        assertEquals("dxc3", m.moveString(state));            
+        
+    }
+    @Test
+    public void testEnPassantCapture4(){
+        GameState state = GameState.fromFEN("rnb1k1nr/ppp2ppp/3p4/8/1P1pP3/P7/2P2PP1/R4K2 b kq e3 0 12", rules);
+        
+        Move m = EnPassantCapture.getInstance(Field.getInstance("d4"), Field.getInstance("e3"));
+        assertEquals("dxe3", m.moveString(state));            
+        
+    }           
     
     @Test
     public void testPieceMove1(){
