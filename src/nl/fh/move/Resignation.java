@@ -14,7 +14,7 @@ import nl.fh.gamestate.GameState;
  */
 public class Resignation implements Move {
     
-    private static Move instance;
+    private static Resignation instance;
     
     private Resignation(){
         
@@ -56,5 +56,4 @@ public class Resignation implements Move {
         throw new UnsupportedOperationException("Not defined"); 
     }  
     
-    //TODO add equals() and hashcode for this and DrawOfferAccepted
 }

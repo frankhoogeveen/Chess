@@ -7,7 +7,6 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Rules;
 
 /**
  * copyright F. Hoogeveen
@@ -18,12 +17,17 @@ import nl.fh.rules.Rules;
  */
 public class DrawOfferAccepted implements Move {
     
+    private static DrawOfferAccepted instance = null;
+    
     private DrawOfferAccepted(){
         
     }
     
     public static DrawOfferAccepted getInstance(){
-        return new DrawOfferAccepted();
+        if(instance == null){
+            instance = new DrawOfferAccepted();
+        }
+        return instance;
     }
 
     @Override
@@ -56,6 +60,4 @@ public class DrawOfferAccepted implements Move {
     public Field getFrom() {
         throw new UnsupportedOperationException("Not defined"); 
     }  
-    
-    
 }

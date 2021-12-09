@@ -205,7 +205,6 @@ public class EnPassantRulesTest {
         
         Move m = EnPassantCapture.getInstance(Field.getInstance("c4"), Field.getInstance("b3"));
         assertTrue(legalMoves.contains(m));
-        
     } 
     
 
