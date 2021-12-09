@@ -3,6 +3,7 @@ package nl.fh.gamereport;
 import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Field;
+import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
@@ -179,7 +180,7 @@ public class MoveCodesTest {
         
         Field from = Field.getInstance("e7");
         Field to   = Field.getInstance("e8");
-        Move m = Promotion.getInstance(from, to, PieceType.WHITE_KNIGHT);
+        Move m = Promotion.getInstance(from, to, PieceKind.KNIGHT);
         
         assertEquals("e8=N", m.moveString(state));         
     }    
@@ -190,7 +191,7 @@ public class MoveCodesTest {
         
         Field from = Field.getInstance("g7");
         Field to   = Field.getInstance("g8");
-        Move m = Promotion.getInstance(from, to, PieceType.WHITE_ROOK);
+        Move m = Promotion.getInstance(from, to, PieceKind.ROOK);
         
         assertEquals("g8=R#", m.moveString(state));         
     }  
@@ -201,7 +202,7 @@ public class MoveCodesTest {
         
         Field from = Field.getInstance("f7");
         Field to   = Field.getInstance("e8");
-        Move m = Promotion.getInstance(from, to, PieceType.WHITE_KNIGHT);
+        Move m = Promotion.getInstance(from, to, PieceKind.KNIGHT);
         
         assertEquals("fxe8=N+", m.moveString(state));         
     } 
@@ -212,7 +213,7 @@ public class MoveCodesTest {
         
         Field from = Field.getInstance("g2");
         Field to   = Field.getInstance("h1");
-        Move m = Promotion.getInstance(from, to, PieceType.BLACK_BISHOP);
+        Move m = Promotion.getInstance(from, to, PieceKind.BISHOP);
         
         assertEquals("gxh1=B", m.moveString(state));          
         

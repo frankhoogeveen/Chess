@@ -12,6 +12,7 @@ import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
+import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
@@ -444,40 +445,24 @@ public class TolerantReader implements PGN_Reader{
         }
         
         Color toMove = state.getToMove();
-        PieceType promotedPiece = promotionPiece(promotionChar, toMove);
+        PieceKind promotedPiece = promotionPiece(promotionChar);
             
         return Promotion.getInstance(from, to, promotedPiece);
     }    
     
-    private PieceType promotionPiece(char c, Color color) throws PgnException{
-        if(color == Color.WHITE){
+    private PieceKind promotionPiece(char c) throws PgnException{
             switch(c){
                 case 'Q':
-                    return PieceType.WHITE_QUEEN;
+                    return PieceKind.QUEEN;
                 case 'R':
-                    return PieceType.WHITE_ROOK;
+                    return PieceKind.ROOK;
                 case 'B':
-                    return PieceType.WHITE_BISHOP;
+                    return PieceKind.BISHOP;
                 case 'N':
-                    return PieceType.WHITE_KNIGHT;
+                    return PieceKind.KNIGHT;
                 default:
                     throw new PgnException("Piece Code for promotion piece invalid");
-            }
-        } else if(color == Color.BLACK){
-            switch(c){
-                case 'Q':
-                    return PieceType.BLACK_QUEEN;
-                case 'R':
-                    return PieceType.BLACK_ROOK;
-                case 'B':
-                    return PieceType.BLACK_BISHOP;
-                case 'N':
-                    return PieceType.BLACK_KNIGHT;
-                default:
-                    throw new PgnException("Piece Code for promotion piece invalid");
-            }            
-        }
-        throw new PgnException("Color Code for promotion piece invalid");
+            }       
     }
     
     
@@ -605,15 +590,10 @@ public class TolerantReader implements PGN_Reader{
             
             // for pawns, also check the promotions. Only promotion to queen need to be checked
             if(pieceChar == 'P'){
-                move = Promotion.getInstance(from, to, PieceType.WHITE_QUEEN);
+                move = Promotion.getInstance(from, to, PieceKind.QUEEN);
                 if(allLegalMoves.contains(move)){
                     legalMovesToField.add(move);
-                }
-                
-                move = Promotion.getInstance(from, to, PieceType.BLACK_QUEEN);
-                if(allLegalMoves.contains(move)){
-                    legalMovesToField.add(move);
-                }                
+                }      
             }
         }
         

@@ -6,7 +6,6 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Rules;
 
 
 /**

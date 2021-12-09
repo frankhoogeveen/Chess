@@ -10,9 +10,9 @@ import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
+import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Rules;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Promotion implements Move {
     private Field from;
     private Field to;
     private boolean drawOffer;
-    private PieceType piece;
+    private PieceKind piece;
     
     private Promotion(){
         
@@ -44,7 +44,7 @@ public class Promotion implements Move {
      * - that the piece if of the correct color
      * - that the piece of one of the allowed types (Q,R,B,N)
      */
-    public static Promotion getInstance( Field from, Field to, PieceType piece) {
+    public static Promotion getInstance( Field from, Field to, PieceKind piece) {
         Promotion result = new Promotion();
         result.from = from;
         result.to = to;
@@ -65,7 +65,7 @@ public class Promotion implements Move {
         for(Move m : state.getLegalMoves()){
             if(m instanceof Promotion){
                 if (to.equals(((Promotion)m).getTo()) && 
-                        this.piece == ((Promotion) m).getPiece()) {
+                        this.piece == ((Promotion) m).getPieceKind()) {
                     movesTo.add(m);
                 }
             }
@@ -100,7 +100,7 @@ public class Promotion implements Move {
         if(!state.getFieldContent(to).equals(PieceType.EMPTY)){
             
             PieceType movingPiece = state.getFieldContent(from);
-            if(!resolver && (movingPiece == PieceType.WHITE_PAWN) || (movingPiece == PieceType.BLACK_PAWN) ){
+            if(!resolver && (movingPiece.getKind() == PieceKind.PAWN)  ){
                 sb.append(from.toString().substring(0,1));
             }
             sb.append("x");
@@ -111,7 +111,7 @@ public class Promotion implements Move {
         
         //the promotion info
         sb.append("=");
-        sb.append(piece.getPGNcode());
+        sb.append(piece.getMoveCode());
         
         //the indicators for check and checkmate
         GameState state2 = this.applyTo(state);
@@ -138,8 +138,32 @@ public class Promotion implements Move {
         return to;
     }
     
+    public PieceKind getPieceKind(){
+        return this.piece;
+    }
+    
     public PieceType getPiece(){
-        return piece;
+
+        return PieceType.get(movingColor(), piece);
+    }
+    
+    /**
+     * 
+     * @return the color of the piece that is moving 
+     */
+    private Color movingColor(){
+        Color color;
+        switch(to.getY()){
+            case 0:
+                color = Color.BLACK;
+                break;
+            case 7:
+                color = Color.WHITE;
+                break;
+            default:
+                throw new IllegalStateException("Illegal promotion");
+        }
+        return color;
     }
     
     @Override
@@ -149,7 +173,7 @@ public class Promotion implements Move {
         sb.append("-");
         sb.append(this.to.toString());
         sb.append("=");
-        sb.append(piece.getFENcode());
+        sb.append(piece.getMoveCode());
         return sb.toString();
     }
 
@@ -200,7 +224,7 @@ public class Promotion implements Move {
         
         //move the piece
         result.setFieldContent(this.from, PieceType.EMPTY);
-        result.setFieldContent(this.to, piece);
+        result.setFieldContent(this.to, PieceType.get(movingColor(), piece));
         
         return result;
     }

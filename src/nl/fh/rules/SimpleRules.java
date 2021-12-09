@@ -14,6 +14,7 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.MoveRange;
 import nl.fh.chess.MoveRangeType;
+import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
@@ -29,7 +30,7 @@ import nl.fh.player.Player;
 /**
  * Represent the rules of the game
  */
-public class SimpleRules implements Rules {
+public class SimpleRules implements Rules{
 
     @Override
     public GameState getInitialState() {
@@ -138,28 +139,22 @@ public class SimpleRules implements Rules {
      */
     private void addPieceMoveOrPromotions(GameState state, Field from, Field to, Set<Move> result){
         
-        PieceType movingPiece = state.getFieldContent(from);
+        PieceKind movingPiece = state.getFieldContent(from).getKind();
         int y = to.getY();
         
-        boolean promotionW =  (movingPiece == PieceType.WHITE_PAWN)&&(y == 7);
-        boolean promotionB =  (movingPiece == PieceType.BLACK_PAWN)&&(y == 0);
+        boolean promotion =  (movingPiece == PieceKind.PAWN)&&((y == 7) || (y==0));
         
-        if(!promotionW && !promotionB){
+        if(!promotion){
             result.add(PieceMove.getInstance(from, to));
             return;
         }
         
-        if(promotionW){
-            result.add(Promotion.getInstance(from, to, PieceType.WHITE_QUEEN));
-            result.add(Promotion.getInstance(from, to, PieceType.WHITE_ROOK));
-            result.add(Promotion.getInstance(from, to, PieceType.WHITE_BISHOP));
-            result.add(Promotion.getInstance(from, to, PieceType.WHITE_KNIGHT));            
-        } else if(promotionB){
-            result.add(Promotion.getInstance(from, to, PieceType.BLACK_QUEEN));
-            result.add(Promotion.getInstance(from, to, PieceType.BLACK_ROOK));
-            result.add(Promotion.getInstance(from, to, PieceType.BLACK_BISHOP));
-            result.add(Promotion.getInstance(from, to, PieceType.BLACK_KNIGHT));  
-        }
+        if(promotion){
+            result.add(Promotion.getInstance(from, to, PieceKind.QUEEN));
+            result.add(Promotion.getInstance(from, to, PieceKind.ROOK));
+            result.add(Promotion.getInstance(from, to, PieceKind.BISHOP));
+            result.add(Promotion.getInstance(from, to, PieceKind.KNIGHT));            
+        } 
     }
 
     /**

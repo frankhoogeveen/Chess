@@ -8,6 +8,7 @@ import nl.fh.gamestate.GameState;
 import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
+import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
@@ -109,7 +110,7 @@ public class SimpleRulesTest {
         Field to = Field.getInstance("g8");
         
         Move movePawn = PieceMove.getInstance(from, to);
-        Move movePromotion = Promotion.getInstance(from, to, PieceType.WHITE_KNIGHT);
+        Move movePromotion = Promotion.getInstance(from, to, PieceKind.KNIGHT);
         
         assertTrue(!rules.isLegalMove(movePawn, state));
         assertTrue(rules.isLegalMove(movePromotion, state));        

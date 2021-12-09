@@ -146,6 +146,8 @@ public class MatchResult {
            sb.append("\n");
         }  
         
+        sb.append(";\n");
+        
         return sb.toString();
     }
 

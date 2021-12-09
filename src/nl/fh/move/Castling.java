@@ -11,7 +11,6 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Rules;
 
 /**
  * copyright F. Hoogeveen

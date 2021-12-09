@@ -10,8 +10,17 @@ package nl.fh.chess;
  * contents of an empty field.
  */
 public enum Color {
-    WHITE, BLACK, UNDEFINED;
+ 
+    WHITE(+1), 
+    BLACK(-1), 
+    UNDEFINED(Integer.MAX_VALUE);
 
+    private int sign;
+    
+    Color(int sign){
+        this.sign = sign;
+    }
+    
     /**
      * 
      * @param color

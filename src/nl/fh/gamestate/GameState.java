@@ -26,7 +26,7 @@ import nl.fh.rules.Rules;
  * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
  * 
  */
-public class GameState {
+public class GameState  {
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data

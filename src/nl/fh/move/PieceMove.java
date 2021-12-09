@@ -10,6 +10,7 @@ import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
+import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
 
@@ -141,8 +142,7 @@ public class PieceMove implements Move {
         // increment the counters
         result.increment();
         if(result.getFieldContent(to) != PieceType.EMPTY 
-                || result.getFieldContent(from) == PieceType.WHITE_PAWN 
-                || result.getFieldContent(from) == PieceType.BLACK_PAWN){
+                || result.getFieldContent(from).getKind() == PieceKind.PAWN){ 
             result.resetHalfMoveClock();
         }
         
