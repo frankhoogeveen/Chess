@@ -7,6 +7,7 @@ import nl.fh.gamereport.GameReportTest;
 import nl.fh.gamereport.MoveCodesTest;
 import nl.fh.gamestate.GameStateTest;
 import nl.fh.integration_tests.MatchTest;
+import nl.fh.metric.minimax.NegaMaxTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
@@ -36,6 +37,7 @@ import org.junit.runners.Suite;
     PromotionRulesTest.class,
     EnPassantRulesTest.class,
     ShortGamesTest.class,
+    NegaMaxTest.class,    
     
     //
     // below this line are tests that read files or are otherwise expensive
@@ -43,6 +45,7 @@ import org.junit.runners.Suite;
     //
     PhilidorTest.class,
     MatchTest.class
+
     
 })
 

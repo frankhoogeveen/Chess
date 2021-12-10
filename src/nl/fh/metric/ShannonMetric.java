@@ -15,14 +15,14 @@ import nl.fh.player.evalplayer.Metric;
  * https://www.pi.infn.it/%7Ecarosi/chess/shannon.txt
  * 
  */
-public class Shannon implements Metric<GameState>{
+public class ShannonMetric implements Metric<GameState>{
 
     @Override
     public double eval(GameState state) {
         double score = 0.;
         
+        score += 1e6 * mateScore(state);
         score += 1.0 * materialScore(state);
-        score += 1.0 * pawnStructureScore(state);
         score += 0.1 * movesScore(state);
         
         return score;
@@ -68,10 +68,6 @@ public class Shannon implements Metric<GameState>{
         return score;
     }
     
-    private double pawnStructureScore(GameState state){
-        return 0.;
-    }
-    
     private double movesScore(GameState state){
        GameState opponent = state.changeColor();
        double score = state.getLegalMoves().size() - opponent.getLegalMoves().size();
@@ -82,4 +78,11 @@ public class Shannon implements Metric<GameState>{
        
     }    
 
+    private double mateScore(GameState state) {
+        double result = 0.;
+        if(state.getRules().isMate(state)){
+            result += 1.e6;
+        }
+        return result;
+    }
 }

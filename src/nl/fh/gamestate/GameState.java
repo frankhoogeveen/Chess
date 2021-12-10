@@ -16,6 +16,7 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.move.EnPassantCapture;
 import nl.fh.rules.Rules;
+import nl.fh.metric.minimax.SemiTree;
 
 /**
  * copyright F. Hoogeveen
@@ -26,7 +27,7 @@ import nl.fh.rules.Rules;
  * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
  * 
  */
-public class GameState  {
+public class GameState implements SemiTree<GameState>  {
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data
@@ -748,6 +749,19 @@ public class GameState  {
         }
         
         return this.legalMoves;
+    }
+    
+    /**
+     * 
+     * @return the set of all game states that can be the result of a single 
+     * move applied to this game state.
+     */
+    public Set<GameState> getDaughters(){
+        Set<GameState> result = new HashSet<GameState>();
+        for(Move m : this.getLegalMoves()){
+            result.add(m.applyTo(this));
+        }
+        return result;
     }
     
     /**

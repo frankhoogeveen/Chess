@@ -12,7 +12,7 @@ import nl.fh.gamereport.filter.TransparentFilter;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchResult;
-import nl.fh.metric.Shannon;
+import nl.fh.metric.ShannonMetric;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
@@ -37,9 +37,9 @@ public class MatchTest {
         Rules rules = new SimpleRules();
         
         Player playerR = new RandomPlayer();
-        Player playerM = MetricPlayer.getInstance(new Shannon());
+        Player playerM = MetricPlayer.getInstance(new ShannonMetric());
         
-        int nGames = 3;     
+        int nGames = 3 * 1000;     
         GameFilter filter = new TransparentFilter();
         Match match = new AlternatingMatch(nGames, rules);
         

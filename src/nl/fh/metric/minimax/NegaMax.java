@@ -5,8 +5,7 @@
 
 package nl.fh.metric.minimax;
 
-import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
+import java.util.Set;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -16,31 +15,43 @@ import nl.fh.player.evalplayer.Metric;
  * This implementation does NOT make use of alpha/beta pruning
  * 
  */
-public class NegaMax implements Metric<GameState> {
+public class NegaMax<T extends SemiTree<T>> implements Metric<T> {
 
-    private Metric<GameState> baseMetric;
+    private Metric<T> baseMetric;
     private int depth;
-
-    public static NegaMax getInstance(Metric<GameState> baseMetric, int depth){
-        NegaMax result = new NegaMax();
-        result.baseMetric = baseMetric;
-        result.depth = depth;
-        return result;
+    private SearchMode mode;
+    
+    /**
+     * 
+     * @param baseMetric
+     * @param depth
+     * @param mode is either MINIMAX (the top level minimizes) or MAXIMIN. 
+     * 
+     */
+    public NegaMax (Metric<T> baseMetric, int depth, SearchMode mode){
+        this.baseMetric = baseMetric;
+        this.depth = depth;
+        this.mode = mode;
     }
     
     @Override
-    public double eval(GameState state) {
-        return iteration(state, this.depth, state.getToMove().getSign());  
+    public double eval(T state) {
+        int sign = this.mode.getSign();
+        return sign * iteration(state, this.depth, sign);  
     }
 
-    private double iteration(GameState state, int depth, int sign) {
+    private double iteration(T state, int depth, int sign) {
         if(depth == 0){
             return sign * this.baseMetric.eval(state);
         } 
         
+        Set<T> daughters = state.getDaughters();
+        if(daughters.isEmpty()){
+            return sign * this.baseMetric.eval(state);            
+        }
+        
         double currentValue = - Double.MAX_VALUE;
-        for(Move m : state.getLegalMoves()){
-            GameState daughter = m.applyTo(state);
+        for(T daughter : daughters){
             double nextValue = - iteration(daughter, depth-1, -sign);
             if(nextValue > currentValue){
                 currentValue = nextValue;
@@ -48,5 +59,29 @@ public class NegaMax implements Metric<GameState> {
         }
         
         return currentValue;
+    }
+
+    public Metric<T> getBaseMetric() {
+        return baseMetric;
+    }
+
+    public void setBaseMetric(Metric<T> baseMetric) {
+        this.baseMetric = baseMetric;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public SearchMode getMode() {
+        return mode;
+    }
+
+    public void setMode(SearchMode mode) {
+        this.mode = mode;
     }
 }

@@ -5,9 +5,9 @@
 
 package nl.fh.player.evalplayer;
 
-import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.minimax.NegaMax;
+import nl.fh.metric.minimax.SearchMode;
 import nl.fh.move.Move;
 import nl.fh.move.Resignation;
 import nl.fh.player.Player;
@@ -46,17 +46,14 @@ public class MetricPlayer implements Player{
      * @return a player that does minimax on the metric, to a given fixed depth
      */
     public static MetricPlayer getNegaMaxInstance(Metric<GameState> metric, int depth){
-        NegaMax nega = NegaMax.getInstance(metric, depth);
+        NegaMax nega = new NegaMax(metric, depth, SearchMode.MAXIMIN);
         return MetricPlayer.getInstance(nega);
     }
     
     @Override
     public Move getMove(GameState state) {
         
-        double sign = +1.;
-        if(state.getToMove() == Color.BLACK){
-            sign = -1.;
-        }
+        double sign = state.getToMove().getSign();
         
         double currentBestValue = -Double.MAX_VALUE;
         Move currentBestMove = Resignation.getInstance();
