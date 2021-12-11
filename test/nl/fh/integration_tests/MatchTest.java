@@ -39,17 +39,25 @@ public class MatchTest {
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
         
-        int nGames = 3 * 1000;     
+        int nRounds = 2;
+        int nGames = 2;     
         GameFilter filter = new TransparentFilter();
         Match match = new AlternatingMatch(nGames, rules);
         
-        MatchResult result = match.play(playerR, playerM, filter);
-        String pgn = result.toPGN();
-        
-        PGN_Reader reader = new TolerantReader();
-        List<GameReport> result2 = reader.getGames(pgn, rules);
-        
-        assertEquals(nGames, result2.size());
+        for(int iRound = 0; iRound < nRounds; iRound++){
+            
+            System.out.println("Starting round " + iRound);
+            for(int iGame = 0; iGame<nGames; iGame++){
+                
+                MatchResult result = match.play(playerR, playerM, filter);
+                String pgn = result.toPGN();
+
+                PGN_Reader reader = new TolerantReader();
+                List<GameReport> result2 = reader.getGames(pgn, rules);
+
+                assertEquals(nGames, result2.size());
+            }
+        }
     }
 
 }
