@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.integration_tests;
+package jobs;
 
 import java.util.List;
 import nl.fh.gamereport.GameFilter;
@@ -20,27 +20,22 @@ import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
 /**
- * 
+ * Follow up after an intermittent bug in MatchTest
  * 
  */
-public class MatchTest {
-    @Test 
-    /**
-     * Tests the playing of a match, the conversion to pgn and the legibility
-     * of the pgn
-     */
-    public void testMatch(){
+public class job_006_reproduce_and_analyze_intermittent_bug {
+        
+    
+    public static void main(String[] args){
         Rules rules = new SimpleRules();
         
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
         
-        int nRounds = 300;
-        int nGames = 100;     
+        int nRounds = 3000;
+        int nGames = 5;     
         GameFilter filter = new TransparentFilter();
         Match match = new AlternatingMatch(nGames, rules);
         
@@ -56,10 +51,22 @@ public class MatchTest {
 
                 PGN_Reader reader = new TolerantReader();
                 List<GameReport> result2 = reader.getGames(pgn, rules);
+                
+                if(result2.size() != nGames){
+                    System.out.println(pgn);
+                    System.out.println("\n============\n");
+                    
+                    for(GameReport report : result2){
+                        System.out.println(report.toPGN());
+                        System.out.println("\n----------------\n");
+                    }
+                    
+                    System.exit(-1);
 
-                assertEquals(nGames, result2.size());
+                }
             }
-        }
+        }  
+        System.exit(0);
     }
 
 }
