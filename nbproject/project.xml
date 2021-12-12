@@ -17,7 +17,9 @@
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>Forsyth</word>
             <word>Hoogeveen</word>
+            <word>negamax</word>
             <word>pgn</word>
+            <word>uci</word>
         </spellchecker-wordlist>
     </configuration>
 </project>
