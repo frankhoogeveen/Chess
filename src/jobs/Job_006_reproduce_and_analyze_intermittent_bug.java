@@ -36,7 +36,7 @@ import nl.fh.rules.SimpleRules;
  * bug.
  * 
  */
-public class job_006_reproduce_and_analyze_intermittent_bug {
+public class Job_006_reproduce_and_analyze_intermittent_bug {
     
     private static final String filePath = "../out/job_006_out.txt";
         
@@ -85,7 +85,7 @@ public class job_006_reproduce_and_analyze_intermittent_bug {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(job_006_reproduce_and_analyze_intermittent_bug.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Job_006_reproduce_and_analyze_intermittent_bug.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         System.exit(-1);

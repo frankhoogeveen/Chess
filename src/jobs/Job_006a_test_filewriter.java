@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 /**
  * 
  */
-public class job_006a_test_filewriter {
+public class Job_006a_test_filewriter {
     
         
     
@@ -31,7 +31,7 @@ public class job_006a_test_filewriter {
                 file.write("=====================");
             }
         } catch (IOException ex) {
-            Logger.getLogger(job_006_reproduce_and_analyze_intermittent_bug.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Job_006_reproduce_and_analyze_intermittent_bug.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
