@@ -5,7 +5,6 @@
 
 package jobs;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -36,7 +35,7 @@ import nl.fh.rules.SimpleRules;
  * bug.
  * 
  */
-public class job_006_reproduce_and_analyze_intermittent_bug {
+public class job_006a_test_filewriter {
     
     private static final String filePath = "../out/job_006_out.txt";
         
@@ -47,8 +46,8 @@ public class job_006_reproduce_and_analyze_intermittent_bug {
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
         
-        int nRounds = 200;
-        int nGames = 100;     
+        int nRounds = 1;
+        int nGames = 5;     
         GameFilter filter = new TransparentFilter();
         Match match = new AlternatingMatch(nGames, rules);
         
@@ -65,7 +64,7 @@ public class job_006_reproduce_and_analyze_intermittent_bug {
                 PGN_Reader reader = new TolerantReader();
                 List<GameReport> result2 = reader.getGames(pgn, rules);
                 
-                if(result2.size() != nGames){
+                if(true){
                     saveEvidence(pgn, result2);
 
                 }

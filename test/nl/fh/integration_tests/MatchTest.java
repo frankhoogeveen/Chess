@@ -39,15 +39,15 @@ public class MatchTest {
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
         
-        int nRounds = 300;
-        int nGames = 100;     
+        int nRounds = 2;
+        int nGames = 2;     
         GameFilter filter = new TransparentFilter();
         Match match = new AlternatingMatch(nGames, rules);
         
         for(int iRound = 0; iRound < nRounds; iRound++){
             
-            System.out.println("Starting round " + iRound + "/" + nRounds);
-            System.out.flush();
+//            System.out.println("Starting round " + iRound + "/" + nRounds);
+//            System.out.flush();
             
             for(int iGame = 0; iGame<nGames; iGame++){
                 
