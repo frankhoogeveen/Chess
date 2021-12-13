@@ -40,6 +40,11 @@ public class DrawOfferAccepted implements Move {
     public String moveString(GameState state) {
         return "";
     }
+    
+    @Override
+    public String getUCI(GameState state) {
+        return "";
+    }      
 
     @Override
     public boolean offeredDraw() {

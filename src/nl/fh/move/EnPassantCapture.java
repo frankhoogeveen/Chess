@@ -116,6 +116,11 @@ public class EnPassantCapture implements Move {
 
         return sb.toString();
     }
+    
+    @Override
+    public String getUCI(GameState state) {
+        return getFrom().toString() + getTo().toString();
+    }      
 
     @Override
     public boolean offeredDraw() {

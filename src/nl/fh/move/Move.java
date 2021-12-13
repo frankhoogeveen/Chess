@@ -53,11 +53,17 @@ public interface Move {
      * - to add the supplemental rank or file info when needed
      * - to add the x when capturing
      * - to add the promoted piece
-     * - to add the e.p. indicator
      * 
      * The rules used are read from the game state
      */
     public String moveString(GameState state);
+    
+    /**
+     * 
+     * @param state
+     * @return the move as used in the UCI protocol
+     */
+    public String getUCI(GameState state);
     
     /**
      * @return true if the player that made this move offered draw when playing

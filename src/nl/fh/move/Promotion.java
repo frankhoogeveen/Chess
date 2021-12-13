@@ -127,6 +127,11 @@ public class Promotion implements Move {
         
         
     }
+    
+    @Override
+    public String getUCI(GameState state) {
+        return getFrom().toString() + getTo().toString() + this.piece.getMoveCode().toLowerCase();
+    }        
 
     @Override
     public Field getFrom() {

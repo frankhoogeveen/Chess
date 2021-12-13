@@ -115,6 +115,12 @@ public class PieceMove implements Move {
         
         
     }
+    
+
+    @Override
+    public String getUCI(GameState state) {
+        return getFrom().toString() + getTo().toString();
+    }    
 
     @Override
     public Field getFrom() {
@@ -234,8 +240,5 @@ public class PieceMove implements Move {
             return false;
         }
         return true;
-    }
-    
-    
-    
+    }    
 }

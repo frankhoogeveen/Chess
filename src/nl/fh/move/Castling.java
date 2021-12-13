@@ -92,6 +92,26 @@ public class Castling implements Move {
                 throw new IllegalStateException("This should not happen in castling");
         }   
     }
+    
+    @Override
+    public String getUCI(GameState state){
+        Color toMove = state.getToMove();
+        if((toMove == Color.WHITE) && (boardSide == BoardSide.KINGSIDE)){
+            return "e1g1";
+        }
+        if((toMove == Color.WHITE) && (boardSide == BoardSide.QUEENSIDE)){
+            return "e1c1";
+        }
+        if((toMove == Color.BLACK) && (boardSide == BoardSide.KINGSIDE)){
+            return "e8f8";
+        }
+        if((toMove == Color.BLACK) && (boardSide == BoardSide.QUEENSIDE)){
+            return "e8c8";
+        }
+        
+        return "0000";
+
+    }
 
     @Override
     public boolean offeredDraw() {
