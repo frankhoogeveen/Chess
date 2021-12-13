@@ -207,5 +207,13 @@ public class EnPassantRulesTest {
         assertTrue(legalMoves.contains(m));
     } 
     
-
+    @Test
+    public void testEnPassentCase2(){
+        
+        GameState state = GameState.fromFEN("8/ppp2k2/8/5p1K/PPp2P1p/8/2P3PN/RNQ4R b - b3 0 28", rules);
+        Set<Move> legalMoves = state.getLegalMoves();
+        
+        Move m = EnPassantCapture.getInstance(Field.getInstance("c4"), Field.getInstance("b3"));
+        assertTrue(legalMoves.contains(m));        
+    }
 }

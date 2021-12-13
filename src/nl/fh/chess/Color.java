@@ -35,4 +35,11 @@ public enum Color {
             return UNDEFINED;
         }
     }
+    /**
+     * 
+     * @return + 1 for white, -1 for black. For UNDEFINED the behavior is undefined
+     */
+    public int getSign(){
+        return sign;
+    }
 }

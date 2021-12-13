@@ -15,7 +15,7 @@ import nl.fh.player.evalplayer.Metric;
  * https://www.pi.infn.it/%7Ecarosi/chess/shannon.txt
  * 
  */
-public class ShannonNoise implements Metric<GameState>{
+public class ShannonNoisyMetric implements Metric<GameState>{
 
     @Override
     public double eval(GameState state) {

@@ -498,7 +498,7 @@ public class TolerantReader implements PGN_Reader{
             }
         } else if(state.getToMove() == Color.BLACK) {
             from = Field.getInstance(extraChar - 'a', 3);
-            to = Field.getInstance(colChar - 'a', 3);   
+            to = Field.getInstance(colChar - 'a', 2);   
             if(rowChar != '3'){
                 throw new PgnException("en passant: this should not happen");
             }            
@@ -603,7 +603,15 @@ public class TolerantReader implements PGN_Reader{
         }
         // if there is more than one legal move, use the extraChar to discriminate
         for(Move move : legalMovesToField){
-            Field from = ((PieceMove)move).getFrom();
+            Field from = null;
+            if(move instanceof PieceMove){
+               from = ((PieceMove)move).getFrom(); 
+            } else if(move instanceof Promotion){
+               from = ((Promotion)move).getFrom();
+            } else {
+                throw new IllegalStateException("this should not happen");
+            }
+            
             if((from.getX() == (extraChar - 'a')) || (from.getY() == (extraChar - '1'))){
                 return move;
             }
