@@ -396,6 +396,19 @@ public class SimpleRules implements Rules{
         return state.getLegalMoves().isEmpty() && !isCheck(state);
     }
     
+    private boolean hitsFiftyMoveRule(GameState currentState) {
+         return (currentState.getHalfMoveClock() >= 100);
+    }    
+    
+    @Override
+    public boolean isDrawn(GameState state){
+        boolean result = false;
+        result = result || isStaleMate(state);
+        result = result || !sufficientMaterial(state);
+        result = result || hitsFiftyMoveRule(state);
+        return result;
+    }    
+    
     @Override
     public GameReport playGame(Player whitePlayer, Player blackPlayer){
         return playGame(whitePlayer, blackPlayer, this.getInitialState());
@@ -485,20 +498,12 @@ public class SimpleRules implements Rules{
                 return report;
             }
             
-            //three fold repetition ends the game
-            int nrep = 0;
-            for(GameState state : report.getStateList()){
-                if(state.repeats(currentState)){
-                    nrep += 1;
-                }
-            }
-            if(nrep >= 3){
+            if(isThreeFoldRepetition(report, currentState)){
                 report.setResult(GameResult.DRAW_BY_THREEFOLD_REPETITION);
             }
             
             // fifty move rule
-            int clock = currentState.getHalfMoveClock();
-            if(clock >= 100){
+            if(hitsFiftyMoveRule(currentState)){
                 report.setResult(GameResult.DRAW_BY_50_MOVE_RULE);                
             }
             
@@ -511,6 +516,16 @@ public class SimpleRules implements Rules{
         }
         
         return report;
+    }
+
+    private boolean isThreeFoldRepetition(GameReport report, GameState state) {
+        int nrep = 0;
+        for(GameState state2 : report.getStateList()){
+            if(state2.repeats(state)){
+                nrep += 1;
+            }
+        }
+        return (nrep >= 3);
     }
 
     /**
@@ -576,6 +591,8 @@ public class SimpleRules implements Rules{
         
         return false;
     }
+
+
 
 }
 

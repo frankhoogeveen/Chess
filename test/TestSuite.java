@@ -7,6 +7,7 @@ import nl.fh.gamereport.GameReportTest;
 import nl.fh.gamereport.MoveCodesTest;
 import nl.fh.gamestate.GameStateTest;
 import nl.fh.integration_tests.MatchTest;
+import nl.fh.integration_tests.MateInOneTest;
 import nl.fh.metric.minimax.NegaMaxTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.parser.TolerantReaderTest;
@@ -43,6 +44,7 @@ import org.junit.runners.Suite;
     // below this line are tests that read files or are otherwise expensive
     // and are therefore not really unit tests
     //
+    MateInOneTest.class,
     PhilidorTest.class,
     MatchTest.class
 

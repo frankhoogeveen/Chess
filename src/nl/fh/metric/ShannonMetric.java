@@ -21,6 +21,10 @@ public class ShannonMetric implements Metric<GameState>{
     public double eval(GameState state) {
         double score = 0.;
         
+        if(state.getRules().isDrawn(state)){
+            return 0.;
+        }
+        
         score += 1e6 * mateScore(state);
         score += 1.0 * materialScore(state);
         score += 0.1 * movesScore(state);
@@ -82,7 +86,11 @@ public class ShannonMetric implements Metric<GameState>{
         double result = 0.;
         if(state.getRules().isMate(state)){
             result += 1.e6;
+            if(state.getToMove() == Color.WHITE){
+                result = - result;
+            }            
         }
+
         return result;
     }
 }

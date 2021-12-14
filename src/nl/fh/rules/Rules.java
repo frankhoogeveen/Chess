@@ -76,8 +76,14 @@ public interface Rules {
      * @param state
      * @return true if the position is stalemate
      */
-    public boolean isStaleMate(GameState state);    
+    public boolean isStaleMate(GameState state);
 
+    /**
+     * @param state
+     * @return true if the position is drawn
+     */
+    public boolean isDrawn(GameState state);
+    
     /**
      * 
      * @param state

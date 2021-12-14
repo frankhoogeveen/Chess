@@ -21,9 +21,14 @@ public class ShannonNoisyMetric implements Metric<GameState>{
     public double eval(GameState state) {
         double score = 0.;
         
+        if(state.getRules().isDrawn(state)){
+            return 0.;
+        }        
+        
         score += 1.0 * materialScore(state);
         score += 1.0 * pawnStructureScore(state);
         score += 0.1 * movesScore(state);
+        score += 1.e6 * mateScore(state);
         score += 0.01 * randomScore();
         
         return score;
@@ -82,6 +87,18 @@ public class ShannonNoisyMetric implements Metric<GameState>{
        return score;
        
     }    
+    
+    private double mateScore(GameState state) {
+        double result = 0.;
+        if(state.getRules().isMate(state)){
+            result = 1.e6;
+            if(state.getToMove() == Color.BLACK){
+                result = - result;
+            }            
+        }
+
+        return result;
+    }   
 
     private double randomScore() {
         return 2. * Math.random() - 1.;
