@@ -16,9 +16,9 @@ public class NegaMaxTest {
     
     @Test
     public void testDepthOne(){
-        TestTree root = new TestTree(0.);
-        TestTree v1    = new TestTree(1.);
-        TestTree v2    = new TestTree(2.);
+        TreeNode<Double> root  = new TreeNode<Double>(0.);
+        TreeNode<Double> v1    = new TreeNode<Double>(1.);
+        TreeNode<Double> v2    = new TreeNode<Double>(2.);
         
         root.addDaughter(v1);
         root.addDaughter(v2);
@@ -35,13 +35,13 @@ public class NegaMaxTest {
     
     @Test
     public void testDepthTwo(){
-        TestTree root = new TestTree(0.);
-        TestTree v1    = new TestTree(1.);
-        TestTree v2    = new TestTree(2.);
-        TestTree v3    = new TestTree(3.);
-        TestTree v4    = new TestTree(4.);
-        TestTree v5    = new TestTree(5.);
-        TestTree v6    = new TestTree(6.); 
+        TreeNode<Double> root = new TreeNode<Double>(0.);
+        TreeNode<Double> v1    = new TreeNode<Double>(1.);
+        TreeNode<Double> v2    = new TreeNode<Double>(2.);
+        TreeNode<Double> v3    = new TreeNode<Double>(3.);
+        TreeNode<Double> v4    = new TreeNode<Double>(4.);
+        TreeNode<Double> v5    = new TreeNode<Double>(5.);
+        TreeNode<Double> v6    = new TreeNode<Double>(6.); 
         
         root.addDaughter(v1);
         root.addDaughter(v2);
@@ -64,21 +64,21 @@ public class NegaMaxTest {
     
     @Test
     public void testDepthThree(){
-        TestTree root = new TestTree(0.);
-        TestTree v1    = new TestTree(1.);
-        TestTree v2    = new TestTree(2.);
-        TestTree v3    = new TestTree(3.);
-        TestTree v4    = new TestTree(4.);
-        TestTree v5    = new TestTree(5.);
-        TestTree v6    = new TestTree(6.);
-        TestTree v7    = new TestTree(7.);
-        TestTree v8    = new TestTree(8.);
-        TestTree v9    = new TestTree(9.);
-        TestTree v10    = new TestTree(10.);
-        TestTree v11    = new TestTree(11.);
-        TestTree v12   = new TestTree(12.);
-        TestTree v13    = new TestTree(13.);
-        TestTree v14   = new TestTree(14.);      
+        TreeNode<Double> root = new TreeNode<Double>(0.);
+        TreeNode<Double> v1    = new TreeNode<Double>(1.);
+        TreeNode<Double> v2    = new TreeNode<Double>(2.);
+        TreeNode<Double> v3    = new TreeNode<Double>(3.);
+        TreeNode<Double> v4    = new TreeNode<Double>(4.);
+        TreeNode<Double> v5    = new TreeNode<Double>(5.);
+        TreeNode<Double> v6    = new TreeNode<Double>(6.);
+        TreeNode<Double> v7    = new TreeNode<Double>(7.);
+        TreeNode<Double> v8    = new TreeNode<Double>(8.);
+        TreeNode<Double> v9    = new TreeNode<Double>(9.);
+        TreeNode<Double> v10    = new TreeNode<Double>(10.);
+        TreeNode<Double> v11    = new TreeNode<Double>(11.);
+        TreeNode<Double> v12   = new TreeNode<Double>(12.);
+        TreeNode<Double> v13    = new TreeNode<Double>(13.);
+        TreeNode<Double> v14   = new TreeNode<Double>(14.);      
         
         root.addDaughter(v1);
         root.addDaughter(v2);
@@ -115,21 +115,21 @@ public class NegaMaxTest {
     
     @Test
     public void testDepthUneven(){
-        TestTree root = new TestTree(0.);
-        TestTree v1    = new TestTree(1.);
-        TestTree v2    = new TestTree(2.);
-        TestTree v3    = new TestTree(3.);
-        TestTree v4    = new TestTree(4.);
-        TestTree v5    = new TestTree(5.);
-        TestTree v6    = new TestTree(6.);
-        TestTree v7    = new TestTree(7.);
-        TestTree v8    = new TestTree(8.);
-        TestTree v9    = new TestTree(9.);
-        TestTree v10    = new TestTree(10.);
-        TestTree v11    = new TestTree(11.);
-        TestTree v12   = new TestTree(12.);
-        TestTree v13    = new TestTree(13.);
-        TestTree v14   = new TestTree(14.);      
+        TreeNode<Double> root = new TreeNode<Double>(0.);
+        TreeNode<Double> v1    = new TreeNode<Double>(1.);
+        TreeNode<Double> v2    = new TreeNode<Double>(2.);
+        TreeNode<Double> v3    = new TreeNode<Double>(3.);
+        TreeNode<Double> v4    = new TreeNode<Double>(4.);
+        TreeNode<Double> v5    = new TreeNode<Double>(5.);
+        TreeNode<Double> v6    = new TreeNode<Double>(6.);
+        TreeNode<Double> v7    = new TreeNode<Double>(7.);
+        TreeNode<Double> v8    = new TreeNode<Double>(8.);
+        TreeNode<Double> v9    = new TreeNode<Double>(9.);
+        TreeNode<Double> v10    = new TreeNode<Double>(10.);
+        TreeNode<Double> v11    = new TreeNode<Double>(11.);
+        TreeNode<Double> v12   = new TreeNode<Double>(12.);
+        TreeNode<Double> v13    = new TreeNode<Double>(13.);
+        TreeNode<Double> v14   = new TreeNode<Double>(14.);      
         
         root.addDaughter(v1);
         root.addDaughter(v2);

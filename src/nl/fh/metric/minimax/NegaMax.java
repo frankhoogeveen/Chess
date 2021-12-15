@@ -15,7 +15,7 @@ import nl.fh.player.evalplayer.Metric;
  * This implementation does NOT make use of alpha/beta pruning
  * 
  */
-public class NegaMax<T extends SemiTree<T>> implements Metric<T> {
+public class NegaMax<T> implements Metric<T> {
 
     private Metric<T> baseMetric;
     private int depth;
@@ -37,21 +37,34 @@ public class NegaMax<T extends SemiTree<T>> implements Metric<T> {
     @Override
     public double eval(T state) {
         int sign = this.mode.getSign();
-        return sign * iteration(state, this.depth, sign);  
+        TreeNode<T> node = new TreeNode(state) ;   
+        return sign * iteration(node, this.depth, sign);  
     }
+    
+    /**
+     * 
+     * @param node
+     * @return the evaluation of this node. This method can be used when 
+     * the tree has already been explicitely set up. Useful in testing.
+     */
+    public double eval(TreeNode<T> node) {
+        int sign = this.mode.getSign();
+        return sign * iteration(node, this.depth, sign);  
+    }    
 
-    private double iteration(T state, int depth, int sign) {
+    private double iteration(TreeNode<T> node, int depth, int sign) {
         if(depth == 0){
-            return sign * this.baseMetric.eval(state);
+            return sign * node.eval(baseMetric);
         } 
         
-        Set<T> daughters = state.getDaughters();
+        Set<TreeNode<T>> daughters = node.getDaughters();
+        
         if(daughters.isEmpty()){
-            return sign * this.baseMetric.eval(state);            
+            return sign * node.eval(baseMetric);            
         }
         
         double currentValue = - Double.MAX_VALUE;
-        for(T daughter : daughters){
+        for(TreeNode<T> daughter : daughters){
             double nextValue = - iteration(daughter, depth-1, -sign);
             if(nextValue > currentValue){
                 currentValue = nextValue;

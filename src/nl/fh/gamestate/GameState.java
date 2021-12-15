@@ -16,7 +16,7 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.move.EnPassantCapture;
 import nl.fh.rules.Rules;
-import nl.fh.metric.minimax.SemiTree;
+import nl.fh.metric.minimax.TreeNode;
 
 /**
  * copyright F. Hoogeveen
@@ -27,7 +27,7 @@ import nl.fh.metric.minimax.SemiTree;
  * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
  * 
  */
-public class GameState implements SemiTree<GameState>  {
+public class GameState   {
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data

@@ -7,6 +7,7 @@ package nl.fh.rules;
 import nl.fh.gamestate.GameState;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import nl.fh.chess.BoardSide;
@@ -71,6 +72,15 @@ public class SimpleRules implements Rules{
         result.removeAll(excludes);
         return result;
     }
+    
+    @Override
+    public Collection<GameState> calculateNextStates(GameState state) {
+        Set<GameState> result = new HashSet<GameState>();
+        for(Move m : state.getLegalMoves()){
+            result.add(m.applyTo(state));
+        }
+        return result;
+    }    
 
     /**
      * 
@@ -591,8 +601,5 @@ public class SimpleRules implements Rules{
         
         return false;
     }
-
-
-
 }
 
