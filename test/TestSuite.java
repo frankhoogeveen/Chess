@@ -10,6 +10,7 @@ import nl.fh.integration_tests.MatchTest;
 import nl.fh.integration_tests.MateInOneTest;
 import nl.fh.metric.minimax.NegaMaxBasicTest;
 import nl.fh.integration_tests.PhilidorTest;
+import nl.fh.metric.minimax.NegaMaxPositionTest;
 import nl.fh.metric.minimax.NegaMaxStateTest;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
@@ -41,6 +42,7 @@ import org.junit.runners.Suite;
     ShortGamesTest.class,
     NegaMaxBasicTest.class, 
     NegaMaxStateTest.class,  // one test in this class is switched off for timing
+    NegaMaxPositionTest.class,
     
     //
     // below this line are tests that read files or are otherwise expensive
