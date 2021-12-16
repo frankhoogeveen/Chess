@@ -8,8 +8,9 @@ import nl.fh.gamereport.MoveCodesTest;
 import nl.fh.gamestate.GameStateTest;
 import nl.fh.integration_tests.MatchTest;
 import nl.fh.integration_tests.MateInOneTest;
-import nl.fh.metric.minimax.NegaMaxTest;
+import nl.fh.metric.minimax.NegaMaxBasicTest;
 import nl.fh.integration_tests.PhilidorTest;
+import nl.fh.metric.minimax.NegaMaxStateTest;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
 import nl.fh.rules.EnPassantRulesTest;
@@ -38,7 +39,8 @@ import org.junit.runners.Suite;
     PromotionRulesTest.class,
     EnPassantRulesTest.class,
     ShortGamesTest.class,
-    NegaMaxTest.class,    
+    NegaMaxBasicTest.class, 
+    NegaMaxStateTest.class,  // one test in this class is switched off for timing
     
     //
     // below this line are tests that read files or are otherwise expensive

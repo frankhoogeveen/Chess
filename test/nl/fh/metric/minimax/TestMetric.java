@@ -11,15 +11,14 @@ import nl.fh.player.evalplayer.Metric;
  * 
  * 
  */
-public class TestMetric implements Metric<Double> {
+public class TestMetric implements Metric<TestNode> {
 
     public TestMetric() {
     }
 
     @Override
-    public double eval(Double t) {
-        return t;
+    public double eval(TestNode t) {
+        return t.getContent();
     }
-
 
 }

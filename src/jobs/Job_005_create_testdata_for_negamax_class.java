@@ -35,7 +35,7 @@ public class Job_005_create_testdata_for_negamax_class {
         
         System.out.println("-------------------------------");
         System.out.println(state.toFEN());
-        for(GameState s : state.getDaughters()){
+        for(GameState s : state.getChildren()){
             double val = metric.eval(s);
             if(val > vmax){
                 vmax = val;
