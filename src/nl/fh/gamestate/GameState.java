@@ -7,7 +7,9 @@ package nl.fh.gamestate;
 
 import nl.fh.move.Move;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import nl.fh.chess.BoardSide;
@@ -42,6 +44,8 @@ public class GameState implements Parent<GameState>   {
     
     private Rules rules;          // the rules used for this gamestate    
     
+    private GameState parent;     // the history is part of the gamestate, due to the 3fold repetition rule
+    
     private PieceType[][] board;  // first coordinate is file, second is rank:
                                   // board[0][0] is a1
                                   // board[7][0] is h1 
@@ -66,8 +70,7 @@ public class GameState implements Parent<GameState>   {
 ////////////////////////////////////////////////////////////////////////////////     
     
     private boolean isDirty;
-    private Set<Move> legalMoves;
-    
+    private Map<Move, GameState> legalMoves;
     
     /**
      * @param rules the Rules object that governs the play
@@ -574,10 +577,26 @@ public class GameState implements Parent<GameState>   {
     
     /**
      * 
-     * @return 
+     * @return the rules governing this game state
      */
     public Rules getRules(){
         return this.rules;
+    }
+    
+    /**
+     * 
+     * @param parent 
+     */
+    public void setParent(GameState parent){
+        this.parent = parent;
+    }
+    
+    /**
+     * 
+     * @return the parent of this state, i.e. the state before the last move
+     */
+    public GameState getParent(){
+        return this.parent;
     }
     
     /**
@@ -744,11 +763,10 @@ public class GameState implements Parent<GameState>   {
     public Set<Move> getLegalMoves(){
         
         if(isDirty){
-            this.legalMoves = rules.calculateAllLegalMoves(this);
-            isDirty = false;
+            calculateMoves();
         }
         
-        return this.legalMoves;
+        return this.legalMoves.keySet();
     }
     
     /**
@@ -756,12 +774,21 @@ public class GameState implements Parent<GameState>   {
      * @return the set of all game states that can be the result of a single 
      * move applied to this game state.
      */
+    @Override
     public Set<GameState> getChildren(){
-        Set<GameState> result = new HashSet<GameState>();
-        for(Move m : this.getLegalMoves()){
-            result.add(m.applyTo(this));
+        if(isDirty){
+            calculateMoves();
         }
-        return result;
+        
+        return new HashSet<GameState>(this.legalMoves.values());
+    }
+    
+    private void calculateMoves(){
+        this.legalMoves = new HashMap<Move, GameState>(); 
+        for(Move m : rules.calculateAllLegalMoves(this)){
+            this.legalMoves.put(m, m.applyTo(this));
+        }
+        isDirty = false;          
     }
     
     /**

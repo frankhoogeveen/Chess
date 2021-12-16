@@ -39,18 +39,6 @@ public class MetricPlayer implements Player{
         return result;
     }
     
-    /**
-     * 
-     * @param metric
-     * @param depth
-     * @return a player that does minimax on the metric, to a given fixed depth
-     */
-    //TODO remove unused code
-//    public static MetricPlayer getNegaMaxInstance(Metric<GameState> metric, int depth){
-//        NegaMax nega = new NegaMax(metric, depth, SearchMode.MAXIMIN);
-//        return MetricPlayer.getInstance(nega);
-//    }
-    
     @Override
     public Move getMove(GameState state) {
         

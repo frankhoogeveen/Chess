@@ -42,7 +42,7 @@ import org.junit.runners.Suite;
     ShortGamesTest.class,
     NegaMaxBasicTest.class, 
     NegaMaxStateTest.class,  // one test in this class is switched off for timing
-    NegaMaxPositionTest.class,
+ //   NegaMaxPositionTest.class,
     
     //
     // below this line are tests that read files or are otherwise expensive
