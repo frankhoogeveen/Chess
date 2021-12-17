@@ -12,6 +12,7 @@ import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.player.Player;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -37,6 +38,20 @@ public class ThreeFoldRepetitionTest {
         assertEquals(12, report.getMoveList().size());
         assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
+        
+        for(int i = 0; i < report.getStateList().size()-1; i++){
+            assertFalse(rules.isThreeFoldRepetition(report.getStateList().get(i)));
+        }
+        
+//        for(int i = 0; i < report.getStateList().size(); i++){
+//            System.out.println(i);
+//            System.out.println(report.getStateList().get(i).toFEN());
+//            System.out.println(report.getStateList().get(i).countRepetitions());
+//            System.out.println();
+//        }
+        
+        assertTrue(rules.isThreeFoldRepetition(report.getStateList().get(12)));        
+        
     }
 
     @Test

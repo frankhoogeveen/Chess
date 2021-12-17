@@ -196,6 +196,9 @@ public class PieceMove implements Move {
         result.setFieldContent(this.from, PieceType.EMPTY);
         result.setFieldContent(this.to, piece);
         
+        //update the parent field
+        result.setParent(state);
+        
         return result;
     }
 

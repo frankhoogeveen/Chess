@@ -231,6 +231,9 @@ public class Promotion implements Move {
         result.setFieldContent(this.from, PieceType.EMPTY);
         result.setFieldContent(this.to, PieceType.get(movingColor(), piece));
         
+        //update the parent field
+        result.setParent(state);
+        
         return result;
     }
 

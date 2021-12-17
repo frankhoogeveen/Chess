@@ -82,6 +82,9 @@ public class EnPassantCapture implements Move {
         
         result.setFieldContent(capturedPawn, PieceType.EMPTY);
         
+        //update the parent field
+        result.setParent(state);
+        
         return result;
     }
 

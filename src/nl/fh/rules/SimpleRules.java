@@ -406,8 +406,14 @@ public class SimpleRules implements Rules{
         return state.getLegalMoves().isEmpty() && !isCheck(state);
     }
     
-    private boolean hitsFiftyMoveRule(GameState currentState) {
+    @Override
+    public boolean isAtFiftyMoveRule(GameState currentState) {
          return (currentState.getHalfMoveClock() >= 100);
+    }   
+    
+    @Override
+    public boolean isThreeFoldRepetition(GameState state) {
+        return (state.countRepetitions() > 2);
     }    
     
     @Override
@@ -416,7 +422,8 @@ public class SimpleRules implements Rules{
         boolean result = false;
         result = result || isStaleMate(state);
         result = result || !sufficientMaterial(state);
-        result = result || hitsFiftyMoveRule(state);
+        result = result || isAtFiftyMoveRule(state);
+        result = result || isThreeFoldRepetition(state);
         return result;
     }    
     
@@ -514,7 +521,7 @@ public class SimpleRules implements Rules{
             }
             
             // fifty move rule
-            if(hitsFiftyMoveRule(currentState)){
+            if(isAtFiftyMoveRule(currentState)){
                 report.setResult(GameResult.DRAW_BY_50_MOVE_RULE);                
             }
             
@@ -602,5 +609,6 @@ public class SimpleRules implements Rules{
         
         return false;
     }
+
 }
 

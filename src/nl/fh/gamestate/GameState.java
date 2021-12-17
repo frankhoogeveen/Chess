@@ -786,6 +786,7 @@ public class GameState implements Parent<GameState>   {
     private void calculateMoves(){
         this.legalMoves = new HashMap<Move, GameState>(); 
         for(Move m : rules.calculateAllLegalMoves(this)){
+            //TODO set the parent is all the new game states !
             this.legalMoves.put(m, m.applyTo(this));
         }
         isDirty = false;          
@@ -847,6 +848,22 @@ public class GameState implements Parent<GameState>   {
         }
 
         return true;
+    }  
+    
+    /**
+     * 
+     * @return the number of times this position is repeated in the current game 
+     */
+    public int countRepetitions() {
+        int result = 1;  // this repeats itself, bu definition
+        GameState current = this.parent;
+        while(current != null){
+            if(this.repeats(current)){
+                result += 1;
+            }
+            current = current.parent;
+        }
+        return result;
     }    
 
     @Override
@@ -921,5 +938,4 @@ public class GameState implements Parent<GameState>   {
         result.enPassantField = null;
         return result;
     }
-
 }

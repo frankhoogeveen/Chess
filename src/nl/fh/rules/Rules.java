@@ -91,4 +91,19 @@ public interface Rules extends NextStateCalculator<GameState> {
      * @return true if the player that is to move is in check
      */
     public boolean isCheck(GameState state);
+
+    /**
+     * 
+     * @param state
+     * @return true if this state is a >= 3 fold repetition
+     */
+    public boolean isThreeFoldRepetition(GameState state);
+  
+    
+    /**
+     * 
+     * @param state
+     * @return true is this state is a draw due to the 50 move rule
+     */
+    public boolean isAtFiftyMoveRule(GameState state); 
 }

@@ -78,6 +78,9 @@ public class Castling implements Move {
             result.setFieldContent(Field.getInstance("d8"), PieceType.BLACK_ROOK);               
         }
         
+        //update the parent field
+        result.setParent(state);
+        
         return result;
     }
 
