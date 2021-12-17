@@ -71,16 +71,7 @@ public class SimpleRules implements Rules{
         Set<Move> excludes = movesLeavingKingInCheck(result, state);
         result.removeAll(excludes);
         return result;
-    }
-    
-    @Override
-    public Collection<GameState> calculateNextStates(GameState state) {
-        Set<GameState> result = new HashSet<GameState>();
-        for(Move m : state.getLegalMoves()){
-            result.add(m.applyTo(state));
-        }
-        return result;
-    }    
+    } 
 
     /**
      * 

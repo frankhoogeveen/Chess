@@ -9,7 +9,6 @@ import java.util.Set;
 import nl.fh.gamereport.GameReport;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
-import nl.fh.metric.minimax.NextStateCalculator;
 
 /**
  * Represents the rules of the game. Different implementations may e.g. cater
@@ -19,7 +18,7 @@ import nl.fh.metric.minimax.NextStateCalculator;
  * - in a given state what are the legal moves
  * - driving games, i.e. determining wins, losses and draws
  */
-public interface Rules extends NextStateCalculator<GameState> {
+public interface Rules{
 
     /**
      * 
