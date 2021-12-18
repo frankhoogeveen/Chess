@@ -32,7 +32,7 @@ public class Job_007a_list_moves {
         
         String filePath = "../out/job_007a_"+ dateString + ".csv";
      
-        String fen = "rnb1kbnr/pppp1ppp/8/4p3/4P2q/3P4/PPP2PPP/RNBQKBNR w KQkq - 1 3";
+        String fen = "r1bq1rk1/ppp2pb1/2np1n1p/4P1p1/8/2N1P1B1/PPPNBPPP/R2Q1RK1 b - - 0 12";
         Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen, rules);
 
@@ -40,11 +40,13 @@ public class Job_007a_list_moves {
 
         StringBuilder sb = new StringBuilder();
         
+        sb.append(fen);
+        sb.append("\n\n");
+        sb.append("move1;move2;Value;state1;state2\n");
+        
         for(Move move1 : state.getLegalMoves()){
             GameState state1 = move1.applyTo(state);
-            // minimize the value of the second move;
-            GameState stateMin = null;
-            double valueMin = + Double.MAX_VALUE;
+
             for(Move move2 : state1.getLegalMoves()){
                 GameState s = move2.applyTo(state1);
                 double value2 = shannon.eval(s);

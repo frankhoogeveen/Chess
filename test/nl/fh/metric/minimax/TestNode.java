@@ -7,6 +7,8 @@ package nl.fh.metric.minimax;
 
 import java.util.HashSet;
 import java.util.Set;
+import nl.fh.chess.Color;
+import nl.fh.chess.Colored;
 
 /**
  * License GPL v3
@@ -16,12 +18,13 @@ import java.util.Set;
  * other hand.
  * 
  */
-public class TestNode implements Parent<TestNode> {
+public class TestNode implements Parent<TestNode>, Colored {
 
     private final long content;    
     
     private TestNode parent;
     private Set<TestNode> daughters;
+    private Color color;
     
     /**
      *
@@ -31,10 +34,11 @@ public class TestNode implements Parent<TestNode> {
      * If nextGenerator is set to null, one has to add all daughters explicitely.
      * 
      */
-    public TestNode(long content){
+    public TestNode(long content, Color color){
         this.content = content;
         this.parent = null;
         this.daughters = new HashSet<TestNode>();
+        this.color = color;
     }
     
     /**
@@ -68,11 +72,17 @@ public class TestNode implements Parent<TestNode> {
     public void addDaughter(TestNode node){
         this.daughters.add(node);
         node.parent = this;
+        node.color = this.color.flip();
     }
 
     @Override
     public Set<TestNode> getChildren() {
         return this.daughters;
+    }
+
+    @Override
+    public Color getColor() {
+        return this.color;
     }
     
 }

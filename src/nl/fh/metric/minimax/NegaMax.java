@@ -6,6 +6,7 @@
 package nl.fh.metric.minimax;
 
 import java.util.Set;
+import nl.fh.chess.Colored;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -15,7 +16,7 @@ import nl.fh.player.evalplayer.Metric;
  * This implementation does NOT make use of alpha/beta pruning
  * 
  */
-public class NegaMax<T extends Parent<T>> implements Metric<T> {
+public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
 
     private Metric<T> baseMetric;
     private int depth;
@@ -36,7 +37,7 @@ public class NegaMax<T extends Parent<T>> implements Metric<T> {
     
     @Override
     public double eval(T state) {
-        int sign = this.mode.getSign();
+        int sign = this.mode.getSign() * state.getColor().getSign();
         return sign * iteration(state, this.depth, sign);  
     }  
 
@@ -48,7 +49,7 @@ public class NegaMax<T extends Parent<T>> implements Metric<T> {
         Set<T> daughters = state.getChildren();
         
         if(daughters.isEmpty()){
-            return sign * baseMetric.eval(state);            
+            return sign * baseMetric.eval(state);           
         }
         
         double currentValue = - Double.MAX_VALUE;

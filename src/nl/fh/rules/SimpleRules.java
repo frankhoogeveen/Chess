@@ -333,7 +333,7 @@ public class SimpleRules implements Rules{
      */
     private boolean kingRemainsInCheckAfterMove(GameState postState) {
         Color attackerColor = postState.getToMove();
-        Color kingColor = Color.flip(attackerColor);
+        Color kingColor = attackerColor.flip();
         
         Field kingField = findKing(kingColor, postState);
         
@@ -354,7 +354,7 @@ public class SimpleRules implements Rules{
     @Override
     public boolean isCheck(GameState state){
         Color playerColor = state.getToMove();
-        Color opponentColor = Color.flip(playerColor);
+        Color opponentColor = playerColor.flip();
         Field kingField = findKing(playerColor, state);
         
         boolean result =isCovered(kingField, state, opponentColor);

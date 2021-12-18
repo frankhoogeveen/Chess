@@ -6,6 +6,7 @@
 package nl.fh.metric.minimax;
 
 import java.util.Set;
+import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.ShannonMetric;
 import nl.fh.move.Move;
@@ -24,7 +25,24 @@ public class NegaMaxStateTest {
     private double delta = 1.e-8;
     
     @Test
-    public void testZeroDepth(){
+    public void testZeroDepthWhite(){
+        // position from https://lichess.org/igoizkyc#23
+        String fen = "r1bq1rk1/ppp2pb1/2np1n1p/4P1p1/8/2N1P1B1/PPPNBPPP/R2Q1RK1 w - - 0 12";
+        Rules rules = new SimpleRules();
+        GameState state = GameState.fromFEN(fen, rules);
+        
+        Metric<GameState> shannon = new ShannonMetric();
+        
+        Metric<GameState> nega = new NegaMax(shannon, 0, SearchMode.MAXIMIN);
+        
+        double shannonValue = shannon.eval(state);
+        double negaValue = nega.eval(state);
+        
+        assertEquals(shannonValue, negaValue, delta);
+    }    
+    
+    @Test
+    public void testZeroDepthBlack(){
         // position from https://lichess.org/igoizkyc#23
         String fen = "r1bq1rk1/ppp2pb1/2np1n1p/4P1p1/8/2N1P1B1/PPPNBPPP/R2Q1RK1 b - - 0 12";
         Rules rules = new SimpleRules();
@@ -41,7 +59,36 @@ public class NegaMaxStateTest {
     }
     
     @Test
-    public void testOneDeep(){
+    public void testOneDeepWhite(){
+        //Note that white is to move, so this evaluation is called by black,
+        //who is considering what move to make. 
+        
+        // position from https://lichess.org/igoizkyc#23
+        String fen = "r1bq1rk1/ppp2pb1/2np1n1p/4P1p1/8/2N1P1B1/PPPNBPPP/R2Q1RK1 w - - 0 12";
+        Rules rules = new SimpleRules();
+        GameState state = GameState.fromFEN(fen, rules);
+        
+        Metric<GameState> shannon = new ShannonMetric();
+        
+        Metric<GameState> nega = new NegaMax(shannon, 1, SearchMode.MAXIMIN);
+        
+        double negaValue = nega.eval(state);
+        
+        double currentMin = Double.MAX_VALUE;
+        for(Move m : state.getLegalMoves()){
+            GameState next = m.applyTo(state);
+            double value = shannon.eval(next);
+            if(value < currentMin){
+                currentMin = value;
+            }
+        }
+        
+        assertEquals(currentMin, negaValue, delta);
+    }    
+    
+    
+    @Test
+    public void testOneDeepBlack(){
         // position from https://lichess.org/igoizkyc#23
         String fen = "r1bq1rk1/ppp2pb1/2np1n1p/4P1p1/8/2N1P1B1/PPPNBPPP/R2Q1RK1 b - - 0 12";
         Rules rules = new SimpleRules();
@@ -76,13 +123,16 @@ public class NegaMaxStateTest {
         Metric<GameState> shannon = new ShannonMetric();
         
         Metric<GameState> nega2  = new NegaMax(shannon, 2, SearchMode.MAXIMIN);
-        Metric<GameState> nega1 = new NegaMax(shannon, 1, SearchMode.MINIMAX);        
+        Metric<GameState> nega1 = new NegaMax(shannon, 1, SearchMode.MAXIMIN);        
         
         double negaValue = nega2.eval(state);
         
         double currentMax = - Double.MAX_VALUE;
         for(Move m : state.getLegalMoves()){
             GameState next = m.applyTo(state);
+            
+            assertEquals(Color.BLACK, next.getColor());
+            
             double value = nega1.eval(next);
             if(value > currentMax){
                 currentMax = value;

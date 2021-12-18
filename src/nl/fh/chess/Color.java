@@ -26,10 +26,10 @@ public enum Color {
      * @param color
      * @return  the other value of the color 
      */
-    public static Color flip(Color color) {
-        if(color == WHITE){
+    public  Color flip() {
+        if(this == WHITE){
             return BLACK;
-        } else if(color == BLACK){
+        } else if(this == BLACK){
             return WHITE;
         } else {
             return UNDEFINED;

@@ -11,9 +11,13 @@ import nl.fh.chess.PieceKind;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
+import nl.fh.metric.ShannonMetric;
+import nl.fh.metric.minimax.NegaMax;
+import nl.fh.metric.minimax.SearchMode;
 import nl.fh.move.Move;
 import nl.fh.move.Promotion;
 import nl.fh.player.Player;
+import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.pgn_replayer.PgnReplayer;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
@@ -28,38 +32,35 @@ import org.junit.Test;
  */
 public class IsolatedTest {
     
+    
     @Test
-    public void testThreeFoldRepetition(){
-        String pgn = "1. d4 d5 2. Bd2 Kd7 3. Bc1 Kc6 4. Bd2 Kd7 "
-                + "5. Bc3 Ke6 6. Bd2 Kd7 7. Bc3 Ke8 8. Bd2 Kd7 "
-                + "9. Nc3 Nf6 10. Nb1 Ng8 *";
-        
+    public void testTwoDeep(){
+        // position from https://lichess.org/igoizkyc#23
+        String fen = "r1bq1rk1/ppp2pb1/2np1n1p/4P1p1/8/2N1P1B1/PPPNBPPP/R2Q1RK1 b - - 0 12";
         Rules rules = new SimpleRules();
+        GameState state = GameState.fromFEN(fen, rules);
         
-        Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
-        Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
+        Metric<GameState> shannon = new ShannonMetric();
         
-        GameReport report = rules.playGame(playerW, playerB);
+        Metric<GameState> nega2  = new NegaMax(shannon, 2, SearchMode.MAXIMIN);
+        Metric<GameState> nega1 = new NegaMax(shannon, 1, SearchMode.MAXIMIN);        
         
-        assertEquals(12, report.getMoveList().size());
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
-                     report.getTag("Result"));
+        double negaValue = nega2.eval(state);
         
-        for(int i = 0; i < report.getStateList().size()-1; i++){
-            assertFalse(rules.isThreeFoldRepetition(report.getStateList().get(i)));
+        double currentMax = - Double.MAX_VALUE;
+        for(Move m : state.getLegalMoves()){
+            GameState next = m.applyTo(state);
+            
+            assertEquals(Color.BLACK, next.getColor());
+            
+            double value = nega1.eval(next);
+            if(value > currentMax){
+                currentMax = value;
+            }
+            
         }
         
-        for(int i = 0; i < report.getStateList().size(); i++){
-            System.out.println(i);
-            System.out.println(report.getStateList().get(i).toFEN());
-            System.out.println(report.getStateList().get(i).countRepetitions());
-            System.out.println();
-        }
-        
-        System.out.println(pgn);
-        
-        assertTrue(rules.isThreeFoldRepetition(report.getStateList().get(12)));        
-        
-    }  
+        assertEquals(currentMax, negaValue, 1.e-8);
+    }   
 
 }

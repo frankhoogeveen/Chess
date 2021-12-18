@@ -14,6 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
+import nl.fh.chess.Colored;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.metric.minimax.Parent;
@@ -29,7 +30,7 @@ import nl.fh.rules.Rules;
  * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
  * 
  */
-public class GameState implements Parent<GameState>   {
+public class GameState implements Parent<GameState>, Colored   {
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data
@@ -524,6 +525,15 @@ public class GameState implements Parent<GameState>   {
     
     /**
      * 
+     * @return the color of the player that just made the move
+     */
+    @Override
+    public Color getColor(){
+        return this.activeColor.flip();
+    }
+    
+    /**
+     * 
      * @return true if draw was offered on the last move 
      */
     public boolean isDrawOffered(){
@@ -620,7 +630,7 @@ public class GameState implements Parent<GameState>   {
         if(this.activeColor == Color.BLACK){
             this.fullMoveNumber += 1;
         }
-        this.activeColor = Color.flip(this.activeColor);
+        this.activeColor = this.activeColor.flip();
         
         this.isDirty = true;
     }
@@ -652,9 +662,12 @@ public class GameState implements Parent<GameState>   {
 
         result.drawOffered = this.drawOffered; 
         
+        result.parent = this.parent;
+        
         // 
         result.isDirty = true;
         result.rules = this.rules;
+        
         
         return result;
     }
@@ -930,11 +943,12 @@ public class GameState implements Parent<GameState>   {
     /**
      * 
      * @return a game state in which the player to move has been switched and
-     * the en passant flag is not raised
+     * the en passant flag is not raised. The history of the game is discarded.
      */
     public GameState changeColor() {
         GameState result = this.copy();
-        result.activeColor = Color.flip(this.activeColor);
+        result.activeColor = this.activeColor.flip();
+        result.parent = null;
         result.enPassantField = null;
         return result;
     }
