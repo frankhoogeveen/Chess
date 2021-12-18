@@ -98,4 +98,9 @@ public class TerminalPlayer implements Player {
         System.out.println("there is no help yet");
     }
 
+    @Override
+    public String getDescription() {
+        return "Terminal player";
+    }
+
 }

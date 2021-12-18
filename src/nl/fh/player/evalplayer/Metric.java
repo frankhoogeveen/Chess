@@ -20,4 +20,6 @@ public interface Metric<T> {
      */
     public double eval(T t);
 
+    public String getDescription();
+
 }

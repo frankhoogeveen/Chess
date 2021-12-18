@@ -86,4 +86,9 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
     public void setMode(SearchMode mode) {
         this.mode = mode;
     }
+
+    @Override
+    public String getDescription() {
+        return "Negamax: " + this.baseMetric.getDescription();
+    }
 }

@@ -20,4 +20,9 @@ public class Quitter implements Player{
         return Resignation.getInstance();
     }
 
+    @Override
+    public String getDescription() {
+        return "Quitter";
+    }
+
 }

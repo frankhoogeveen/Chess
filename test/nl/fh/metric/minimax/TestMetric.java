@@ -21,4 +21,9 @@ public class TestMetric implements Metric<TestNode> {
         return t.getContent();
     }
 
+    @Override
+    public String getDescription() {
+        return "TestMetric";
+    }
+
 }

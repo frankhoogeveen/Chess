@@ -15,6 +15,7 @@ import nl.fh.player.evalplayer.Metric;
  * https://www.pi.infn.it/%7Ecarosi/chess/shannon.txt
  * 
  */
+
 public class ShannonMetric implements Metric<GameState>{
 
     @Override
@@ -92,5 +93,10 @@ public class ShannonMetric implements Metric<GameState>{
         }
 
         return result;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Shannon Metric";
     }
 }

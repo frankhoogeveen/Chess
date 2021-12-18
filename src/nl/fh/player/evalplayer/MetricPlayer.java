@@ -6,8 +6,6 @@
 package nl.fh.player.evalplayer;
 
 import nl.fh.gamestate.GameState;
-import nl.fh.metric.minimax.NegaMax;
-import nl.fh.metric.minimax.SearchMode;
 import nl.fh.move.Move;
 import nl.fh.move.Resignation;
 import nl.fh.player.Player;
@@ -56,5 +54,10 @@ public class MetricPlayer implements Player{
         }
         
         return currentBestMove;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Metric: " + this.metric.getDescription(); 
     }
 }

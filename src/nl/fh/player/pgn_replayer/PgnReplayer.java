@@ -72,4 +72,9 @@ public class PgnReplayer implements Player {
         }
     }
 
+    @Override
+    public String getDescription() {
+        return "PGN replayer";
+    }
+
 }

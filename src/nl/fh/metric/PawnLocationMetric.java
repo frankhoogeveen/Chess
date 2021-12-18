@@ -31,4 +31,9 @@ public class PawnLocationMetric implements Metric<GameState> {
        return sum;
     }
 
+    @Override
+    public String getDescription() {
+        return this.getClass().getCanonicalName();
+    }
+
 }

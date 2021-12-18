@@ -21,5 +21,11 @@ public interface Player {
      * @return a move  without time control
      */
     public Move getMove(GameState currentState);
+    
+    /**
+     * 
+     * @return a one-line description of the player 
+     */
+    public String getDescription();
 
 }

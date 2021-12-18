@@ -25,4 +25,9 @@ public class RandomPlayer implements Player {
         int randomNum = ThreadLocalRandom.current().nextInt(0, moves.size());  
         return moves.get(randomNum);
     }
+
+    @Override
+    public String getDescription() {
+        return "Random";
+    }
 }
