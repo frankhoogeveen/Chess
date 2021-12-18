@@ -108,12 +108,14 @@ public class MatchResult {
         sb.append(";");
         sb.append("=== MatchResult ===\n");
         
+        sb.append(";Players\n");
+        
         sb.append(";");        
-        sb.append(player1);
+        sb.append(player1.getDescription());
         sb.append("\n");
         
         sb.append(";");          
-        sb.append(player2);
+        sb.append(player2.getDescription());
         sb.append("\n;\n");             
         
         sb.append(";");          
@@ -125,7 +127,7 @@ public class MatchResult {
         sb.append("\n");
         
         sb.append(";");          
-        sb.append(player1.toString());
+        sb.append(player1.getDescription());
         sb.append(" playing as white\n");
         for(GameResult g : GameResult.values()){
            sb.append(";");              
@@ -136,7 +138,7 @@ public class MatchResult {
         }
         sb.append(";\n");
         sb.append(";");         
-        sb.append(player2.toString());
+        sb.append(player2.getDescription());
         sb.append(" playing as white\n");
         for(GameResult g : GameResult.values()){
            sb.append(";");             

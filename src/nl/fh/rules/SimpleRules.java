@@ -7,7 +7,6 @@ package nl.fh.rules;
 import nl.fh.gamestate.GameState;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import nl.fh.chess.BoardSide;
@@ -428,8 +427,8 @@ public class SimpleRules implements Rules{
         GameReport report = new GameReport();
         
         // add the required tags
-        report.addTag("White", whitePlayer.toString());
-        report.addTag("Black", blackPlayer.toString());
+        report.addTag("White", whitePlayer.getDescription());
+        report.addTag("Black", blackPlayer.getDescription());
         report.addTag("Result", "*");
         
         if(!initialState.equals(this.getInitialState())){

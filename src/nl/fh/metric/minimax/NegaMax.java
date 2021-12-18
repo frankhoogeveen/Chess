@@ -35,6 +35,19 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
         this.mode = mode;
     }
     
+    /**
+     * 
+     * @param baseMetric
+     * @param depth
+     * The mode is the default maximin. 
+     * 
+     */    
+    public NegaMax (Metric<T> baseMetric, int depth){
+        this.baseMetric = baseMetric;
+        this.depth = depth;
+        this.mode = SearchMode.MAXIMIN;
+    }    
+    
     @Override
     public double eval(T state) {
         int sign = this.mode.getSign() * state.getColor().getSign();
@@ -89,6 +102,6 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
 
     @Override
     public String getDescription() {
-        return "Negamax: " + this.baseMetric.getDescription();
+        return "Negamax: depth "+ depth + " " + this.baseMetric.getDescription();
     }
 }
