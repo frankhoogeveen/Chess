@@ -5,6 +5,7 @@
 
 package jobs;
 
+import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.PawnLocationMetric;
 import nl.fh.player.evalplayer.Metric;

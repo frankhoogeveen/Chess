@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.MaterialCountMetric;
+import nl.fh.metric.minimax.NegaMax;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Rules;
@@ -22,7 +23,7 @@ import nl.fh.rules.SimpleRules;
 /**
  * 
  */
-public class Job_007a_list_moves {
+public class Job_007b_list_moves_depth3 {
     
         
     // list moves at depth two
@@ -33,32 +34,58 @@ public class Job_007a_list_moves {
         
         String filePath = "../out/job_007a_"+ dateString + ".csv";
      
-        String fen = "k7/8/8/8/8/3K4/3p4/8 b - - 0 1";
+        String fen = "k7/ppr5/8/8/8/8/7R/7K w - - 0 1";
         Rules rules = new SimpleRules();
         GameState state = GameState.fromFEN(fen, rules);
 
         Metric<GameState> metric = new MaterialCountMetric();
+        NegaMax<GameState> nega = new NegaMax(metric, 0);
 
         StringBuilder sb = new StringBuilder();
         
         sb.append(fen);
+        sb.append("\n");
+        
+        nega.setDepth(3);
+        double value3 = nega.eval(state);  
+        sb.append(value3);
+        
         sb.append("\n\n");
-        sb.append("move1;move2;Value;\n");
+        sb.append("move1;move2;move3;depth0;depth1;depth2;\n");
         
         for(Move move1 : state.getLegalMoves()){
             GameState state1 = move1.applyTo(state);
+            nega.setDepth(2);
+            double value2 = nega.eval(state1);              
 
             for(Move move2 : state1.getLegalMoves()){
-                GameState s = move2.applyTo(state1);
-                double value2 = metric.eval(s);
+                GameState state2 = move2.applyTo(state1);
                 
-                sb.append(move1.moveString(state));
-                sb.append(";");
-                sb.append(move2.moveString(state1));
-                sb.append(";");
-                sb.append(value2);
-                sb.append(";"); 
-                sb.append("\n");
+                nega.setDepth(1);
+                double value1 = nega.eval(state2);             
+                
+                for(Move move3 : state2.getLegalMoves()){
+                    
+                    GameState state3 = move3.applyTo(state2);
+                    
+                    nega.setDepth(0);
+                    double value0 = nega.eval(state3);  
+
+                    sb.append(move1.moveString(state));
+                    sb.append(";");
+                    sb.append(move2.moveString(state1));
+                    sb.append(";");
+                    sb.append(move3.moveString(state2));
+                    sb.append(";");                    
+                    sb.append(value0);
+                    sb.append(";"); 
+                    sb.append(value1);
+                    sb.append(";"); 
+                    sb.append(value2);
+                    sb.append(";");                     
+                    sb.append("\n");
+                }
+
               
             }
             

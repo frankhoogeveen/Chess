@@ -5,6 +5,7 @@
 
 package nl.fh.metric;
 
+import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
@@ -28,6 +29,7 @@ public class PawnLocationMetric implements Metric<GameState> {
                sum += f.getY() * Math.pow(10., f.getX());
            }
        }
+        
        return sum;
     }
 

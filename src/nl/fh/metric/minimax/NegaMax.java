@@ -20,20 +20,6 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
 
     private Metric<T> baseMetric;
     private int depth;
-    private SearchMode mode;
-    
-    /**
-     * 
-     * @param baseMetric
-     * @param depth
-     * @param mode is either MINIMAX (the top level minimizes) or MAXIMIN. 
-     * 
-     */
-    public NegaMax (Metric<T> baseMetric, int depth, SearchMode mode){
-        this.baseMetric = baseMetric;
-        this.depth = depth;
-        this.mode = mode;
-    }
     
     /**
      * 
@@ -45,13 +31,13 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
     public NegaMax (Metric<T> baseMetric, int depth){
         this.baseMetric = baseMetric;
         this.depth = depth;
-        this.mode = SearchMode.MAXIMIN;
     }    
     
     @Override
     public double eval(T state) {
-        int sign = this.mode.getSign() * state.getColor().getSign();
-        return sign * iteration(state, this.depth, sign);  
+        int sign = state.getColor().getSign();
+        
+        return  sign * iteration(state, this.depth, sign);  
     }  
 
     private double iteration(T state, int depth, int sign) {
@@ -60,14 +46,13 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
         } 
         
         Set<T> daughters = state.getChildren();
-        
         if(daughters.isEmpty()){
-            return sign * baseMetric.eval(state);           
+            return sign * baseMetric.eval(state);
         }
         
         double currentValue = - Double.MAX_VALUE;
         for(T daughter : daughters){
-            double nextValue = - iteration(daughter, depth-1, -sign);
+            double nextValue = - iteration(daughter, depth-1,-sign);
             if(nextValue > currentValue){
                 currentValue = nextValue;
             }
@@ -90,14 +75,6 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
 
     public void setDepth(int depth) {
         this.depth = depth;
-    }
-
-    public SearchMode getMode() {
-        return mode;
-    }
-
-    public void setMode(SearchMode mode) {
-        this.mode = mode;
     }
 
     @Override

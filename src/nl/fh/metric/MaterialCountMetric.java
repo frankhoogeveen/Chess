@@ -18,7 +18,7 @@ import nl.fh.player.evalplayer.Metric;
 
 public class MaterialCountMetric implements Metric<GameState>{
     
-    private static final double LARGE_VALUE = 1.e6;    
+    public static final double MATE_VALUE = 1.e6;    
 
     @Override
     public double eval(GameState state) {
@@ -77,12 +77,16 @@ public class MaterialCountMetric implements Metric<GameState>{
 
     private double mateScore(GameState state) {
         double result = 0.;
+        
         if(state.getRules().isMate(state)){
-            result += LARGE_VALUE;
-            if(state.getToMove() == Color.WHITE){
-                result = - result;
-            }            
+            result = - MATE_VALUE * state.getToMove().getSign();
+            return result;
         }
+        
+        if(state.getRules().isMate(state.changeColor())){
+            result = + MATE_VALUE * state.getToMove().getSign();
+            return result;
+        }        
 
         return result;
     }

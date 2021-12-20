@@ -407,7 +407,6 @@ public class SimpleRules implements Rules{
     }    
     
     @Override
-    //TODO add something on threefold repetition....
     public boolean isDrawn(GameState state){
         boolean result = false;
         result = result || isStaleMate(state);

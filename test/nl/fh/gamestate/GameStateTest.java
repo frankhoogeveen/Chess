@@ -84,7 +84,21 @@ public class GameStateTest {
         GameState expResult = rules.getInitialState();
         GameState result = GameState.fromFEN(fen, rules);
         assertEquals(expResult, result);
-    }    
+    }
+
+    @Test
+    public void testTrim(){
+        String fen = "r1bqkbnr/pppp1ppp/n7/3Pp3/8/8/PPP1PPPP/RNBQKBNR w KQkq e6 0 3";
+        String fen2 = "  " + fen + " ";
+        
+        Rules rules = new SimpleRules();
+        
+        GameState result1 = GameState.fromFEN(fen, rules);
+        GameState result2 = GameState.fromFEN(fen2, rules);
+        assertEquals(result1, result2);        
+    }
+    
+    
     @Test
     public void testList(){
         for(String fen : fenList){

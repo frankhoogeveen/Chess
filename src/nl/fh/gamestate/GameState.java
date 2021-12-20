@@ -525,11 +525,11 @@ public class GameState implements Parent<GameState>, Colored   {
     
     /**
      * 
-     * @return the color of the player that just made the move
+     * @return the color of the player that is to move next 
      */
     @Override
     public Color getColor(){
-        return this.activeColor.flip();
+        return this.activeColor;
     }
     
     /**
@@ -799,7 +799,6 @@ public class GameState implements Parent<GameState>, Colored   {
     private void calculateMoves(){
         this.legalMoves = new HashMap<Move, GameState>(); 
         for(Move m : rules.calculateAllLegalMoves(this)){
-            //TODO set the parent is all the new game states !
             this.legalMoves.put(m, m.applyTo(this));
         }
         isDirty = false;          
@@ -951,5 +950,10 @@ public class GameState implements Parent<GameState>, Colored   {
         result.parent = null;
         result.enPassantField = null;
         return result;
+    }
+    
+    @Override
+    public String toString(){
+        return this.toFEN();
     }
 }

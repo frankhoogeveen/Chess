@@ -67,7 +67,7 @@ public interface Rules{
     /**
      * 
      * @param state
-     * @return true if the position is checkmate
+     * @return true if the player to move is in check and cannot make a legal move
      */
     public boolean isMate(GameState state);
     

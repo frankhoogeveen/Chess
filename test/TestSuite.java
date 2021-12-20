@@ -8,10 +8,12 @@ import nl.fh.gamereport.MoveCodesTest;
 import nl.fh.gamestate.GameStateTest;
 import nl.fh.integration_tests.MatchTest;
 import nl.fh.integration_tests.MateInOneTest;
-import nl.fh.metric.minimax.NegaMaxBasicTest;
 import nl.fh.integration_tests.PhilidorTest;
-import nl.fh.metric.minimax.NegaMaxPositionTest;
-import nl.fh.metric.minimax.NegaMaxStateTest;
+import nl.fh.metric.MaterialCountMetricTest;
+import nl.fh.metric.negamax.NegaMaxMetricTest;
+import nl.fh.metric.negamax.NegaMaxMetricTest2;
+import nl.fh.metric.negamax.NegaMaxMetricTest3;
+import nl.fh.metric.negamax.NegaMaxMetricTest4;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
 import nl.fh.rules.EnPassantRulesTest;
@@ -40,19 +42,20 @@ import org.junit.runners.Suite;
     PromotionRulesTest.class,
     EnPassantRulesTest.class,
     ShortGamesTest.class,
-    NegaMaxBasicTest.class, 
-    NegaMaxStateTest.class,  // one test in this class is switched off for timing
- //   NegaMaxPositionTest.class,
+    MaterialCountMetricTest.class,
+    NegaMaxMetricTest.class,
+    NegaMaxMetricTest2.class,
+    NegaMaxMetricTest3.class,
+    NegaMaxMetricTest4.class,    
+
     
     //
     // below this line are tests that read files or are otherwise expensive
     // and are therefore not really unit tests
     //
     MateInOneTest.class,
-    PhilidorTest.class,
+    PhilidorTest.class, 
     MatchTest.class
-
-    
 })
 
 public class TestSuite {

@@ -5,6 +5,7 @@
 
 package nl.fh.player.evalplayer;
 
+import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.move.Resignation;
@@ -40,7 +41,7 @@ public class MetricPlayer implements Player{
     @Override
     public Move getMove(GameState state) {
         
-        double sign = state.getToMove().getSign();
+        int sign = state.getToMove().getSign();
         
         double currentBestValue = -Double.MAX_VALUE;
         Move currentBestMove = Resignation.getInstance();

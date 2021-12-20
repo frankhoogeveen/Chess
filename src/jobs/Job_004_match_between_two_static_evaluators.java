@@ -11,7 +11,7 @@ import nl.fh.gamestate.GameState;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchResult;
-import nl.fh.metric.NoiseAdder;
+import nl.fh.metric.utilities.NoiseAdder;
 import nl.fh.metric.ShannonMetric;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;

@@ -17,6 +17,7 @@ import nl.fh.player.evalplayer.Metric;
  */
 
 public class ShannonMetric implements Metric<GameState>{
+    private static MaterialCountMetric material = new MaterialCountMetric();
 
     @Override
     public double eval(GameState state) {
@@ -26,9 +27,9 @@ public class ShannonMetric implements Metric<GameState>{
             return 0.;
         }
         
-        score += 1e6 * mateScore(state);
-        score += 1.0 * materialScore(state);
+        score = material.eval(state);
         score += 0.1 * movesScore(state);
+
         
         return score;
     }
