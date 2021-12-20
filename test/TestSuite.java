@@ -10,6 +10,7 @@ import nl.fh.integration_tests.MatchTest;
 import nl.fh.integration_tests.MateInOneTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.metric.MaterialCountMetricTest;
+import nl.fh.metric.negamax.NegaMaxAlphaBetaTest;
 import nl.fh.metric.negamax.NegaMaxMetricTest;
 import nl.fh.metric.negamax.NegaMaxMetricTest2;
 import nl.fh.metric.negamax.NegaMaxMetricTest3;
@@ -47,6 +48,7 @@ import org.junit.runners.Suite;
     NegaMaxMetricTest2.class,
     NegaMaxMetricTest3.class,
     NegaMaxMetricTest4.class,    
+    NegaMaxAlphaBetaTest.class,      
 
     
     //

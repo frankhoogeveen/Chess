@@ -5,8 +5,6 @@
 
 package nl.fh.metric.utilities;
 
-import java.util.Random;
-import nl.fh.chess.Color;
 import nl.fh.metric.minimax.Parent;
 import nl.fh.player.evalplayer.Metric;
 

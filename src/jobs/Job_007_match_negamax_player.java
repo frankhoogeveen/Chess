@@ -37,8 +37,8 @@ public class Job_007_match_negamax_player {
         Metric<GameState> metric1 = new NoiseAdder(sigma1,new NegaMax(baseMetric, depth1));
         Player player1 = MetricPlayer.getInstance(metric1);
         
-        int depth2 = 3;
-        double sigma2 = 0.0;
+        int depth2 = 2;
+        double sigma2 = 0.3;
         Metric<GameState> metric2 = new NoiseAdder(sigma2,new NegaMax(baseMetric, depth2));
         Player player2 = MetricPlayer.getInstance(metric2);        
         

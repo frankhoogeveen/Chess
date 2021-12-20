@@ -17,7 +17,6 @@ public interface Player {
     /**
      * 
      * @param currentState
-     * @param legalMoves
      * @return a move  without time control
      */
     public Move getMove(GameState currentState);
