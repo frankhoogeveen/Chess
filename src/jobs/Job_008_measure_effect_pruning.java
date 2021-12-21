@@ -33,10 +33,10 @@ public class Job_008_measure_effect_pruning {
         Counter<GameState> counterAB = new Counter<GameState>(baseMetric);        
         NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(counterAB,0);
         
-        Counter<GameState> counterAB2 = new Counter<GameState>(baseMetric);        
-        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(counterAB2,0);
-        TableBuffer<GameState> buffered = new TableBuffer<GameState>(negaAB2);
-        
+        Counter<GameState> counterAB2 = new Counter<GameState>(baseMetric);  
+        TableBuffer<GameState> buffered = new TableBuffer<GameState>(counterAB2);        
+        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(buffered,0);
+
         nega.setDepth(3);
         negaAB.setDepth(3);
         negaAB2.setDepth(3);        
@@ -63,8 +63,8 @@ public class Job_008_measure_effect_pruning {
         System.out.println();    
                
         counterAB2.setCount(0);
-        double valueAB2= buffered.eval(state);
-        System.out.println(counterAB2.getDescription());            
+        double valueAB2= negaAB2.eval(state);
+        System.out.println(negaAB2.getDescription());            
         System.out.println(valueAB2);
         System.out.println(counterAB2.getCount());
         System.out.println(); 
