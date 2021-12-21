@@ -12,17 +12,24 @@ import nl.fh.player.evalplayer.Metric;
 
 /**
  * Wrapping this around a given baseMetric buffers the result of the baseMetric.
- * No recalculations will be done
+ * No recalculations will be done. 
+ * 
+ * When the maxSize is set, a crude size maximization method is applied. When 
+ * the size of the TableBuffer grows beyond maxSize, the buffer is emptied
+ * completely and started over. At the expense of additional recalculations,
+ * this puts a cap on the memory usage.
  * 
  */
 public class TableBuffer<T extends Parent<T>> implements Metric<T>{
 
     private final Metric<T> baseMetric;
-    private final Map<T, Double> table;
+    private Map<T, Double> table;
+    private final int maxSize;
     
-    public TableBuffer(Metric<T> baseMetric){
+    public TableBuffer(Metric<T> baseMetric, int maxSize){
      this.baseMetric = baseMetric;
-     this.table = new HashMap<T, Double>();
+     this.table = new HashMap<T, Double>(maxSize);
+     this.maxSize = maxSize;
     }
 
     @Override
@@ -32,6 +39,9 @@ public class TableBuffer<T extends Parent<T>> implements Metric<T>{
             return stored;
         } else {
             Double result =  baseMetric.eval(t);
+            if(table.size() > maxSize){
+                this.table = new HashMap(maxSize);
+            }
             this.table.put(t, result);
             return result;
         }
@@ -55,10 +65,8 @@ public class TableBuffer<T extends Parent<T>> implements Metric<T>{
         return sb.toString();
     }
     
-    
-
     @Override
     public String getDescription() {
-        return "/table buffer/" + baseMetric.getDescription();
+        return "/table buffer "+ Integer.toString(maxSize)+" /" + baseMetric.getDescription();
     }
 }

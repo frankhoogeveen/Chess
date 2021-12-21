@@ -797,6 +797,12 @@ public class GameState implements Parent<GameState>, Colored   {
         return new HashSet<GameState>(this.legalMoves.values());
     }
     
+    @Override
+    public void forgetChildren(){
+        this.legalMoves = null;
+        this.isDirty = true;
+    }
+    
     public boolean isOfferedDraw(){
         return this.drawOffered;
     }
