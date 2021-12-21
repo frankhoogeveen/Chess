@@ -11,6 +11,7 @@ import nl.fh.integration_tests.MateInOneTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.metric.MaterialCountMetricTest;
 import nl.fh.metric.negamax.NegaMaxAlphaBetaTest;
+import nl.fh.metric.negamax.NegaMaxGen3Test;
 import nl.fh.metric.negamax.NegaMaxMetricTest;
 import nl.fh.metric.negamax.NegaMaxMetricTest2;
 import nl.fh.metric.negamax.NegaMaxMetricTest3;
@@ -48,13 +49,17 @@ import org.junit.runners.Suite;
     NegaMaxMetricTest2.class,
     NegaMaxMetricTest3.class,
     NegaMaxMetricTest4.class,    
-    NegaMaxAlphaBetaTest.class,      
+    NegaMaxAlphaBetaTest.class,   
+    NegaMaxAlphaBetaTest.class,
+
 
     
     //
     // below this line are tests that read files or are otherwise expensive
     // and are therefore not really unit tests
     //
+    
+    NegaMaxGen3Test.class,    
     MateInOneTest.class,
     PhilidorTest.class, 
     MatchTest.class
