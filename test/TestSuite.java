@@ -51,15 +51,13 @@ import org.junit.runners.Suite;
     NegaMaxMetricTest4.class,    
     NegaMaxAlphaBetaTest.class,   
     NegaMaxAlphaBetaTest.class,
-
-
-    
+      
     //
     // below this line are tests that read files or are otherwise expensive
     // and are therefore not really unit tests
     //
     
-    NegaMaxGen3Test.class,    
+    NegaMaxGen3Test.class,  
     MateInOneTest.class,
     PhilidorTest.class, 
     MatchTest.class

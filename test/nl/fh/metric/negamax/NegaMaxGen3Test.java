@@ -32,7 +32,9 @@ public class NegaMaxGen3Test {
     public void setUpTestStates(){
         this.cases = new ArrayList<String>();
         cases.add("rnbqk2r/pp1pbppp/4pn2/2p5/2P5/1P2PN2/P2P1PPP/RNBQKB1R w KQkq - 1 5");
-        cases.add("1k6/ppp5/8/q5r1/3NpP2/8/3R2PP/3R2K1 b - f3 0 1");        
+        cases.add("1k6/ppp5/8/q5r1/3NpP2/8/3R2PP/3R2K1 b - f3 0 1"); 
+        cases.add("r6Q/pbp1k1p1/5np1/2pq2B1/3p4/8/PPPN1PPP/R5K1 w - - 0 19");         
+       
     }
     
     @Test
