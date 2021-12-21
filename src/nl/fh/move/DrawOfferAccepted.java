@@ -33,6 +33,7 @@ public class DrawOfferAccepted implements Move {
     @Override
     public GameState applyTo(GameState state) {
         GameState result = state.copy();
+        result.agreeDraw();
         return result;
     }
 

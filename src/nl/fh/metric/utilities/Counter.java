@@ -31,7 +31,7 @@ public class Counter<T extends Parent<T>> implements Metric<T>{
 
     @Override
     public String getDescription() {
-        return "/counter]/" + baseMetric.getDescription();
+        return "/counter/"+ baseMetric.getDescription();
     }
 
     public int getCount() {

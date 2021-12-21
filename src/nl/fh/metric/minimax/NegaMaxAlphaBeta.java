@@ -16,7 +16,6 @@ import nl.fh.player.evalplayer.Metric;
  * 
  */
 public class NegaMaxAlphaBeta<T extends Parent<T> & Colored> implements Metric<T> {
-//TODO check that pruning is effective
     private Metric<T> baseMetric;
     private int depth;
     

@@ -22,7 +22,6 @@ import nl.fh.move.EnPassantCapture;
 import nl.fh.rules.Rules;
 
 /**
- * copyright F. Hoogeveen
  * @author frank
  * 
  * Keeps track of the state of the game and acts as a buffer to ensure 
@@ -65,6 +64,7 @@ public class GameState implements Parent<GameState>, Colored   {
     private int fullMoveNumber;
     
     private boolean drawOffered;
+    private boolean drawAgreed;
     
 ////////////////////////////////////////////////////////////////////////////////
 // the dirty flag, the rules used and the derived information
@@ -108,6 +108,7 @@ public class GameState implements Parent<GameState>, Colored   {
         fullMoveNumber = 1;   
         
         drawOffered = false;
+        drawAgreed = false;
     }    
     
     /**
@@ -796,6 +797,23 @@ public class GameState implements Parent<GameState>, Colored   {
         return new HashSet<GameState>(this.legalMoves.values());
     }
     
+    public boolean isOfferedDraw(){
+        return this.drawOffered;
+    }
+    
+    public void offerDraw(){
+        this.drawOffered = true;
+        this.isDirty = true;
+    }
+    
+    public void agreeDraw(){
+        this.drawAgreed = true;
+        if(!drawOffered){
+           throw new IllegalStateException("Draw agreed, but not offered");   
+        }
+        this.isDirty = true;
+    }
+    
     private void calculateMoves(){
         this.legalMoves = new HashMap<Move, GameState>(); 
         for(Move m : rules.calculateAllLegalMoves(this)){
@@ -889,7 +907,7 @@ public class GameState implements Parent<GameState>, Colored   {
         hash = 79 * hash + (this.blackCanCastleQueenside ? 1 : 0);
         hash = 79 * hash + Objects.hashCode(this.enPassantField);
         hash = 79 * hash + this.halfMoveClock;
-        hash = 79 * hash + this.fullMoveNumber;
+//        hash = 79 * hash + this.fullMoveNumber;
         hash = 79 * hash + (this.drawOffered ? 1 : 0);
         return hash;
     }
@@ -921,9 +939,9 @@ public class GameState implements Parent<GameState>, Colored   {
         if (this.halfMoveClock != other.halfMoveClock) {
             return false;
         }
-        if (this.fullMoveNumber != other.fullMoveNumber) {
-            return false;
-        }
+//        if (this.fullMoveNumber != other.fullMoveNumber) {
+//            return false;
+//        }
         if (this.drawOffered != other.drawOffered) {
             return false;
         }

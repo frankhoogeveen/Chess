@@ -51,8 +51,6 @@ public class SimpleRules implements Rules{
         }
         
         Set<Move> result = new HashSet<Move>();
-       
-        // checks to check e.g. 50 move rule, or king remaining in check here
         
         if(state.isDrawOffered()){
             result.add(DrawOfferAccepted.getInstance());
