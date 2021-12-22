@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
@@ -26,6 +27,26 @@ public class TerminalPlayer implements Player {
     
     @Override
     public Move getMove(GameState currentState) {
+        
+        System.out.println();
+        System.out.println("----------------------------");
+
+        
+        GameState previous = currentState.getParent();
+        if(previous != null){
+            Move previousMove = null;
+            for(Move m : previous.getLegalMoves()){
+                if(m.applyTo(previous).equals(currentState)){
+                    previousMove = m;
+                }
+            }
+
+            System.out.print("Opponent played: ");
+            System.out.println(previousMove.moveString(previous));
+            System.out.println();
+        }
+        
+
         // display the current state
         System.out.println();
         System.out.println("#help to get help");
@@ -59,6 +80,7 @@ public class TerminalPlayer implements Player {
                                 return m;
                             }
                         }
+                        System.out.println("Input is not a legal move");
                     }
                 }
                 

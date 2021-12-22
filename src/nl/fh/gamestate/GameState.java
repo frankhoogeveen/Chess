@@ -475,12 +475,21 @@ public class GameState implements Parent<GameState>, Colored   {
      * on a terminal
      */
     public String toASCII(Color color){
-        StringBuilder sb = new StringBuilder();
+        String sep = "+---+---+---+---+---+---+---+---+";
         
+        StringBuilder sb = new StringBuilder();
+        sb.append(sep);
+        sb.append("\n");
         
         if(color == Color.WHITE){
             for(int i = 7; i >= 0; i--){
                 for(int j = 0; j < 8; j++){
+                    if(j == 0){
+                        sb.append("| ");
+                    } else {
+                        sb.append(" | ");
+                    }
+                    
                     PieceType piece = board[j][i];
                     if(piece == PieceType.EMPTY){
                         if( ((i+j)%2) == 0){
@@ -491,12 +500,22 @@ public class GameState implements Parent<GameState>, Colored   {
                     } else {
                         sb.append(piece.getFENcode());                    
                     }
-                }         
+                    
+                }
+                sb.append(" |");
+                sb.append("\n");
+                sb.append(sep);
                 sb.append("\n");
             }
         } else {
             for(int i = 0; i <8; i++){
                 for(int j = 7; j >= 0; j--){
+                    if(j == 7){
+                        sb.append("| ");
+                    } else {
+                        sb.append(" | ");
+                    }                    
+                    
                     PieceType piece = board[j][i];
                     if(piece == PieceType.EMPTY){
                         if( ((i+j)%2) == 0){
@@ -507,7 +526,10 @@ public class GameState implements Parent<GameState>, Colored   {
                     } else {
                         sb.append(piece.getFENcode());                    
                     }
-                }         
+                }
+                sb.append(" |");
+                sb.append("\n");                
+                sb.append(sep);
                 sb.append("\n");
             }            
             
@@ -979,5 +1001,9 @@ public class GameState implements Parent<GameState>, Colored   {
     @Override
     public String toString(){
         return this.toFEN();
+    }
+
+    public Move getPreviousMove() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
