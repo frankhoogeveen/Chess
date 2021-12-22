@@ -57,6 +57,7 @@ import org.junit.runners.Suite;
     // and are therefore not really unit tests
     //
     
+    PerftTest.class,
     NegaMaxGen3Test.class,  
     MateInOneTest.class,
     PhilidorTest.class, 

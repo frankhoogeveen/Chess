@@ -153,9 +153,9 @@ public class PieceMove implements Move {
         }
         
         // update the en passant information
-        if((result.getFieldContent(from) == PieceType.WHITE_PAWN) && (to.getY() == 3)){
+        if((result.getFieldContent(from) == PieceType.WHITE_PAWN) && (to.getY() == 3) && (from.getY() == 1)){
             result.setEnPassantField(Field.getInstance(to.getX(), 2));
-        } else if((result.getFieldContent(from) == PieceType.BLACK_PAWN) && (to.getY() == 4)){
+        } else if((result.getFieldContent(from) == PieceType.BLACK_PAWN) && (to.getY() == 4) && (from.getY() == 6)){
             result.setEnPassantField(Field.getInstance(to.getX(), 5));
         } else {
             result.clearEnPassant();
