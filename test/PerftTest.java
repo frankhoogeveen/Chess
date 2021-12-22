@@ -27,7 +27,7 @@ public class PerftTest {
         assertEquals(400, Perft.value(state, 2));  
         assertEquals(8902, Perft.value(state, 3));  
         assertEquals(197281, Perft.value(state, 4));   
-        assertEquals(4865609, Perft.value(state, 5));       // difference of 14? with stockfish     
+        assertEquals(4865609, Perft.value(state, 5));      
         
     }
 
