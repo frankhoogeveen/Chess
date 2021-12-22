@@ -9,6 +9,7 @@ import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
+import nl.fh.output_file.OutputToFile;
 import nl.fh.rules.Perft;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
@@ -25,7 +26,9 @@ public class Job_009_perft_job {
         Rules rules = new SimpleRules();
         GameState state = rules.getInitialState();
         
-        String result = Perft.details(state, 6);
+        String result = Perft.details(state, 7);
+        
+        OutputToFile.write("perft7", result);
         System.out.println(result);        
         
 //        Move m1 = PieceMove.getInstance(Field.getInstance("c2"), Field.getInstance("c4"));

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * 
  */
 public class OutputToFile {
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");    
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("_yyyy_MM_dd_HH_mm_ss");    
     
     public static void write(String head, String content){
 
