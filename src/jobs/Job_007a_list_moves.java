@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.MaterialCountMetric;
 import nl.fh.move.Move;

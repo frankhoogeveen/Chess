@@ -57,7 +57,7 @@ import org.junit.runners.Suite;
     // and are therefore not really unit tests
     //
     
-    PerftTest.class,
+    PerftTest.class,         // several tests take hours and are commented out
     NegaMaxGen3Test.class,  
     MateInOneTest.class,
     PhilidorTest.class, 

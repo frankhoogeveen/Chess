@@ -11,6 +11,7 @@ import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.output_file.OutputToFile;
 import nl.fh.rules.Perft;
+import nl.fh.rules.PerftCase;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
 
@@ -22,13 +23,18 @@ public class Job_009_perft_job {
         
     // list moves at depth two
     public static void main(String[] args){
-      
+        
+        int caseId = 9;
+        
         Rules rules = new SimpleRules();
-        GameState state = rules.getInitialState();
+        PerftCase perftCase = Perft.getCases().get(caseId);
+        int depth = perftCase.getDepth();
+        long expValue = perftCase.getPerftValue();
+        GameState state = GameState.fromFEN(perftCase.getFen(), rules);
         
-        String result = Perft.details(state, 7);
+        String result = Perft.details(state, depth);
         
-        OutputToFile.write("perft7", result);
+        OutputToFile.write("perftcase_"+caseId+ "_" + depth, result);
         System.out.println(result);        
         
 //        Move m1 = PieceMove.getInstance(Field.getInstance("c2"), Field.getInstance("c4"));

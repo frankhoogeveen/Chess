@@ -12,7 +12,6 @@ import nl.fh.metric.minimax.NegaMaxAlphaBeta;
 import nl.fh.metric.minimax.NegaMaxGen3;
 import nl.fh.metric.utilities.Counter;
 import nl.fh.metric.utilities.TableBuffer;
-import nl.fh.output_file.OutputToFile;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Rules;
 import nl.fh.rules.SimpleRules;
