@@ -11,14 +11,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.MaterialCountMetric;
 import nl.fh.metric.minimax.NegaMax;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 
 /**
  * 
@@ -35,11 +36,10 @@ public class Job_007b_list_moves_depth3 {
         String filePath = "../out/job_007a_"+ dateString + ".csv";
      
         String fen = "k7/ppr5/8/8/8/8/7R/7K w - - 0 1";
-        Rules rules = new SimpleRules();
-        GameState state = GameState.fromFEN(fen, rules);
+        GameState state = GameState.fromFEN(fen);
 
-        Metric<GameState> metric = new MaterialCountMetric();
-        NegaMax<GameState> nega = new NegaMax(metric, 0);
+        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        NegaMax<GameState> nega = new NegaMax(metric, Chess.moveGenerator,  0);
 
         StringBuilder sb = new StringBuilder();
         
@@ -53,29 +53,29 @@ public class Job_007b_list_moves_depth3 {
         sb.append("\n\n");
         sb.append("move1;move2;move3;depth0;depth1;depth2;\n");
         
-        for(Move move1 : state.getLegalMoves()){
+        for(Move move1 :Chess.moveGenerator.calculateAllLegalMoves(state)){
             GameState state1 = move1.applyTo(state);
             nega.setDepth(2);
             double value2 = nega.eval(state1);              
 
-            for(Move move2 : state1.getLegalMoves()){
+            for(Move move2 : Chess.moveGenerator.calculateAllLegalMoves(state1)){
                 GameState state2 = move2.applyTo(state1);
                 
                 nega.setDepth(1);
                 double value1 = nega.eval(state2);             
                 
-                for(Move move3 : state2.getLegalMoves()){
+                for(Move move3 : Chess.moveGenerator.calculateAllLegalMoves(state2)){
                     
                     GameState state3 = move3.applyTo(state2);
                     
                     nega.setDepth(0);
                     double value0 = nega.eval(state3);  
 
-                    sb.append(move1.moveString(state));
+                    sb.append(((ChessMove)move1).formatPGN(state, Chess.gameDriver));
                     sb.append(";");
-                    sb.append(move2.moveString(state1));
+                    sb.append(((ChessMove)move2).formatPGN(state, Chess.gameDriver));
                     sb.append(";");
-                    sb.append(move3.moveString(state2));
+                    sb.append(((ChessMove)move3).formatPGN(state, Chess.gameDriver));
                     sb.append(";");                    
                     sb.append(value0);
                     sb.append(";"); 

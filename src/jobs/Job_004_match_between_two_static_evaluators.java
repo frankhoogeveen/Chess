@@ -16,8 +16,7 @@ import nl.fh.metric.ShannonMetric;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.Chess;
 
 /**
  * 
@@ -26,7 +25,6 @@ import nl.fh.rules.SimpleRules;
 public class Job_004_match_between_two_static_evaluators {
     
     public static void main(String[] args){
-        Rules rules = new SimpleRules();
         
         double sigma1 = 0.3;
         Metric<GameState> metric1 = new NoiseAdder(sigma1, new ShannonMetric());
@@ -39,7 +37,7 @@ public class Job_004_match_between_two_static_evaluators {
         int nGames = 4;
         GameFilter filter = new TransparentFilter();
         
-        Match match = new AlternatingMatch(nGames, rules);
+        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
         
         MatchResult result = match.play(player1, player2, filter);
             

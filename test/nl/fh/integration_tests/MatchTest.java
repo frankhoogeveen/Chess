@@ -18,8 +18,9 @@ import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -34,7 +35,6 @@ public class MatchTest {
      * of the pgn
      */
     public void testMatch(){
-        Rules rules = new SimpleRules();
         
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
@@ -42,7 +42,7 @@ public class MatchTest {
         int nRounds = 2;
         int nGames = 2;     
         GameFilter filter = new TransparentFilter();
-        Match match = new AlternatingMatch(nGames, rules);
+        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
         
         for(int iRound = 0; iRound < nRounds; iRound++){
             
@@ -55,7 +55,7 @@ public class MatchTest {
                 String pgn = result.toPGN();
 
                 PGN_Reader reader = new TolerantReader();
-                List<GameReport> result2 = reader.getGames(pgn, rules);
+                List<GameReport> result2 = reader.getGames(pgn, Chess.gameDriver);
 
                 assertEquals(nGames, result2.size());
             }

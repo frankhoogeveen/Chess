@@ -17,8 +17,7 @@ import nl.fh.metric.ShannonMetric;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.Chess;
 
 /**
  * 
@@ -27,7 +26,6 @@ import nl.fh.rules.SimpleRules;
 public class Job_003_match_between_random_and_static_evaluation {
     
     public static void main(String[] args){
-        Rules rules = new SimpleRules();
         
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
@@ -38,7 +36,7 @@ public class Job_003_match_between_random_and_static_evaluation {
         GameFilter filterM = new CapFilter(10, new NotFilter(filterR));
         GameFilter filter = new OrFilter(filterR, filterM);        
         
-        Match match = new AlternatingMatch(nGames, rules);
+        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
         
         MatchResult result = match.play(playerR, playerM, filter);
             

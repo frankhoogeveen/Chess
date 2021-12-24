@@ -5,18 +5,21 @@
 
 package nl.fh.move;
 
+import nl.fh.rules.ChessResultArbiter;
 import java.util.Objects;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Chess;
+import nl.fh.rules.GameDriver;
 
 /**
  * copyright F. Hoogeveen
  * @author frank
  */
-public class Castling implements Move {
+public class Castling extends ChessMove {
 
     private BoardSide boardSide;
     private boolean offeredDraw;
@@ -85,7 +88,8 @@ public class Castling implements Move {
     }
 
     @Override
-    public String moveString(GameState state) {
+    //TODO add + and # indicators
+    public String formatPGN(GameState state, GameDriver driver) {
         switch(boardSide){
             case KINGSIDE:
                 return "O-O";
@@ -97,7 +101,7 @@ public class Castling implements Move {
     }
     
     @Override
-    public String getUCI(GameState state){
+    public String formatUCI(GameState state){
         Color toMove = state.getToMove();
         if((toMove == Color.WHITE) && (boardSide == BoardSide.KINGSIDE)){
             return "e1g1";
@@ -128,7 +132,7 @@ public class Castling implements Move {
     
     @Override
     public String toString(){
-        return moveString(null);
+        return formatPGN(null, Chess.gameDriver);
     }
 
     @Override

@@ -6,8 +6,6 @@
 package nl.fh.metric.utilities;
 
 import java.util.Random;
-import nl.fh.chess.Color;
-import nl.fh.metric.minimax.Parent;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -15,7 +13,7 @@ import nl.fh.player.evalplayer.Metric;
  * adding an iid normally distributed random number;
  * 
  */
-public class NoiseAdder<T extends Parent<T>> implements Metric<T>{
+public class NoiseAdder<T> implements Metric<T>{
 
     private final Metric<T> baseMetric;
     private final double sigma;

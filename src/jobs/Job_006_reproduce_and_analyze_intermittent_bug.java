@@ -23,8 +23,9 @@ import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 
 /**
  * Follow up after an intermittent bug in MatchTest
@@ -42,7 +43,6 @@ public class Job_006_reproduce_and_analyze_intermittent_bug {
         
     
     public static void main(String[] args){
-        Rules rules = new SimpleRules();
         
         Player playerR = new RandomPlayer();
         Player playerM = MetricPlayer.getInstance(new ShannonMetric());
@@ -50,7 +50,7 @@ public class Job_006_reproduce_and_analyze_intermittent_bug {
         int nRounds = 200;
         int nGames = 100;     
         GameFilter filter = new TransparentFilter();
-        Match match = new AlternatingMatch(nGames, rules);
+        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
         
         for(int iRound = 0; iRound < nRounds; iRound++){
             
@@ -63,7 +63,7 @@ public class Job_006_reproduce_and_analyze_intermittent_bug {
                 String pgn = result.toPGN();
 
                 PGN_Reader reader = new TolerantReader();
-                List<GameReport> result2 = reader.getGames(pgn, rules);
+                List<GameReport> result2 = reader.getGames(pgn, Chess.gameDriver);
                 
                 if(result2.size() != nGames){
                     saveEvidence(pgn, result2);

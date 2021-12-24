@@ -8,10 +8,12 @@ import java.util.List;
 import nl.fh.chess.Field;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,28 +23,15 @@ import static org.junit.Assert.*;
  *
  * @author frank
  */
-public class TolerantReaderTest {
-    private static final Rules rules = new SimpleRules();    
-    
-    
-    
-    public TolerantReaderTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
+public class TolerantReaderTest { 
+
 
     @Test
     public void testEmptyPGN() {
         String pgn = "";
         TolerantReader instance = new TolerantReader();
         int expResult = 0;
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         assertEquals(expResult, result.size());
     }
    
@@ -51,7 +40,7 @@ public class TolerantReaderTest {
         String pgn = "    \n   \n\n  \n";
         TolerantReader instance = new TolerantReader();
         int expResult = 0;
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         assertEquals(expResult, result.size());        
     }    
     
@@ -60,7 +49,7 @@ public class TolerantReaderTest {
         String pgn = "% first line \n% 2nd line";
         TolerantReader instance = new TolerantReader();
         int expResult = 0;
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         assertEquals(expResult, result.size());        
     }
     
@@ -68,7 +57,7 @@ public class TolerantReaderTest {
     public void testResultOnly1(){
         String pgn = "*";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -86,7 +75,7 @@ public class TolerantReaderTest {
     public void testResultOnly2(){
         String pgn = "0-1";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -103,7 +92,7 @@ public class TolerantReaderTest {
     public void testResultOnly3(){
         String pgn = "1-0";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -120,7 +109,7 @@ public class TolerantReaderTest {
     public void testResultOnly4(){
         String pgn = "1/2-1/2";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -137,7 +126,7 @@ public class TolerantReaderTest {
     public void testSingleTag1(){
         String pgn = "[key \"value\"]\n\n*\n";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -162,7 +151,7 @@ public class TolerantReaderTest {
     public void testSingleTag2(){
         String pgn = "[key \"value\\\\\\\"\"]\n\n*\n";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -184,7 +173,7 @@ public class TolerantReaderTest {
     public void testMultipleTag(){
         String pgn = "[key1 \"value1\"]\n[key2 \"value2\"]\n\n*\n";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -210,7 +199,7 @@ public class TolerantReaderTest {
     public void testMoveString1(){
         String pgn = "1. Na3 Nh6 *";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -219,7 +208,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with two moves
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b1"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("a3"), ((PieceMove)moveList.get(0)).getTo());
@@ -235,7 +224,7 @@ public class TolerantReaderTest {
     public void testMoveString2(){
         String pgn = "1. b3 b6 *";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
 
         // there has to be one game
         assertEquals(1, result.size());            
@@ -244,7 +233,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with two moves
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("b3"), ((PieceMove)moveList.get(0)).getTo());
@@ -260,7 +249,7 @@ public class TolerantReaderTest {
     public void testMoveString3(){
         String pgn = "1. b3+ b6# *";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
 
         // there has to be one game
         assertEquals(1, result.size());            
@@ -270,7 +259,7 @@ public class TolerantReaderTest {
 
         // with two moves
         
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("b3"), ((PieceMove)moveList.get(0)).getTo());
@@ -286,7 +275,7 @@ public class TolerantReaderTest {
     public void testMoveString4(){
         String pgn = "1. b3+ b6#  2. Na3 Nh6 *";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
 
         // there has to be one game
         assertEquals(1, result.size());            
@@ -296,7 +285,7 @@ public class TolerantReaderTest {
 
         // with four moves      
         
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(4, moveList.size());
         assertEquals(Field.getInstance("b2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("b3"), ((PieceMove)moveList.get(0)).getTo());
@@ -318,7 +307,7 @@ public class TolerantReaderTest {
     public void testMoveString5(){
         String pgn = "1. f3 e6 2. g4 Qh4# 0-1";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
 
         // there has to be one game
         assertEquals(1, result.size());            
@@ -328,7 +317,7 @@ public class TolerantReaderTest {
 
         // with four moves 
         
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(4,moveList.size());
         assertEquals(Field.getInstance("f2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("f3"), ((PieceMove)moveList.get(0)).getTo());
@@ -354,7 +343,7 @@ public class TolerantReaderTest {
     public void testMoveString6(){
         String pgn = "1.Na3 Nh6 *";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -363,7 +352,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with two moves
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b1"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("a3"), ((PieceMove)moveList.get(0)).getTo());
@@ -379,7 +368,7 @@ public class TolerantReaderTest {
     public void testMoveString7(){
         String pgn = "1.Na3 Nh6 2.e4 *";
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
         
         // there has to be one game
         assertEquals(1, result.size());            
@@ -388,7 +377,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with three moves
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(3, moveList.size());
         assertEquals(Field.getInstance("b1"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("a3"), ((PieceMove)moveList.get(0)).getTo());
@@ -411,7 +400,7 @@ public class TolerantReaderTest {
         
         String pgn = sb.toString();
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
 
         // there has to be one game
         assertEquals(1, result.size());            
@@ -421,7 +410,7 @@ public class TolerantReaderTest {
 
         // with four moves    
         
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(4, moveList.size());
         assertEquals(Field.getInstance("f2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("f3"), ((PieceMove)moveList.get(0)).getTo());
@@ -450,7 +439,7 @@ public class TolerantReaderTest {
         
         String pgn = sb.toString();
         TolerantReader instance = new TolerantReader();
-        List<GameReport> result = instance.getGames(pgn, rules);
+        List<GameReport> result = instance.getGames(pgn, Chess.gameDriver);
 
         // there has to be two games
         assertEquals(2, result.size());            
@@ -459,7 +448,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.WIN_BLACK, report.getGameResult());
 
         // with four moves  
-        List<Move> moveList = report.getMoveList();
+        List<ChessMove> moveList = report.getMoveList();
         assertEquals(4, moveList.size());
         assertEquals(Field.getInstance("f2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("f3"), ((PieceMove)moveList.get(0)).getTo());
@@ -482,7 +471,7 @@ public class TolerantReaderTest {
         String pgn = "1.e4 e5 * \n\n1.e4 e5 \n2.Bc4 *";
                 
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         assertEquals(2, reports.size());
     }
     
@@ -494,7 +483,7 @@ public class TolerantReaderTest {
                     + "1.e4 e5 *  \n\n";
                 
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         assertEquals(3, reports.size());
     }
     
@@ -506,7 +495,7 @@ public class TolerantReaderTest {
                         "1. g8=Q# 1-0";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         
         assertEquals(1, reports.size());        
         
@@ -525,7 +514,7 @@ public class TolerantReaderTest {
                         "1. g8=N# *";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         
         assertEquals(1, reports.size());        
         
@@ -544,7 +533,7 @@ public class TolerantReaderTest {
                         "1. O-O *";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         
         assertEquals(1, reports.size());        
         
@@ -564,7 +553,7 @@ public class TolerantReaderTest {
                         "1. O-O-O *";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         
         assertEquals(1, reports.size());        
         
@@ -584,7 +573,7 @@ public class TolerantReaderTest {
                         "1. O-O *";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         
         assertEquals(1, reports.size());        
         
@@ -603,7 +592,7 @@ public class TolerantReaderTest {
                         "1. O-O-O *";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         
         assertEquals(1, reports.size());        
         

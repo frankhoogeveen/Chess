@@ -9,6 +9,7 @@ import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.player.Player;
+import nl.fh.rules.GameDriver;
 import nl.fh.rules.Rules;
 
 /**
@@ -18,11 +19,11 @@ import nl.fh.rules.Rules;
 public class AlternatingMatch implements Match {
     
     private final int nGames;
-    private final Rules rules;
+    private final GameDriver driver;
 
-    public AlternatingMatch(int nGames, Rules rules) {
+    public AlternatingMatch(int nGames, GameDriver driver) {
         this.nGames = nGames;
-        this.rules = rules;
+        this.driver = driver;
     }
 
     @Override
@@ -33,12 +34,10 @@ public class AlternatingMatch implements Match {
         
         for(int i = 0; i < nGames; i++){
             if((i%2)==0){
-                report = rules.playGame(player1, player2);
-                GameResult gameResult = report.getGameResult();
+                report = driver.playGame(player1, player2);
                 result.add(player1, player2, report);
             } else{
-                report = rules.playGame(player2, player1);
-                GameResult gameResult = report.getGameResult();
+                report = driver.playGame(player2, player1);
                 result.add(player2, player1, report);               
             }         
         }

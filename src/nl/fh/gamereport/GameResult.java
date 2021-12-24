@@ -10,10 +10,10 @@ package nl.fh.gamereport;
  * @author frank
  */
 public enum GameResult {
-    
+    //TODO split GameResult in GameResult and Reason For Draw...
     WIN_WHITE(+1), 
     WIN_BLACK(-1), 
-    UNDECIDED(0), 
+    UNDECIDED(0),     // for use when the game is not finished yet
     ILLEGAL_MOVE_BY_WHITE(-1), 
     ILLEGAL_MOVE_BY_BLACK(+1), 
     DRAW(0),

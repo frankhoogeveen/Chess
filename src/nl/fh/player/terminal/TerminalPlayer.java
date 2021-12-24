@@ -11,22 +11,29 @@ import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
+import nl.fh.rules.Chess;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.ResultArbiter;
 
 /**
- * A minimalistic ascii interface
+ * A minimalistic ASCII interface
  * 
  */
 public class TerminalPlayer implements Player {
     private static final String CURSOR = ">";
-    
+    private static final GameDriver driver =Chess.gameDriver;
+    private static final ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     
+    
+    
     @Override
-    public Move getMove(GameState currentState) {
+    public Move getMove(GameState currentState, Set<Move> legalMoves) {
         
         System.out.println();
         System.out.println("----------------------------");
@@ -34,15 +41,15 @@ public class TerminalPlayer implements Player {
         
         GameState previous = currentState.getParent();
         if(previous != null){
-            Move previousMove = null;
-            for(Move m : previous.getLegalMoves()){
+            ChessMove previousMove = null;
+            for(Move m : driver.getMoveGenerator().calculateAllLegalMoves(previous)){
                 if(m.applyTo(previous).equals(currentState)){
-                    previousMove = m;
+                    previousMove = (ChessMove) m;
                 }
             }
 
             System.out.print("Opponent played: ");
-            System.out.println(previousMove.moveString(previous));
+            System.out.println(previousMove.formatPGN(previous, driver));
             System.out.println();
         }
         
@@ -56,11 +63,10 @@ public class TerminalPlayer implements Player {
         System.out.println(currentState.toASCII(currentState.getToMove()));
         System.out.println();
         
-        // get the legal moves from here
-        Set<Move> legalMoves = currentState.getLegalMoves();
+        // display the legal moves
         StringBuilder sb = new StringBuilder();
         for(Move m : legalMoves){
-            sb.append(m.moveString(currentState));
+            sb.append(((ChessMove)m).formatPGN(currentState, driver));
             sb.append(" ");
         }
         System.out.println(sb.toString());
@@ -76,7 +82,7 @@ public class TerminalPlayer implements Player {
                         processEscapedCommand(code);
                     } else {
                         for(Move m : legalMoves){
-                            if(clean(code).equals(clean(m.moveString(currentState)))){
+                            if(clean(code).equals(clean(((ChessMove)m).formatPGN(currentState, driver)))){
                                 return m;
                             }
                         }

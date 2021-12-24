@@ -11,8 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
-import nl.fh.rules.Rules;
+import nl.fh.player.Player;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 
 /**
  * 
@@ -31,6 +35,9 @@ import nl.fh.rules.Rules;
  */
 public class GameReport {
 
+    //TODO move the seventag roster and the toPGN method out of the GameReport class to make it non chess specific
+    //TODO separate the generic and the chess specific
+    
     private static final List<String> SevenTagRoster = Arrays.asList(new String[] {
         "Event", 
         "Site",
@@ -41,16 +48,18 @@ public class GameReport {
         "Result"
     });
     
+    private GameDriver gameDriver;
     private final ArrayList<GameState> stateList;
-    private final ArrayList<Move> moveList;
+    private final ArrayList<ChessMove> moveList;
     private GameResult gameResult;
-    private final HashMap<String, String> TagValuePairs;
+    
+    private final HashMap<String, String> tagValuePairs;
 
     public GameReport(){
         stateList = new ArrayList<GameState>();
-        moveList = new ArrayList<Move>();
+        moveList = new ArrayList<ChessMove>();
         gameResult = GameResult.UNDECIDED;
-        TagValuePairs = new HashMap<String, String>();
+        tagValuePairs = new HashMap<String, String>();
     }
     
     public List<GameState> getStateList() {
@@ -71,9 +80,23 @@ public class GameReport {
         return this.stateList.get(this.stateList.size()-1);
     }
 
-    public List<Move> getMoveList() {
+    public List<ChessMove> getMoveList() {
         return moveList;
     }
+    
+    /**
+     * 
+     * @return the final state of the reported game 
+     * 
+     * throws an exception when the stateList is empty
+     */
+    public Move getFinalMove(){
+        if(moveList.isEmpty()){
+            return null;
+        }
+        
+        return this.moveList.get(this.moveList.size()-1);
+    }    
 
     /**
      * 
@@ -88,7 +111,7 @@ public class GameReport {
      * @return the tags of this game report 
      */
     public Set<String> getTags(){
-        return TagValuePairs.keySet();
+        return tagValuePairs.keySet();
     }
     
     /**
@@ -99,8 +122,8 @@ public class GameReport {
      * this will not return null;
      */
     public String getTag(String tag){
-        if(TagValuePairs.containsKey(tag)){
-            return TagValuePairs.get(tag);
+        if(tagValuePairs.containsKey(tag)){
+            return tagValuePairs.get(tag);
         } else {
             return "";
         }
@@ -113,14 +136,14 @@ public class GameReport {
      * @param value
      */
     public void addTag(String key, String value){
-        TagValuePairs.put(key, value);
+        tagValuePairs.put(key, value);
     }
     
     /**
      * add a move to this record
      * @param move
      */
-    public void addMove(Move move){
+    public void addMove(ChessMove move){
         moveList.add(move);
     }
     
@@ -132,6 +155,17 @@ public class GameReport {
         stateList.add(state);
     }
     
+    
+    /**
+     * add a ply ( a move and the resulting state to the record)
+     * @param move
+     * @param state 
+     */
+    public void addPly(ChessMove move, GameState state){
+        moveList.add(move);
+        stateList.add(state);        
+    }
+    
     /**
      * set the result of this game. In case a tag "Result" is defined,
      * it is overwritten
@@ -139,9 +173,18 @@ public class GameReport {
      */
     public void setResult(GameResult result){
        gameResult = result;
-       if(this.TagValuePairs.keySet().contains("Result")){
+       if(this.tagValuePairs.keySet().contains("Result")){
             this.addTag("Result", result.toString());
        }
+    }
+    
+    /**
+     * set the driver of the game that determines e.g. the initial state,
+     * who is to move and when the game is finished with what outcome.
+     * @param driver 
+     */
+    public void setGameDriver(GameDriver driver){
+        this.gameDriver = driver;
     }
     
     /** write the report in .pgn format
@@ -149,13 +192,13 @@ public class GameReport {
      * @return a formatted report of the tags, moves and result; 
      */
     public String toPGN(){
-        Rules rules = this.stateList.get(0).getRules();
+        MoveGenerator moveGenerator = this.gameDriver.getMoveGenerator();
         
         StringBuilder sb = new StringBuilder();
         sb.append(sevenTagRoster());
         sb.append(otherTags());
         sb.append("\n");
-        sb.append(movesString(rules));
+        sb.append(movesString(moveGenerator));
         sb.append("\n");
         sb.append(resultString());
         sb.append("\n");
@@ -173,7 +216,7 @@ public class GameReport {
 
     private String otherTags() {
         StringBuilder sb = new StringBuilder();
-        for(String tag : this.TagValuePairs.keySet()){
+        for(String tag : this.tagValuePairs.keySet()){
             if(!SevenTagRoster.contains(tag)){
                 sb.append(formatTagValuePair(tag));
             }
@@ -186,13 +229,13 @@ public class GameReport {
             sb.append("[");
             sb.append(tag);
             sb.append(" \"");
-            sb.append(escape(TagValuePairs.get(tag)));
+            sb.append(escape(tagValuePairs.get(tag)));
             sb.append("\"]");
             sb.append("\n");        
         return sb.toString();
     }
 
-    private String movesString(Rules rules) {
+    private String movesString(MoveGenerator moveGenerator) {
         int triggerLineLength = 65;
         int startSBcontent = 0;
         
@@ -201,10 +244,10 @@ public class GameReport {
         int currentPly = 0;
 
         GameState state;
-        if(this.TagValuePairs.keySet().contains("FEN")){
-            state = GameState.fromFEN(TagValuePairs.get("FEN"), rules);
+        if(this.tagValuePairs.keySet().contains("FEN")){
+            state = GameState.fromFEN(tagValuePairs.get("FEN"));
         } else {
-            state = rules.getInitialState();
+            state = this.gameDriver.getInitialState();
         }
         
         while(currentPly < moveList.size()){
@@ -218,11 +261,11 @@ public class GameReport {
                 moveCounter += 1;
                 sb.append(Integer.toString(moveCounter));
                 sb.append(". ");
-                sb.append(moveList.get(currentPly).moveString(state));
+                sb.append(moveList.get(currentPly).formatPGN(state, this.gameDriver));
                 sb.append(" ");
             } else {
                 // black's moves
-                sb.append(moveList.get(currentPly).moveString(state));
+                sb.append(moveList.get(currentPly).formatPGN(state, this.gameDriver));
                 sb.append(" ");
             }
             state = moveList.get(currentPly).applyTo(state);
@@ -275,6 +318,18 @@ public class GameReport {
         String result = s.replace("\\", "\\\\");
         result = result.replace("\"", "\\\"");
         return result;
+    }
+
+    /**
+     * 
+     * @param firstPlayer
+     * @param secondPlayer 
+     * 
+     * Adds tags White and Black for the two players
+     */
+    public void setPlayers(Player firstPlayer, Player secondPlayer) {
+        this.tagValuePairs.put("White", firstPlayer.toString());
+        this.tagValuePairs.put("Black", secondPlayer.toString());
     }
 }
 

@@ -7,6 +7,7 @@ package nl.fh.rules;
 
 import nl.fh.gamestate.GameState;
 import java.util.List;
+import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.gamereport.GameReport;
 import nl.fh.move.Castling;
@@ -22,19 +23,16 @@ import org.junit.Test;
  */
 public class CastlingRulesTest {
 
-    private static final Rules rules = new SimpleRules();
-
     @Test
     /**
      * sensitivity for the K castling flag
      */
-
     public void testWhiteKingSideCastling1(){
         String fen = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }
     
     @Test
@@ -45,8 +43,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w Q - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     } 
     
     @Test
@@ -57,8 +55,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w - - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }      
     
     @Test
@@ -69,8 +67,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/6b1/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }     
     
     @Test
@@ -81,9 +79,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/4n3/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        Rules rules = new SimpleRules();
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
 
     @Test
@@ -94,8 +91,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/6r1/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
     
     @Test
@@ -106,8 +103,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/2q5/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }  
     
     @Test
@@ -118,8 +115,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3Kn1R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }   
     
     @Test
@@ -130,8 +127,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K1RR w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }  
     
     @Test
@@ -149,7 +146,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -158,8 +155,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("k7/8/8/8/8/8/8/4K2R w - - 4 3", finalState.toFEN());
     }  
@@ -179,7 +176,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -188,8 +185,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("k7/8/8/8/8/8/8/4K2R w - - 4 3", finalState.toFEN());
     }  
@@ -209,7 +206,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -218,8 +215,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue( rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue( isLegalMove(move, finalState));
         
         assertEquals("1k6/8/8/8/8/8/8/R3K2R w K - 4 3", finalState.toFEN());
     }     
@@ -234,8 +231,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }
     
     @Test
@@ -246,8 +243,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w Kkq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     } 
     
     @Test
@@ -258,8 +255,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R3K2R w - - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }      
     
     @Test
@@ -270,8 +267,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/6b1/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }  
     
     @Test
@@ -282,8 +279,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/4b3/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }      
     
     @Test
@@ -294,8 +291,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/4n3/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
 
     @Test
@@ -306,8 +303,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/3r4/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
         
     
@@ -320,8 +317,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/1r6/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }    
     
     @Test
@@ -332,8 +329,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/5q2/8/8/8/8/R3K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }  
     
     @Test
@@ -344,8 +341,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R1b1K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }   
     
     @Test
@@ -356,8 +353,8 @@ public class CastlingRulesTest {
         String fen = "4k3/8/8/8/8/8/8/R1N1K2R w KQ - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }  
     
     @Test
@@ -375,7 +372,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -384,8 +381,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));           
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));           
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("7k/8/8/8/8/8/8/R3K3 w K - 4 3", finalState.toFEN());
     } 
@@ -405,7 +402,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -414,8 +411,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("7k/8/8/8/8/8/8/R3K3 w - - 4 3", finalState.toFEN());
     }  
@@ -435,7 +432,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -444,8 +441,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue( rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue( isLegalMove(move, finalState));
         
         assertEquals("1k6/8/8/8/8/8/8/R3K2R w Q - 4 3", finalState.toFEN());
     }
@@ -460,8 +457,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }
     
     @Test
@@ -472,8 +469,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b q - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     } 
     
     @Test
@@ -484,8 +481,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b - - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }      
     
     @Test
@@ -496,8 +493,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/3N4/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }     
     
     @Test
@@ -508,8 +505,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/4N3/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
 
     @Test
@@ -520,8 +517,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/B7/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
 
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
     
     @Test
@@ -532,8 +529,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/1B6/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
 
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }  
     
     @Test
@@ -544,8 +541,8 @@ public class CastlingRulesTest {
         String fen = "r3kN1r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
 
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }   
     
     @Test
@@ -556,8 +553,8 @@ public class CastlingRulesTest {
         String fen = "r3kq1r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
 
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }  
     
     @Test
@@ -575,7 +572,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -584,8 +581,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("r3k2r/8/8/8/8/8/8/4K3 b q - 4 3", finalState.toFEN());
     }  
@@ -605,7 +602,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -614,8 +611,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("r3k2r/8/8/8/8/8/8/4K3 b - - 4 3", finalState.toFEN());
     }  
@@ -635,7 +632,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -644,8 +641,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.KINGSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue( rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue( isLegalMove(move, finalState));
         
         assertEquals("r3k2r/8/8/8/8/8/8/4K3 b k - 4 3", finalState.toFEN());
     }     
@@ -659,8 +656,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }
     
     @Test
@@ -671,8 +668,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b k - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     } 
     
     @Test
@@ -683,8 +680,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K3 b - - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
 
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }      
     
     @Test
@@ -695,8 +692,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/4Q3/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }  
     
     @Test
@@ -707,8 +704,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/6Q1/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }      
     
     @Test
@@ -719,8 +716,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/3QK3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
 
     @Test
@@ -731,8 +728,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/2Q1K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }    
         
     
@@ -745,8 +742,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/1Q2K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }    
     
     @Test
@@ -757,8 +754,8 @@ public class CastlingRulesTest {
         String fen = "r3k2r/8/8/8/8/8/8/4K2Q b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(isLegalMove(move, state));
     }  
     
     @Test
@@ -769,8 +766,8 @@ public class CastlingRulesTest {
         String fen = "r2Bk2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }   
     
     @Test
@@ -781,8 +778,8 @@ public class CastlingRulesTest {
         String fen = "rn2k2r/8/8/8/8/8/8/4K3 b kq - 0 1";
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        GameState state = GameState.fromFEN(fen,rules);
-        assertTrue(!rules.isLegalMove(move, state));
+        GameState state = GameState.fromFEN(fen);
+        assertTrue(!isLegalMove(move, state));
     }  
     
     @Test
@@ -800,7 +797,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -809,8 +806,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));           
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));           
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("r3k2r/8/8/8/8/8/8/4K3 b k - 4 3", finalState.toFEN());
     } 
@@ -830,7 +827,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -839,8 +836,8 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue(!rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue(!isLegalMove(move, finalState));
         
         assertEquals("r3k2r/8/8/8/8/8/8/4K3 b - - 4 3", finalState.toFEN());
     }  
@@ -860,7 +857,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, rules);
+        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -869,9 +866,13 @@ public class CastlingRulesTest {
         
         Move move = Castling.getInstance(BoardSide.QUEENSIDE);
         
-        assertTrue( rules.isLegalMove(move, initialState));        
-        assertTrue( rules.isLegalMove(move, finalState));
+        assertTrue( isLegalMove(move, initialState));        
+        assertTrue( isLegalMove(move, finalState));
         
         assertEquals("r3k2r/8/8/8/8/8/8/4K3 b q - 4 3", finalState.toFEN());
     }    
+
+    private boolean isLegalMove(Move move, GameState state) {
+        return Chess.moveGenerator.calculateAllLegalMoves(state).contains(move);
+    }
 }

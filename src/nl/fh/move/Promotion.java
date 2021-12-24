@@ -13,6 +13,8 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
 
 /**
  *
@@ -20,7 +22,7 @@ import nl.fh.gamestate.GameState;
  * 
  * This class represents a move of a single piece or pawn
  */
-public class Promotion implements Move {
+public class Promotion extends ChessMove {
 
     private Field from;
     private Field to;
@@ -56,17 +58,19 @@ public class Promotion implements Move {
     }
 
     @Override
-    public String moveString(GameState state){      
+    public String formatPGN(GameState state, GameDriver driver){      
         StringBuilder sb = new StringBuilder();
         
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;        
-        Set<Move> movesTo = new HashSet<Move>();
-        for(Move m : state.getLegalMoves()){
+        Set<ChessMove> movesTo = new HashSet<ChessMove>();
+        Set<Move> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state);
+        
+        for(Move m : legalMoves){
             if(m instanceof Promotion){
                 if (to.equals(((Promotion)m).getTo()) && 
                         this.piece == ((Promotion) m).getPieceKind()) {
-                    movesTo.add(m);
+                    movesTo.add((ChessMove)m);
                 }
             }
         }
@@ -77,7 +81,7 @@ public class Promotion implements Move {
             int fromY = from.getY();
             int countSameX = 0;
             int countSameY = 0;
-            for(Move m : movesTo){
+            for(ChessMove m : movesTo){
                 if(m.getFrom().getX() == fromX){
                     countSameX += 1;
                 }
@@ -114,22 +118,24 @@ public class Promotion implements Move {
         sb.append(piece.getMoveCode());
         
         //the indicators for check and checkmate
+        ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
         GameState state2 = this.applyTo(state);
-        if(state.getRules().isMate(state2)){
+        Set<Move> legalMoves2 = driver.getMoveGenerator().calculateAllLegalMoves(state2);
+        
+        Set<ChessMove> legalChessMoves2 = (Set<ChessMove>)(Set<?>) legalMoves2;        
+        if(arbiter.isMate(state2, legalChessMoves2)){
             sb.append("#");
         } else {
-            if(state.getRules().isCheck(state2)){
+            if(arbiter.isCheck(state2)){
                 sb.append("+");
             }
         }
         
         return sb.toString();
-        
-        
     }
     
     @Override
-    public String getUCI(GameState state) {
+    public String formatUCI(GameState state) {
         return getFrom().toString() + getTo().toString() + this.piece.getMoveCode().toLowerCase();
     }        
 

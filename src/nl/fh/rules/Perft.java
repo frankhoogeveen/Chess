@@ -8,6 +8,7 @@ package nl.fh.rules;
 import java.util.ArrayList;
 import java.util.List;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 
 /**
@@ -32,11 +33,10 @@ public class Perft {
         }
         
         long result = 0;
-        for(GameState child : state.getChildren()){
+        for(GameState child : Chess.moveGenerator.calculateChildren(state)){
             result += value(child, depth -1);
         }
         
-        state.forgetChildren();
         return result;
     }
     
@@ -55,13 +55,13 @@ public class Perft {
         sb.append("\n");
         
         long total = 0;
-        for(Move move : state.getLegalMoves()){
+        for(Move move : Chess.moveGenerator.calculateAllLegalMoves(state)){
             GameState child = move.applyTo(state);
             
             long perft = Perft.value(child, depth-1);
             total += perft;
             
-            sb.append(move.getUCI(state));
+            sb.append(((ChessMove)move).formatUCI(state));
             sb.append(" ");
             sb.append(perft);
             sb.append("\n");

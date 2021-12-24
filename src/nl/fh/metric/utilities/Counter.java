@@ -5,7 +5,6 @@
 
 package nl.fh.metric.utilities;
 
-import nl.fh.metric.minimax.Parent;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -13,7 +12,7 @@ import nl.fh.player.evalplayer.Metric;
  * the base metric, but keeps track of the number of times it is called
  * 
  */
-public class Counter<T extends Parent<T>> implements Metric<T>{
+public class Counter<T> implements Metric<T>{
 
     private final Metric<T> baseMetric;
     private int count;

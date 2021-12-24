@@ -17,8 +17,11 @@
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>Forsyth</word>
             <word>Hoogeveen</word>
+            <word>minimalistic</word>
             <word>negamax</word>
+            <word>Perft</word>
             <word>pgn</word>
+            <word>stdin</word>
             <word>uci</word>
         </spellchecker-wordlist>
     </configuration>

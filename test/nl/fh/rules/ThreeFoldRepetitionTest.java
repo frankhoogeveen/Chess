@@ -22,7 +22,6 @@ import org.junit.Test;
  */
 public class ThreeFoldRepetitionTest {
     
-    private static final Rules rules = new SimpleRules();
     
     @Test
     public void testThreeFoldRepetition(){
@@ -33,14 +32,15 @@ public class ThreeFoldRepetitionTest {
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = rules.playGame(playerW, playerB);
+        GameReport report = Chess.gameDriver.playGame(playerW, playerB);
         
         assertEquals(12, report.getMoveList().size());
         assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
         
+        ChessResultArbiter arbiter = new ChessResultArbiter();
         for(int i = 0; i < report.getStateList().size()-1; i++){
-            assertFalse(rules.isThreeFoldRepetition(report.getStateList().get(i)));
+            assertFalse(arbiter.isThreeFoldRepetition(report.getStateList().get(i)));
         }
         
 //        for(int i = 0; i < report.getStateList().size(); i++){
@@ -50,7 +50,7 @@ public class ThreeFoldRepetitionTest {
 //            System.out.println();
 //        }
         
-        assertTrue(rules.isThreeFoldRepetition(report.getStateList().get(12)));        
+        assertTrue(arbiter.isThreeFoldRepetition(report.getStateList().get(12)));        
         
     }
 
@@ -62,12 +62,12 @@ public class ThreeFoldRepetitionTest {
                    + "5. Rg1 Rg8 6. Rh1 Rh8 7. Rg1 Rg8 8. Rh1 Rh8 "
                    + "9. Rg1 Rg8 10. Rh1 Rh8 11. Rg1 Rg8 12. Rh1 Rh8 *";
         
-        GameState initial = GameState.fromFEN("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1", rules);
+        GameState initial = GameState.fromFEN("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = rules.playGame(playerW, playerB, initial);
+        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
 //        
 //        
 //        System.out.println(pgn);
@@ -97,12 +97,12 @@ public class ThreeFoldRepetitionTest {
                    + "10. Rc7 Rb6 11. Rc5 Rb4 12. Rc7 Rb6 13. Rc5 Rb4 "
                    + "14. Rc7 *";
         
-        GameState initial = GameState.fromFEN("k7/8/1r6/2R5/8/8/4P3/K7 w - - 0 1", rules);
+        GameState initial = GameState.fromFEN("k7/8/1r6/2R5/8/8/4P3/K7 w - - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = rules.playGame(playerW, playerB, initial);
+        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
         
 //        System.out.println(pgn);
 //        System.out.println();
@@ -136,12 +136,12 @@ public class ThreeFoldRepetitionTest {
                    + "10. Rc7 Rb6 11. Rc5 Rb4 12. Rc7 Rb6 13. Rc5 Rb4 "
                    + "14. Rc7 *";
         
-        GameState initial = GameState.fromFEN("k7/8/1r6/2R5/5p2/8/4P3/K7 w - - 0 1", rules);
+        GameState initial = GameState.fromFEN("k7/8/1r6/2R5/5p2/8/4P3/K7 w - - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = rules.playGame(playerW, playerB, initial);
+        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
 //        
 //        System.out.println(pgn);
 //        System.out.println();
@@ -176,12 +176,12 @@ public class ThreeFoldRepetitionTest {
                    + "14. Rc7 "
                    + "*";
         
-        GameState initial = GameState.fromFEN("5R2/8/1r6/2R5/5p2/8/4P3/K4k2 w - - 0 1", rules);
+        GameState initial = GameState.fromFEN("5R2/8/1r6/2R5/5p2/8/4P3/K4k2 w - - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, nl.fh.chess.Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, nl.fh.chess.Color.BLACK);     
         
-        GameReport report = rules.playGame(playerW, playerB, initial);
+        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
         
 //        System.out.println(pgn);
 //        System.out.println();

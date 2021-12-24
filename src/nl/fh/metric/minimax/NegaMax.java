@@ -6,8 +6,9 @@
 package nl.fh.metric.minimax;
 
 import java.util.Set;
-import nl.fh.chess.Colored;
+import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.MoveGenerator;
 
 /**
  *  This wraps around a metric to create the negamax metric 
@@ -16,10 +17,11 @@ import nl.fh.player.evalplayer.Metric;
  * This implementation does NOT make use of alpha/beta pruning
  * 
  */
-public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
+public class NegaMax<T extends GameState> implements Metric<T> {
 
     private Metric<T> baseMetric;
     private int depth;
+    private final MoveGenerator moveGenerator;
     
     /**
      * 
@@ -28,8 +30,9 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
      * The mode is the default maximin. 
      * 
      */    
-    public NegaMax (Metric<T> baseMetric, int depth){
+    public NegaMax (Metric<T> baseMetric, MoveGenerator moveGenerator, int depth){
         this.baseMetric = baseMetric;
+        this.moveGenerator = moveGenerator;
         this.depth = depth;
     }    
     
@@ -40,18 +43,18 @@ public class NegaMax<T extends Parent<T> & Colored> implements Metric<T> {
         return  sign * iteration(state, this.depth, sign);  
     }  
 
-    private double iteration(T state, int depth, int sign) {
+    private double iteration(GameState state, int depth, int sign) {
         if(depth == 0){
-            return sign * baseMetric.eval(state);
+            return sign * baseMetric.eval((T) state);
         } 
         
-        Set<T> daughters = state.getChildren();
+        Set<GameState> daughters = moveGenerator.calculateChildren(state);
         if(daughters.isEmpty()){
-            return sign * baseMetric.eval(state);
+            return sign * baseMetric.eval((T) state);
         }
         
         double currentValue = - Double.MAX_VALUE;
-        for(T daughter : daughters){
+        for(GameState daughter : daughters){
             double nextValue = - iteration(daughter, depth-1,-sign);
             if(nextValue > currentValue){
                 currentValue = nextValue;

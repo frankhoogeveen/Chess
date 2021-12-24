@@ -7,6 +7,7 @@ package nl.fh.rules;
 import nl.fh.gamestate.GameState;
 import java.util.Set;
 import nl.fh.chess.Field;
+import nl.fh.move.ChessMove;
 import nl.fh.move.EnPassantCapture;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
@@ -17,22 +18,20 @@ import org.junit.Test;
 /**
  * 
  */
-public class EnPassantRulesTest {
-    private static final Rules rules = new SimpleRules();    
+public class EnPassantRulesTest {  
     
     @Test
     public void testEnPassantWhite1(){
     String fen = "4k3/8/8/1pP5/8/8/8/4K3 w - b6 0 2";
-    Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves();
+    GameState state = GameState.fromFEN(fen);
+    Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
     for(Move m : moves){
         if(m instanceof EnPassantCapture){
             count += 1;
-            assertTrue(m.getTo().equals(Field.getInstance("b6")));
+            assertTrue(((ChessMove)m).getTo().equals(Field.getInstance("b6")));
         }
 
     }
@@ -44,16 +43,15 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassantWhite2(){
     String fen = "4k3/8/8/PpP5/8/8/8/4K3 w - b6 0 2";
-    Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves();
+    GameState state = GameState.fromFEN(fen);
+    Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
     for(Move m : moves){
         if(m instanceof EnPassantCapture){
             count += 1;
-            assertTrue(m.getTo().equals(Field.getInstance("b6")));
+            assertTrue(((ChessMove)m).getTo().equals(Field.getInstance("b6")));
         }
 
     }
@@ -65,16 +63,15 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassantWhite3(){
     String fen = "4k3/8/1P6/pP6/8/8/8/4K3 w - a6 0 4";
-    Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves();
+    GameState state = GameState.fromFEN(fen);
+    Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
     for(Move m : moves){
         if(m instanceof EnPassantCapture){
             count += 1;
-            assertTrue(m.getTo().equals(Field.getInstance("a6")));
+            assertTrue(((ChessMove)m).getTo().equals(Field.getInstance("a6")));
         }
 
     }
@@ -87,16 +84,15 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassantBlack1(){
     String fen = "4k3/8/8/8/1Pp5/8/8/4K3 b - b3 0 1";
-    Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves();
+    GameState state = GameState.fromFEN(fen);
+    Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
     for(Move m : moves){
         if(m instanceof EnPassantCapture){
             count += 1;
-            assertTrue(m.getTo().equals(Field.getInstance("b3")));
+            assertTrue(((ChessMove)m).getTo().equals(Field.getInstance("b3")));
         }
 
     }
@@ -108,16 +104,15 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassantBlack2(){
     String fen = "4k3/8/8/8/pPp5/8/8/4K3 b - b3 0 1";
-    Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves();
+    GameState state = GameState.fromFEN(fen);
+    Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
     for(Move m : moves){
         if(m instanceof EnPassantCapture){
             count += 1;
-            assertTrue(m.getTo().equals(Field.getInstance("b3")));
+            assertTrue(((ChessMove)m).getTo().equals(Field.getInstance("b3")));
         }
 
     }
@@ -129,16 +124,15 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassantBlack3(){
     String fen = "4k3/8/8/8/6pP/6p1/8/4K3 b - h3 0 4";
-    Rules rules = new SimpleRules();
     
-    GameState state = GameState.fromFEN(fen,rules);
-    Set<Move> moves = state.getLegalMoves();
+    GameState state = GameState.fromFEN(fen);
+    Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
     for(Move m : moves){
         if(m instanceof EnPassantCapture){
             count += 1;
-            assertTrue(m.getTo().equals(Field.getInstance("h3")));
+            assertTrue(((ChessMove)m).getTo().equals(Field.getInstance("h3")));
         }
 
     }
@@ -156,7 +150,7 @@ public class EnPassantRulesTest {
         
         
         String fen = "4k3/6p1/8/8/8/8/6P1/4K3 w - - 0 1";
-        GameState state = GameState.fromFEN(fen,rules);
+        GameState state = GameState.fromFEN(fen);
         
         Move m;
         Field g2 = Field.getInstance("g2");
@@ -200,8 +194,8 @@ public class EnPassantRulesTest {
     
     @Test
     public void testEnPassantCase(){
-        GameState state = GameState.fromFEN("2kr1n1K/ppp2p2/8/4p1pn/PPp1b3/8/8/8 b - b3 0 33", rules);
-        Set<Move> legalMoves = state.getLegalMoves();
+        GameState state = GameState.fromFEN("2kr1n1K/ppp2p2/8/4p1pn/PPp1b3/8/8/8 b - b3 0 33");
+        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);
         
         Move m = EnPassantCapture.getInstance(Field.getInstance("c4"), Field.getInstance("b3"));
         assertTrue(legalMoves.contains(m));
@@ -210,8 +204,8 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassentCase2(){
         
-        GameState state = GameState.fromFEN("8/ppp2k2/8/5p1K/PPp2P1p/8/2P3PN/RNQ4R b - b3 0 28", rules);
-        Set<Move> legalMoves = state.getLegalMoves();
+        GameState state = GameState.fromFEN("8/ppp2k2/8/5p1K/PPp2P1p/8/2P3PN/RNQ4R b - b3 0 28");
+        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);
         
         Move m = EnPassantCapture.getInstance(Field.getInstance("c4"), Field.getInstance("b3"));
         assertTrue(legalMoves.contains(m));        

@@ -7,9 +7,7 @@ package nl.fh.gamestate;
 
 import nl.fh.move.Move;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import nl.fh.chess.BoardSide;
@@ -17,9 +15,9 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Colored;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
-import nl.fh.metric.minimax.Parent;
+import nl.fh.move.ChessMove;
 import nl.fh.move.EnPassantCapture;
-import nl.fh.rules.Rules;
+import nl.fh.rules.MoveGenerator;
 
 /**
  * @author frank
@@ -29,7 +27,7 @@ import nl.fh.rules.Rules;
  * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
  * 
  */
-public class GameState implements Parent<GameState>, Colored   {
+public class GameState implements Colored   {
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data
@@ -41,8 +39,6 @@ public class GameState implements Parent<GameState>, Colored   {
 ////////////////////////////////////////////////////////////////////////////////
 // the data independently describing the board state
 ////////////////////////////////////////////////////////////////////////////////     
-    
-    private Rules rules;          // the rules used for this gamestate    
     
     private GameState parent;     // the history is part of the gamestate, due to the 3fold repetition rule
     
@@ -58,7 +54,7 @@ public class GameState implements Parent<GameState>, Colored   {
     private boolean blackCanCastleKingside;
     private boolean blackCanCastleQueenside;
  
-    private Field enPassantField;  // field where an en passent capture is possible, null otherwise
+    private Field enPassantField;  // field where an en passant capture is possible, null otherwise
     
     private int halfMoveClock;
     private int fullMoveNumber;
@@ -66,21 +62,11 @@ public class GameState implements Parent<GameState>, Colored   {
     private boolean drawOffered;
     private boolean drawAgreed;
     
-////////////////////////////////////////////////////////////////////////////////
-// the dirty flag, the rules used and the derived information
-////////////////////////////////////////////////////////////////////////////////     
-    
-    private boolean isDirty;
-    private Map<Move, GameState> legalMoves;
-    
     /**
-     * @param rules the Rules object that governs the play
      * set up the board for a new game
      */
-    public GameState(Rules rules){
+    public GameState(){
         board = new PieceType[8][8];
-        isDirty = true;
-        this.rules = rules;
         clear();
     }
     
@@ -153,7 +139,7 @@ public class GameState implements Parent<GameState>, Colored   {
      * Given this choice, repeating XFEN three times in a game, implies that the
      * 3 fold repetition draw can be claimed. This is unlike the traditional FEN.
      */
-    public String toXFEN(){
+    public String toXFEN(MoveGenerator moveGenerator){
         StringBuilder sb = new StringBuilder();
         
         boardToFEN(sb);
@@ -165,7 +151,7 @@ public class GameState implements Parent<GameState>, Colored   {
         castlingToFen(sb);
         sb.append(" ");
         
-        enPassantToXFEN(sb);
+        enPassantToXFEN(sb, moveGenerator);
         sb.append(" ");
         
         moveNumberToFEN(sb);
@@ -187,25 +173,34 @@ public class GameState implements Parent<GameState>, Colored   {
     /**
      * 
      * @param sb
+     * @param moveGenerator
      * 
      * the en passant information in the XFEN string.
      * This will add "-", unless an en passant capture can 
      * actually be made. When a pawn has moved two squares
      * in the previous ply, but an en passant capture cannot be made
      * (e.g due to empty squares or an absolute pin) "-" will be 
-     * written to the string buffer
+     * written to the string buffer.
+     * 
+     * Since the result depends on legal moves from this position, one
+     * has to supply a move generator.
      */
-    private void enPassantToXFEN(StringBuilder sb) {
+    private void enPassantToXFEN(StringBuilder sb, MoveGenerator moveGenerator) {
+        
+        if(enPassantField == null){
+            sb.append("-");
+            return;
+        }
         
         boolean actual = false;
-        for(Move m : this.getLegalMoves()){
+        for(Move m : moveGenerator.calculateAllLegalMoves(this)){
             if((m instanceof EnPassantCapture) 
-                    && (m.getTo().equals(this.enPassantField))){
+                    && (((ChessMove)m).getTo().equals(this.enPassantField))){
                 actual = true;
             }
         }
         
-        if(enPassantField != null && actual){
+        if(actual){
             sb.append(enPassantField.toString());
         } else {
             sb.append("-");
@@ -213,14 +208,12 @@ public class GameState implements Parent<GameState>, Colored   {
     }    
 
     private void moveNumberToFEN(StringBuilder sb) {
-        // the move numbers
         sb.append(halfMoveClock);
         sb.append(" ");
         sb.append(fullMoveNumber);
     }
 
     private void castlingToFen(StringBuilder sb) {
-        // the castling information
         if(whiteCanCastleKingside||whiteCanCastleQueenside||blackCanCastleKingside||blackCanCastleQueenside ){
             if(whiteCanCastleKingside){
                 sb.append("K");
@@ -241,7 +234,6 @@ public class GameState implements Parent<GameState>, Colored   {
     }
 
     private void playerToFen(StringBuilder sb) {
-        // the next player to move
         if(activeColor == Color.WHITE){
             sb.append("w");
         } else {
@@ -283,9 +275,9 @@ public class GameState implements Parent<GameState>, Colored   {
      * 
      * The FEN parser is tolerant of small deviations in the syntax
      */
-    public static GameState fromFEN(String fen, Rules rules){
+    public static GameState fromFEN(String fen){
         
-        GameState result = new GameState(rules);
+        GameState result = new GameState();
         result.clear();
         
         // remove leading and trailing blanks
@@ -605,15 +597,6 @@ public class GameState implements Parent<GameState>, Colored   {
      */
     public void setFieldContent(Field field, PieceType type){
         this.board[field.getX()][field.getY()] = type;
-        this.isDirty = true;
-    }
-    
-    /**
-     * 
-     * @return the rules governing this game state
-     */
-    public Rules getRules(){
-        return this.rules;
     }
     
     /**
@@ -654,8 +637,6 @@ public class GameState implements Parent<GameState>, Colored   {
             this.fullMoveNumber += 1;
         }
         this.activeColor = this.activeColor.flip();
-        
-        this.isDirty = true;
     }
     
     /**
@@ -663,7 +644,7 @@ public class GameState implements Parent<GameState>, Colored   {
      * @return a copy of this game state 
      */
     public GameState copy(){
-        GameState result = new GameState(this.rules);
+        GameState result = new GameState();
         
         result.board = new PieceType[8][8];
         for(int x = 0; x < 8; x++){
@@ -686,11 +667,6 @@ public class GameState implements Parent<GameState>, Colored   {
         result.drawOffered = this.drawOffered; 
         
         result.parent = this.parent;
-        
-        // 
-        result.isDirty = true;
-        result.rules = this.rules;
-        
         
         return result;
     }
@@ -762,7 +738,6 @@ public class GameState implements Parent<GameState>, Colored   {
      */
     public void setEnPassantField(Field field){
         this.enPassantField = field;
-        this.isDirty = true;
     }
     
     /**
@@ -770,7 +745,6 @@ public class GameState implements Parent<GameState>, Colored   {
      */
     public void clearEnPassant(){
         this.enPassantField = null;
-        this.isDirty = true;
     }
     
     /**
@@ -779,7 +753,6 @@ public class GameState implements Parent<GameState>, Colored   {
      */
     public void resetHalfMoveClock() {
         this.halfMoveClock = 0;
-        this.isDirty = true;
     }
     
     /**
@@ -792,37 +765,29 @@ public class GameState implements Parent<GameState>, Colored   {
     
     /**
      * 
-     * @param rules a rule set
-     * @return all legal moves, given the rule set used to pre-calculate the
-     * legal Moves
+     * @param color
+     * @return the field where the king resides or null if there is no king on the board
      */
-    public Set<Move> getLegalMoves(){
-        
-        if(isDirty){
-            calculateMoves();
+    public Field findKing(Color color){
+        PieceType target; 
+        switch(color){
+            case WHITE:
+                target = PieceType.WHITE_KING;
+                break;
+            case BLACK:
+                target = PieceType.BLACK_KING;
+                break;
+            default:
+                throw new IllegalStateException("Incorrect color");
         }
         
-        return this.legalMoves.keySet();
-    }
-    
-    /**
-     * 
-     * @return the set of all game states that can be the result of a single 
-     * move applied to this game state.
-     */
-    @Override
-    public Set<GameState> getChildren(){
-        if(isDirty){
-            calculateMoves();
+        for(Field f : Field.getAll()){
+            if(this.getFieldContent(f) ==  target){
+                return f;
+            }
         }
         
-        return new HashSet<GameState>(this.legalMoves.values());
-    }
-    
-    @Override
-    public void forgetChildren(){
-        this.legalMoves = null;
-        this.isDirty = true;
+        return null;
     }
     
     public boolean isOfferedDraw(){
@@ -831,7 +796,6 @@ public class GameState implements Parent<GameState>, Colored   {
     
     public void offerDraw(){
         this.drawOffered = true;
-        this.isDirty = true;
     }
     
     public void agreeDraw(){
@@ -839,26 +803,7 @@ public class GameState implements Parent<GameState>, Colored   {
         if(!drawOffered){
            throw new IllegalStateException("Draw agreed, but not offered");   
         }
-        this.isDirty = true;
-    }
-    
-    private void calculateMoves(){
-        this.legalMoves = new HashMap<Move, GameState>(); 
-        for(Move m : rules.calculateAllLegalMoves(this)){
-            this.legalMoves.put(m, m.applyTo(this));
-        }
-        isDirty = false;          
-    }
-    
-    /**
-     * 
-     * @param rules
-     * @return true if the cached information needs to be recalculated or is 
-     * calculated using a different rules
-     */
-    public boolean isDirty(Rules rules) {
-        return isDirty || !(rules.equals(this.rules));
-    }   
+    } 
     
 
     /**
@@ -900,10 +845,10 @@ public class GameState implements Parent<GameState>, Colored   {
         if (!Arrays.deepEquals(this.board, state.board)) {
             return false;
         }
-        
-        if(!this.getLegalMoves().equals(state.getLegalMoves())){
-            return false;
-        }
+//TODO reconsider this piece of code        
+//        if(!this.getLegalMoves().equals(state.getLegalMoves())){
+//            return false;
+//        }
 
         return true;
     }  
@@ -913,11 +858,14 @@ public class GameState implements Parent<GameState>, Colored   {
      * @return the number of times this position is repeated in the current game 
      */
     public int countRepetitions() {
-        int result = 1;  // this repeats itself, bu definition
+        int result = 1;  // this repeats itself, by definition
         GameState current = this.parent;
-        while(current != null){
+        while((current != null)){
             if(this.repeats(current)){
                 result += 1;
+            }
+            if(current.halfMoveClock == 0){
+                break;
             }
             current = current.parent;
         }
@@ -1001,9 +949,5 @@ public class GameState implements Parent<GameState>, Colored   {
     @Override
     public String toString(){
         return this.toFEN();
-    }
-
-    public Move getPreviousMove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

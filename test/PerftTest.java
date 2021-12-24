@@ -1,9 +1,12 @@
 
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Chess;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 import nl.fh.rules.Perft;
 import nl.fh.rules.PerftCase;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -22,10 +25,11 @@ import org.junit.Test;
  */
 public class PerftTest {
     
-    private final Rules rules = new SimpleRules();
+    private final MoveGenerator moveGenerator = new ChessMoveGenerator();
+    
     @Test
     public void testInitialState(){
-        GameState state = rules.getInitialState();
+        GameState state = Chess.initialState;
         
         assertEquals(1, Perft.value(state, 0));
         assertEquals(20, Perft.value(state, 1));  
@@ -46,7 +50,7 @@ public class PerftTest {
             
             int depth = perftCase.getDepth();
             long expValue = perftCase.getPerftValue();
-            GameState state = GameState.fromFEN(perftCase.getFen(), rules);
+            GameState state = GameState.fromFEN(perftCase.getFen());
             
             //System.out.println(caseId + " " + perftCase.getComment());
 

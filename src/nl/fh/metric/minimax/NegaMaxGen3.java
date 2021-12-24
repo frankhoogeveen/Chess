@@ -7,7 +7,9 @@ package nl.fh.metric.minimax;
 
 import java.util.Set;
 import nl.fh.chess.Colored;
+import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.MoveGenerator;
 
 /**
  *  This wraps around a metric to create the negamax metric with alpha beta pruning
@@ -16,20 +18,24 @@ import nl.fh.player.evalplayer.Metric;
  * 
  * 
  */
-public class NegaMaxGen3<T extends Parent<T> & Colored> implements Metric<T> {
+public class NegaMaxGen3<T extends GameState> implements Metric<T> {
     private Metric<T> baseMetric;
     private int depth;
+    private final MoveGenerator moveGenerator;    
     
     /**
      * 
+     * @param <error>
      * @param baseMetric
      * @param depth
      * The mode is the default maximin. 
      * 
      */    
-    public NegaMaxGen3 (Metric<T> baseMetric, int depth){
+    public NegaMaxGen3 (Metric<T> baseMetric, MoveGenerator moveGenerator, int depth){
         this.baseMetric = baseMetric;
         this.depth = depth;
+        this.moveGenerator = moveGenerator;
+             
     }    
     
     @Override
@@ -40,18 +46,18 @@ public class NegaMaxGen3<T extends Parent<T> & Colored> implements Metric<T> {
         return  sign * iteration(state, this.depth, sign, alpha, beta);  
     }  
 
-    private double iteration(T state, int depth, int sign, double alpha, double beta) {
+    private double iteration(GameState state, int depth, int sign, double alpha, double beta) {
         if(depth == 0){
-            return sign * baseMetric.eval(state);
+            return sign * baseMetric.eval((T) state);
         } 
         
-        Set<T> daughters = state.getChildren();
+        Set<GameState> daughters = moveGenerator.calculateChildren(state);
         if(daughters.isEmpty()){
-            return sign * baseMetric.eval(state);
+            return sign * baseMetric.eval((T) state);
         }
         
         double currentValue = - Double.MAX_VALUE;
-        for(T daughter : daughters){
+        for(GameState daughter : daughters){
             double nextValue = - iteration(daughter, depth-1,-sign, -beta, -alpha);
             
             if(nextValue > currentValue){
@@ -66,10 +72,6 @@ public class NegaMaxGen3<T extends Parent<T> & Colored> implements Metric<T> {
                 break;
             }
         }
-        
-        //release objects so that we do not have to drag the entire gametree to
-        //the heap
-        state.forgetChildren();
         
         return currentValue;
     }

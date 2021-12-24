@@ -5,10 +5,16 @@
 
 package nl.fh.metric;
 
+import java.util.HashSet;
+import java.util.Set;
 import nl.fh.chess.Color;
-import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
+import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.Chess;
+import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.ChessResultArbiter;
 
 /**
  * Evaluates the state of the board, in line with
@@ -16,86 +22,45 @@ import nl.fh.player.evalplayer.Metric;
  * 
  */
 
-public class ShannonMetric implements Metric<GameState>{
-    private static MaterialCountMetric material = new MaterialCountMetric();
-
+public class ShannonMetric implements Metric<GameState>{ 
+    private static MaterialCountMetric material = new MaterialCountMetric(Chess.gameDriver);
+    public final ChessResultArbiter arbiter = (ChessResultArbiter) Chess.resultArbiter;    
+    private final ChessMoveGenerator moveGenerator = (ChessMoveGenerator) Chess.moveGenerator;    
+    
     @Override
     public double eval(GameState state) {
         double score = 0.;
         
-        if(state.getRules().isDrawn(state)){
-            return 0.;
+        //TODO we are checking twice for draw by calculating the legalmoves here and in the MaterialMetric
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
+        HashSet<ChessMove> legalChessMoves = new HashSet<ChessMove>();
+        for(Move m : legalMoves){
+            legalChessMoves.add((ChessMove)m);
         }
+        
+        if(arbiter.isDrawn(state, legalChessMoves)){
+            return 0.;
+        }    
+        
         
         score = material.eval(state);
-        score += 0.1 * movesScore(state);
+        score += 0.1 * movesScore(state, legalChessMoves);
 
-        
         return score;
     }
     
-    private double materialScore(GameState state){
-        double score = 0.;
-        for(Field f : Field.getAll()){
-            switch(state.getFieldContent(f)){
-                case WHITE_QUEEN:
-                    score += 9;
-                    break;
-                case BLACK_QUEEN:
-                    score += -9;
-                    break;
-                case WHITE_ROOK:
-                    score += 5;
-                    break;
-                case BLACK_ROOK:
-                    score += -5;
-                    break;
-                case WHITE_BISHOP:
-                    score += 3;
-                    break;
-                case BLACK_BISHOP:
-                    score += -3;
-                    break;
-                case WHITE_KNIGHT:
-                    score += 3;
-                    break;
-                case BLACK_KNIGHT:
-                    score += -3;
-                    break;
-                case WHITE_PAWN:
-                    score += 1;
-                    break;
-                case BLACK_PAWN:
-                    score += -1;
-                    break;  
-                default:
-            }
-        }
-        return score;
-    }
-    
-    private double movesScore(GameState state){
+    private double movesScore(GameState state, Set<ChessMove> legalChessMoves){
        GameState opponent = state.changeColor();
-       double score = state.getLegalMoves().size() - opponent.getLegalMoves().size();
+       Set<Move> opponentMoves = this.moveGenerator.calculateAllLegalMoves(opponent);
+       
+       double score = legalChessMoves.size() - opponentMoves.size();
        if(state.getToMove() == Color.BLACK){
            score = -score;
        }
        return score;
        
     }    
-
-    private double mateScore(GameState state) {
-        double result = 0.;
-        if(state.getRules().isMate(state)){
-            result += 1.e6;
-            if(state.getToMove() == Color.WHITE){
-                result = - result;
-            }            
-        }
-
-        return result;
-    }
-
+    
     @Override
     public String getDescription() {
         return "Shannon Metric";

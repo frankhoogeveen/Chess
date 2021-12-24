@@ -5,12 +5,14 @@
 
 package jobs;
 
+import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.PawnLocationMetric;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 
 /**
  * 
@@ -18,12 +20,11 @@ import nl.fh.rules.SimpleRules;
  */
 public class Job_005_create_testdata_for_negamax_class {
     public static void main(String[] args){
-        Rules rules = new SimpleRules();
         
         // position from the 6th round of the 2021 World Chess Championship
         String fen = "r1b2rk1/1pp1qppp/2n1p3/2N5/p1PP2n1/5NP1/PP3PBP/R2Q1RK1 b - - 1 14";
         
-        GameState state = GameState.fromFEN(fen, rules);
+        GameState state = GameState.fromFEN(fen);
         Metric<GameState> metric = new PawnLocationMetric();
         
         list(state, metric);     
@@ -36,7 +37,8 @@ public class Job_005_create_testdata_for_negamax_class {
         
         System.out.println("-------------------------------");
         System.out.println(state.toFEN());
-        for(GameState s : state.getChildren()){
+        Set<GameState> children = Chess.moveGenerator.calculateChildren(state);
+        for(GameState s : children){
             double val = metric.eval(s);
             if(val > vmax){
                 vmax = val;

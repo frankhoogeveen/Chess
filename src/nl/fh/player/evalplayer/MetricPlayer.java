@@ -5,6 +5,7 @@
 
 package nl.fh.player.evalplayer;
 
+import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
@@ -39,14 +40,14 @@ public class MetricPlayer implements Player{
     }
     
     @Override
-    public Move getMove(GameState state) {
+    public Move getMove(GameState state, Set<Move> legalMoves) {
         
         int sign = state.getToMove().getSign();
         
         double currentBestValue = -Double.MAX_VALUE;
         Move currentBestMove = Resignation.getInstance();
         
-        for(Move m : state.getLegalMoves()){
+        for(Move m : legalMoves){
             double value = sign * this.metric.eval(m.applyTo(state));
             if(value > currentBestValue){
                 currentBestMove = m;

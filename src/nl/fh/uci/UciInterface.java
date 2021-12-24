@@ -8,16 +8,17 @@ package nl.fh.uci;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.ShannonMetric;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.Chess;
+import nl.fh.rules.GameDriver;
 
 /**
  * Wraps around a Player and communicates using the uci protocol
@@ -30,14 +31,14 @@ public class UciInterface implements Runnable {
    
     private BufferedReader reader;
     
-    private final Player player;
-    private final Rules rules;
+    private  Player player;
+    private  GameDriver driver;
     
     private GameState state;
 
-    private UciInterface(Player player, Rules rules) {
+    private UciInterface(Player player, GameDriver gameDriver) {
         this.player = player;
-        this.rules = rules;
+        this.driver = gameDriver;
         reader = new BufferedReader(new InputStreamReader(System.in));          
     }
 
@@ -121,12 +122,13 @@ public class UciInterface implements Runnable {
     }
 
     private void initializeGame() {
-        this.state = rules.getInitialState();
+        this.state = driver.getInitialState();
     }
 
     private String nextMove() {
-        Move move = player.getMove(state);
-        String result = move.getUCI(state);
+        Set<Move> moves = this.driver.getMoveGenerator().calculateAllLegalMoves(state);
+        Move move = player.getMove(state, moves);
+        String result = ((ChessMove)move).formatUCI(state);
         state = move.applyTo(state);
         return result;
     }
@@ -142,8 +144,8 @@ public class UciInterface implements Runnable {
 
     private void guiMove(String string) {
         int count = 0;
-        for(Move m : this.state.getLegalMoves()){
-            if(m.getUCI(state).equals(string)){
+        for(Move m : driver.getMoveGenerator().calculateAllLegalMoves(state)){
+            if(((ChessMove)m).formatUCI(state).equals(string)){
                 state = m.applyTo(state);
                 count += 1;
             }
@@ -155,8 +157,8 @@ public class UciInterface implements Runnable {
     
     public static void main(String[] args){
         Player player = MetricPlayer.getInstance(new ShannonMetric());
-        Rules rules = new SimpleRules();
-        UciInterface uci = new UciInterface(player, rules);
+        GameDriver driver = Chess.gameDriver;
+        UciInterface uci = new UciInterface(player, driver);
         uci.run();
     }    
 }

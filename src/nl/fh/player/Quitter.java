@@ -5,6 +5,7 @@
 
 package nl.fh.player;
 
+import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.move.Resignation;
@@ -15,8 +16,7 @@ import nl.fh.move.Resignation;
  */
 public class Quitter implements Player{
 
-    @Override
-    public Move getMove(GameState currentState) {
+    public Move getMove(GameState currentState, Set<Move> legalMoves) {
         return Resignation.getInstance();
     }
 

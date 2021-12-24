@@ -13,8 +13,9 @@ import nl.fh.metric.minimax.NegaMaxGen3;
 import nl.fh.metric.utilities.Counter;
 import nl.fh.metric.utilities.TableBuffer;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 
 /**
  * 
@@ -23,25 +24,24 @@ public class Job_008_measure_effect_pruning {
     
         
     public static void main(String[] args){
-        Rules rules = new SimpleRules(); 
 
-        Metric<GameState> baseMetric = new MaterialCountMetric();
+        Metric<GameState> baseMetric = new MaterialCountMetric(Chess.gameDriver);
         
         Counter<GameState> counter = new Counter<GameState>(baseMetric);
-        NegaMax<GameState> nega = new NegaMax<GameState>(counter, 0);
+        NegaMax<GameState> nega = new NegaMax<GameState>(counter, Chess.moveGenerator, 0);
         
         Counter<GameState> counterAB = new Counter<GameState>(baseMetric);        
-        NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(counterAB,0);
+        NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(counterAB, Chess.moveGenerator, 0);
         
         int size2 = 10000;
         Counter<GameState> counterAB2 = new Counter<GameState>(baseMetric);  
         TableBuffer<GameState> buffered = new TableBuffer<GameState>(counterAB2, size2);        
-        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(buffered,0);
+        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(buffered, Chess.moveGenerator, 0);
         
         int size3 = 20000;
         Counter<GameState> counterAB3 = new Counter<GameState>(baseMetric);  
         TableBuffer<GameState> buffered3 = new TableBuffer<GameState>(counterAB3, size3);        
-        NegaMaxGen3<GameState> negaAB3= new NegaMaxGen3<GameState>(buffered3,0);        
+        NegaMaxGen3<GameState> negaAB3= new NegaMaxGen3<GameState>(buffered3, Chess.moveGenerator, 0);      
 
         nega.setDepth(3);
         negaAB.setDepth(3);
@@ -50,7 +50,7 @@ public class Job_008_measure_effect_pruning {
         
         String fen = "r2qkb1r/pppbpppp/2n5/1B1pN3/3PnB2/4P3/PPP2PPP/RN1QK2R b KQkq - 7 7";
 //        String fen = "k7/3q4/8/8/8/4Q3/7K/8 w - - 0 1";
-        GameState state  = GameState.fromFEN(fen, rules);
+        GameState state  = GameState.fromFEN(fen);
         
         System.out.println(fen);
         System.out.println();

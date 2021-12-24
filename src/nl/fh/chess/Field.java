@@ -9,6 +9,7 @@ import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import nl.fh.gamestate.GameState;
 
 /**
  * Objects of this class represent the fields of a chessboard, including
@@ -484,4 +485,49 @@ public class Field {
         }
         return true;
     }
+    
+    
+    /**
+     * 
+     * @param field
+     * @param state
+     * @param color of a player
+     * @return true if the field is covered by the player color 
+     */
+    //TODO turn into non static method
+    public static boolean isCovered(Field field, GameState state, Color color){
+        //TODO make to a non static method with one argument less
+        return (controllingFields(field, state, color).size() > 0);
+    }
+    
+    /**
+     * 
+     * @param field 
+     * @param state
+     * @param color
+     * 
+     * @return the set of all fields from which the field is controlled by color  
+     */
+    static private Set<Field> controllingFields(Field field, GameState state, Color color){
+        Set<Field> result = new HashSet<Field>();
+        for(Field f : Field.getAll()){
+            if(state.getFieldContent(f).getColor() == color){
+                for(MoveRange range : f.getMoveRanges(state.getFieldContent(f))){
+                    if(range.getType() != MoveRangeType.CAPTURE_FORBIDDEN){
+                        boolean done = false;
+                        for(Field f2 : range.getRange()){
+                            if(f2.equals(field) && !done){
+                                result.add(f2);
+                            }
+                            if(state.getFieldContent(f2) != PieceType.EMPTY){
+                                done = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }    
+    
 }

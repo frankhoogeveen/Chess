@@ -7,7 +7,6 @@ package nl.fh.metric.utilities;
 
 import java.util.HashMap;
 import java.util.Map;
-import nl.fh.metric.minimax.Parent;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -20,7 +19,7 @@ import nl.fh.player.evalplayer.Metric;
  * this puts a cap on the memory usage.
  * 
  */
-public class TableBuffer<T extends Parent<T>> implements Metric<T>{
+public class TableBuffer<T> implements Metric<T>{
 
     private final Metric<T> baseMetric;
     private Map<T, Double> table;

@@ -5,10 +5,18 @@
 
 package nl.fh.metric;
 
-import nl.fh.chess.Color;
+import java.util.HashSet;
+import java.util.Set;
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
+import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
+import nl.fh.rules.ResultArbiter;
 
 /**
  * Evaluates the state of the board, in line with
@@ -18,17 +26,35 @@ import nl.fh.player.evalplayer.Metric;
 
 public class MaterialCountMetric implements Metric<GameState>{
     
-    public static final double MATE_VALUE = 1.e6;    
+    public static final double MATE_VALUE = 1.e6;
+    public final ChessResultArbiter arbiter;
+    private final ChessMoveGenerator moveGenerator;
+    
+    /**
+     * 
+     * @param arbiter object that detects (stale)mate and other draws 
+     */
+    public MaterialCountMetric(GameDriver driver){
+        this.arbiter = (ChessResultArbiter)driver.getResultArbiter();
+        this.moveGenerator = (ChessMoveGenerator) driver.getMoveGenerator();
+    }
 
     @Override
     public double eval(GameState state) {
         double score = 0.;
         
-        if(state.getRules().isDrawn(state)){
+        //TODO repair the kludgy casting here is a code smell
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
+        HashSet<ChessMove> legalChessMoves = new HashSet<ChessMove>();
+        for(Move m : legalMoves){
+            legalChessMoves.add((ChessMove)m);
+        }
+        
+        if(arbiter.isDrawn(state, legalChessMoves)){
             return 0.;
         }
         
-        score += mateScore(state);
+        score += mateScore(state, legalChessMoves);
         
         score += materialScore(state);
         
@@ -75,15 +101,22 @@ public class MaterialCountMetric implements Metric<GameState>{
         return score;
     }  
 
-    private double mateScore(GameState state) {
+    private double mateScore(GameState state, Set<ChessMove> legalChessMoves) {
         double result = 0.;
         
-        if(state.getRules().isMate(state)){
+        if(arbiter.isMate(state, legalChessMoves)){
             result = - MATE_VALUE * state.getToMove().getSign();
             return result;
         }
         
-        if(state.getRules().isMate(state.changeColor())){
+        
+        GameState opponentState = state.changeColor();
+        Set<Move> opponentLegalMoves = this.moveGenerator.calculateAllLegalMoves(opponentState);
+        Set<ChessMove> opponentChessMoves = new HashSet<ChessMove>();
+        for(Move m : opponentLegalMoves){
+            opponentChessMoves.add((ChessMove) m);
+        }
+        if(arbiter.isMate(opponentState, opponentChessMoves)){
             result = + MATE_VALUE * state.getToMove().getSign();
             return result;
         }        

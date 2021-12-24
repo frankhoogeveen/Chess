@@ -18,10 +18,13 @@ import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
+import nl.fh.move.ChessMove;
 import nl.fh.move.EnPassantCapture;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 import nl.fh.rules.Rules;
 
 /**
@@ -42,7 +45,7 @@ import nl.fh.rules.Rules;
  */
 public class TolerantReader implements PGN_Reader{
     String pgn;
-    Rules rules;
+    GameDriver gameDriver;
     
     ArrayList<GameReport> result;
     GameReport currentReport;
@@ -54,9 +57,9 @@ public class TolerantReader implements PGN_Reader{
     ArrayList<String> moveCodes;// temporary list of moveCodes
    
     @Override
-    public List<GameReport> getGames(String pgn, Rules rules) {
+    public List<GameReport> getGames(String pgn, GameDriver driver) {
         this.pgn = pgn;
-        this.rules = rules;
+        this.gameDriver = driver;
         
         result = new ArrayList<GameReport>();
         currentReport = new GameReport();
@@ -354,16 +357,16 @@ public class TolerantReader implements PGN_Reader{
         // get the initial state from the ruleset
         if(currentReport.getTags().contains("FEN")){
             String fen = currentReport.getTag("FEN");
-            state = GameState.fromFEN(fen, rules);
+            state = GameState.fromFEN(fen);
         } else {
-            state = this.rules.getInitialState();
+            state = this.gameDriver.getInitialState();
         }
         currentReport.addGameState(state);
         
         // process all the moves
         for(String moveCode : this.moveCodes){
                      
-            Move move = decodeMove(moveCode, state);
+            ChessMove move = decodeMove(moveCode, state);
             state = state.apply(move);
             
             currentReport.addGameState(state);
@@ -371,7 +374,7 @@ public class TolerantReader implements PGN_Reader{
         }
     }
 
-    private Move decodeMove(String moveCode, GameState state) throws PgnException {
+    private ChessMove decodeMove(String moveCode, GameState state) throws PgnException {
 
         String moveCode2 = cleanMove(moveCode);
         
@@ -396,7 +399,7 @@ public class TolerantReader implements PGN_Reader{
         return clean;
     }  
     
-    private Move decodePieceMove(String moveCode, GameState state) throws PgnException {
+    private ChessMove decodePieceMove(String moveCode, GameState state) throws PgnException {
         if(moveCode.equals("O-O")){
             return Castling.getInstance(BoardSide.KINGSIDE);
         } 
@@ -417,12 +420,12 @@ public class TolerantReader implements PGN_Reader{
             extraChar = c[1];
         }
         
-        Move move = reconstructMove(pieceChar, rowChar, colChar, extraChar, state);
+        ChessMove move = reconstructMove(pieceChar, rowChar, colChar, extraChar, state);
         return move;
         
     }
 
-    private Move decodePawnMove(String moveCode, GameState state) throws PgnException {        
+    private ChessMove decodePawnMove(String moveCode, GameState state) throws PgnException {        
         char[] c = moveCode.toCharArray();
         int len = c.length;
 
@@ -435,7 +438,7 @@ public class TolerantReader implements PGN_Reader{
         char[] cc = new char[len-2]; 
         System.arraycopy(c, 0, cc, 0, len-2);
         
-        Move temp =  decodeRegularPawnMove(cc, state);
+        ChessMove temp =  decodeRegularPawnMove(cc, state);
         Field from = temp.getFrom();
         Field to   = temp.getTo();
         
@@ -466,7 +469,7 @@ public class TolerantReader implements PGN_Reader{
     }
     
     
-    private Move decodeRegularPawnMove(char[] c, GameState state) throws PgnException {        
+    private ChessMove decodeRegularPawnMove(char[] c, GameState state) throws PgnException {        
         int len = c.length;
         
         char pieceChar = 'P';
@@ -483,11 +486,11 @@ public class TolerantReader implements PGN_Reader{
             return decodeEnPassantMove(rowChar, colChar, extraChar, state);
         }
         
-        Move move = reconstructMove(pieceChar, rowChar, colChar, extraChar, state);
+        ChessMove move = reconstructMove(pieceChar, rowChar, colChar, extraChar, state);
         return move;
     }
     
-    private Move decodeEnPassantMove(char rowChar, char colChar,char extraChar,GameState state) throws PgnException{
+    private ChessMove decodeEnPassantMove(char rowChar, char colChar,char extraChar,GameState state) throws PgnException{
         Field from = null;
         Field to = null;
         if(state.getToMove() == Color.WHITE){
@@ -507,7 +510,7 @@ public class TolerantReader implements PGN_Reader{
         return EnPassantCapture.getInstance(from, to);
     }
 
-    private Move reconstructMove(char pieceChar, char rowChar, char colChar, char extraChar, GameState state) throws PgnException {
+    private ChessMove reconstructMove(char pieceChar, char rowChar, char colChar, char extraChar, GameState state) throws PgnException {
         PieceType ptype = PieceType.EMPTY;
         Color toMove = state.getToMove();
         
@@ -571,28 +574,28 @@ public class TolerantReader implements PGN_Reader{
         if(fields.size() == 1){
             Field from = fields.iterator().next();
             Field to = Field.getInstance(colChar - 'a', rowChar - '1');
-            Move move = PieceMove.getInstance(from, to);
+            ChessMove move = PieceMove.getInstance(from, to);
             return move;
         }
         
         // if there is more than one piece of the type that has been moved, 
         // check which ones could have legally been moved
-        Set<Move> legalMovesToField = new HashSet<Move>();
+        Set<ChessMove> legalMovesToField = new HashSet<ChessMove>();
         Field to = Field.getInstance(colChar-'a',rowChar-'1');
         
-        Set<Move> allLegalMoves = state.getLegalMoves();
+        Set<Move> allLegalMoves = this.gameDriver.getMoveGenerator().calculateAllLegalMoves(state);
         
         for(Field from : fields){
             Move move = PieceMove.getInstance(from, to);
             if(allLegalMoves.contains(move)){
-                legalMovesToField.add(move);
+                legalMovesToField.add((ChessMove) move);
             }
             
             // for pawns, also check the promotions. Only promotion to queen need to be checked
             if(pieceChar == 'P'){
                 move = Promotion.getInstance(from, to, PieceKind.QUEEN);
                 if(allLegalMoves.contains(move)){
-                    legalMovesToField.add(move);
+                    legalMovesToField.add((ChessMove) move);
                 }      
             }
         }
@@ -613,7 +616,7 @@ public class TolerantReader implements PGN_Reader{
             }
             
             if((from.getX() == (extraChar - 'a')) || (from.getY() == (extraChar - '1'))){
-                return move;
+                return (ChessMove) move;
             }
         }
      

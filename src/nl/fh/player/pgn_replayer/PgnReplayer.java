@@ -7,16 +7,18 @@ package nl.fh.player.pgn_replayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.move.Resignation;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
-import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.Chess;
+import nl.fh.rules.GameDriver;
 
 /**
  * This player replays all the moves from a PGN. When all 
@@ -27,10 +29,10 @@ import nl.fh.rules.SimpleRules;
 public class PgnReplayer implements Player {
     
     private static PGN_Reader reader = new TolerantReader();
-    private static Rules rules = new SimpleRules();    
+    private static final GameDriver driver = Chess.gameDriver;
 
     private int counter;
-    private List<Move>  moveList;
+    private List<ChessMove>  moveList;
 
     private PgnReplayer(){
         
@@ -52,9 +54,9 @@ public class PgnReplayer implements Player {
             result.counter = 0;
         }
         
-        List<GameReport> report = reader.getGames(pgn, rules);
+        List<GameReport> report = reader.getGames(pgn, driver);
         if(report.size() < 1){
-            result.moveList = new ArrayList<Move>();
+            result.moveList = new ArrayList<ChessMove>();
         } else {
             result.moveList = report.get(0).getMoveList();
         }
@@ -62,7 +64,7 @@ public class PgnReplayer implements Player {
     }
 
     @Override
-    public Move getMove(GameState state) {
+    public Move getMove(GameState state, Set<Move> legalMoves) {
         if(this.counter > this.moveList.size()-1){
             return Resignation.getInstance();
         } else {

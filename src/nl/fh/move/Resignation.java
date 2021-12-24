@@ -7,12 +7,13 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.GameDriver;
 
 /**
  * copyright F. Hoogeveen
  * @author frank
  */
-public class Resignation implements Move {
+public class Resignation extends ChessMove {
     
     private static Resignation instance;
     
@@ -33,12 +34,12 @@ public class Resignation implements Move {
     }
 
     @Override
-    public String moveString(GameState state) {
+    public String formatPGN(GameState state, GameDriver driver) {
         return "";
     }
     
     @Override
-    public String getUCI(GameState state) {
+    public String formatUCI(GameState state) {
         return "";
     }    
 

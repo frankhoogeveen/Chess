@@ -13,10 +13,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.MaterialCountMetric;
+import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
-import nl.fh.rules.SimpleRules;
+import nl.fh.rules.ChessMoveGenerator;
 
 /**
  * 
@@ -33,10 +35,9 @@ public class Job_007a_list_moves {
         String filePath = "../out/job_007a_"+ dateString + ".csv";
      
         String fen = "k7/8/8/8/8/3K4/3p4/8 b - - 0 1";
-        Rules rules = new SimpleRules();
-        GameState state = GameState.fromFEN(fen, rules);
+        GameState state = GameState.fromFEN(fen);
 
-        Metric<GameState> metric = new MaterialCountMetric();
+        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
 
         StringBuilder sb = new StringBuilder();
         
@@ -44,16 +45,16 @@ public class Job_007a_list_moves {
         sb.append("\n\n");
         sb.append("move1;move2;Value;\n");
         
-        for(Move move1 : state.getLegalMoves()){
+        for(Move move1 : Chess.moveGenerator.calculateAllLegalMoves(state)){
             GameState state1 = move1.applyTo(state);
 
-            for(Move move2 : state1.getLegalMoves()){
+            for(Move move2 : Chess.moveGenerator.calculateAllLegalMoves(state1)){
                 GameState s = move2.applyTo(state1);
                 double value2 = metric.eval(s);
                 
-                sb.append(move1.moveString(state));
+                sb.append(((ChessMove)move1).formatPGN(state, Chess.gameDriver));
                 sb.append(";");
-                sb.append(move2.moveString(state1));
+                sb.append(((ChessMove)move2).formatPGN(state1, Chess.gameDriver));
                 sb.append(";");
                 sb.append(value2);
                 sb.append(";"); 

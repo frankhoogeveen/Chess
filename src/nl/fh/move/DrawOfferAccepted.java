@@ -7,6 +7,8 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
 
 /**
  * copyright F. Hoogeveen
@@ -15,7 +17,7 @@ import nl.fh.gamestate.GameState;
  * This move represents the acceptance of a draw offer that accompanied the 
  * previous move. Nothing changes on the board
  */
-public class DrawOfferAccepted implements Move {
+public class DrawOfferAccepted extends ChessMove {
     
     private static DrawOfferAccepted instance = null;
     
@@ -37,13 +39,19 @@ public class DrawOfferAccepted implements Move {
         return result;
     }
 
+    /**
+     *
+     * @param state
+     * @param arbiter
+     * @return
+     */
     @Override
-    public String moveString(GameState state) {
+    public String formatPGN(GameState state, GameDriver driver) {
         return "";
     }
     
     @Override
-    public String getUCI(GameState state) {
+    public String formatUCI(GameState state) {
         return "";
     }      
 

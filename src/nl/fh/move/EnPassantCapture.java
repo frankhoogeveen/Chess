@@ -6,16 +6,19 @@
 package nl.fh.move;
 
 import java.util.Objects;
+import java.util.Set;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Rules;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 
 /**
  * copyright GPL v3
  * @author frank
  */
-public class EnPassantCapture implements Move {
+public class EnPassantCapture extends ChessMove {
 
     private Field from;
     private Field to;
@@ -33,7 +36,7 @@ public class EnPassantCapture implements Move {
      * 
      * @return a move 
      */
-    public static Move getInstance(Field from, Field to){
+    public static ChessMove getInstance(Field from, Field to){
         EnPassantCapture result = new EnPassantCapture();
         
         result.from = from;
@@ -99,8 +102,10 @@ public class EnPassantCapture implements Move {
     }
 
     @Override
-    public String moveString(GameState state) {
-        Rules rules = state.getRules();
+    public String formatPGN(GameState state, GameDriver driver) {
+        
+        ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
+        
         StringBuilder sb = new StringBuilder();
         
         sb.append(this.from.toString().substring(0,1));
@@ -109,10 +114,12 @@ public class EnPassantCapture implements Move {
         
         //the indicators for check and checkmate
         GameState state2 = this.applyTo(state);
-        if(rules.isMate(state2)){
+        Set<Move> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
+        Set<ChessMove> legalChessMoves = (Set<ChessMove>)(Set<?>) legalMoves;
+        if(arbiter.isMate(state2, legalChessMoves)){
             sb.append("#");
         } else {
-            if(rules.isCheck(state2)){
+            if(arbiter.isCheck(state2)){
                 sb.append("+");
             }
         }        
@@ -121,7 +128,7 @@ public class EnPassantCapture implements Move {
     }
     
     @Override
-    public String getUCI(GameState state) {
+    public String formatUCI(GameState state) {
         return getFrom().toString() + getTo().toString();
     }      
 

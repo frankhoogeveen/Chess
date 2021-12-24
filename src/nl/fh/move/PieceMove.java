@@ -13,6 +13,10 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
+import nl.fh.rules.Chess;
+import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 
 /**
  *
@@ -20,7 +24,7 @@ import nl.fh.gamestate.GameState;
  * 
  * This class represents a move of a single piece or pawn
  */
-public class PieceMove implements Move {
+public class PieceMove extends ChessMove {
 
     private Field from;
     private Field to;
@@ -47,7 +51,10 @@ public class PieceMove implements Move {
     }
 
     @Override
-    public String moveString(GameState state){       
+    public String formatPGN(GameState state, GameDriver driver){       
+        ChessResultArbiter  arbiter = (ChessResultArbiter) driver.getResultArbiter();
+        MoveGenerator moveGenerator = driver.getMoveGenerator();
+        
         StringBuilder sb = new StringBuilder();
 
         String piece = state.getFieldContent(from).getPGNcode();
@@ -55,13 +62,13 @@ public class PieceMove implements Move {
         
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;
-        Set<Move> movesTo = new HashSet<Move>();
-        for(Move m : state.getLegalMoves()){
+        Set<ChessMove> movesTo = new HashSet<ChessMove>();
+        for(Move m : moveGenerator.calculateAllLegalMoves(state)){
             if(m instanceof PieceMove){
                 boolean samePiece = (state.getFieldContent(from) == state.getFieldContent(((PieceMove) m).from));
                 boolean sameTo    = to.equals(((PieceMove)m).getTo());
                 if (samePiece && sameTo) {
-                    movesTo.add(m);
+                    movesTo.add((ChessMove)m);
                 }
             }
         }
@@ -72,7 +79,7 @@ public class PieceMove implements Move {
             int fromY = from.getY();
             int countSameX = 0;
             int countSameY = 0;
-            for(Move m : movesTo){
+            for(ChessMove m : movesTo){
                 if(m.getFrom().getX() == fromX){
                     countSameX += 1;
                 }
@@ -103,10 +110,13 @@ public class PieceMove implements Move {
         
         //the indicators for check and checkmate
         GameState state2 = this.applyTo(state);
-        if(state.getRules().isMate(state2)){
+        Set<Move> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
+        
+        Set<ChessMove> legalChessMoves = (Set<ChessMove>)(Set<?>) legalMoves;        
+        if(arbiter.isMate(state2, legalChessMoves)){
             sb.append("#");
         } else {
-            if(state.getRules().isCheck(state2)){
+            if(arbiter.isCheck(state2)){
                 sb.append("+");
             }
         }
@@ -118,7 +128,7 @@ public class PieceMove implements Move {
     
 
     @Override
-    public String getUCI(GameState state) {
+    public String formatUCI(GameState state) {
         return getFrom().toString() + getTo().toString();
     }    
 

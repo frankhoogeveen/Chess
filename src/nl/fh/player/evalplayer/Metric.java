@@ -5,14 +5,11 @@
 
 package nl.fh.player.evalplayer;
 
-import nl.fh.chess.Color;
-import nl.fh.metric.minimax.Parent;
-
 /**
  * 
  * 
  */
-public interface Metric<T extends Parent<T>> {
+public interface Metric<T> {
     
     /**
      * 
