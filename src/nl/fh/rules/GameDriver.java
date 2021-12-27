@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.GameResult;
+import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
@@ -102,9 +102,9 @@ public class GameDriver {
         report.addGameState(currentState);
         
         Player currentPlayer = firstPlayer;
-        GameResult currentStatus = GameResult.UNDECIDED;
+        ChessGameResult currentStatus = ChessGameResult.UNDECIDED;
         
-        while(currentStatus == GameResult.UNDECIDED){        
+        while(currentStatus == ChessGameResult.UNDECIDED){        
 
             Move move = currentPlayer.getMove(currentState, legalMoves);        
             
@@ -131,9 +131,9 @@ public class GameDriver {
         // making an illegal move ends the game on the spot
         if (!legalMoves.contains(move)) {
             if(currentPlayerIsWhite){
-                report.setResult(GameResult.ILLEGAL_MOVE_BY_WHITE);
+                report.setResult(ChessGameResult.ILLEGAL_MOVE_BY_WHITE);
             } else {
-                report.setResult(GameResult.ILLEGAL_MOVE_BY_BLACK);
+                report.setResult(ChessGameResult.ILLEGAL_MOVE_BY_BLACK);
             }
             return true;
         }

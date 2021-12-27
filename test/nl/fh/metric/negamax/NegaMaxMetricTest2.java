@@ -11,7 +11,7 @@ import nl.fh.metric.minimax.NegaMax;
 import nl.fh.metric.utilities.MaxOfChildren;
 import nl.fh.metric.utilities.MinOfChildren;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
 import static org.junit.Assert.assertEquals;
@@ -25,7 +25,7 @@ public class NegaMaxMetricTest2 {
     private final double delta = 1.e-9;
     private double MATE_VALUE = 1.e6;       
     
-    private GameDriver gameDriver = Chess.getGameDriver();
+    private GameDriver gameDriver = FIDEchess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();       
     Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();   
     NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric, moveGenerator, 0);

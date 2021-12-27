@@ -17,7 +17,7 @@ import nl.fh.metric.minimax.NegaMax;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
 
@@ -26,7 +26,7 @@ import nl.fh.rules.MoveGenerator;
  */
 public class Job_007b_list_moves_depth3 {
     
-    private static GameDriver gameDriver = Chess.getGameDriver();
+    private static GameDriver gameDriver = FIDEchess.getGameDriver();
     private static MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
     
         

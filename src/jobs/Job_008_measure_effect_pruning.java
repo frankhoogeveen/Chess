@@ -13,7 +13,7 @@ import nl.fh.metric.minimax.NegaMaxGen3;
 import nl.fh.metric.utilities.Counter;
 import nl.fh.metric.utilities.TableBuffer;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
 
@@ -22,7 +22,7 @@ import nl.fh.rules.MoveGenerator;
  */
 public class Job_008_measure_effect_pruning {
     
-    private static GameDriver gameDriver = Chess.getGameDriver();
+    private static GameDriver gameDriver = FIDEchess.getGameDriver();
     private static MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
     
     public static void main(String[] args){

@@ -17,7 +17,7 @@ import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 
 /**
@@ -157,7 +157,7 @@ public class UciInterface implements Runnable {
     
     public static void main(String[] args){
         Player player = MetricPlayer.getInstance(MaterialCountMetric.getWrappedInstance());
-        GameDriver driver = Chess.getGameDriver();
+        GameDriver driver = FIDEchess.getGameDriver();
         UciInterface uci = new UciInterface(player, driver);
         uci.run();
     }    

@@ -12,7 +12,6 @@ import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
 import nl.fh.rules.ChessResultArbiter;
 import nl.fh.rules.GameDriver;
-import nl.fh.rules.MoveGenerator;
 
 /**
  * copyright GPL v3
@@ -84,9 +83,6 @@ public class EnPassantCapture extends ChessMove {
         }
         
         result.setFieldContent(capturedPawn, PieceType.EMPTY);
-        
-        //update the parent field
-        result.setParent(state);
         
         return result;
     }

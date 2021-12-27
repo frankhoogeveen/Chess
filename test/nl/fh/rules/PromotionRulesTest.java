@@ -14,7 +14,7 @@ import org.junit.Test;
  * 
  */
 public class PromotionRulesTest {
-    private GameDriver gameDriver = Chess.getGameDriver();
+    private GameDriver gameDriver = FIDEchess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();    
 
     @Test

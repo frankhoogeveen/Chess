@@ -237,9 +237,6 @@ public class Promotion extends ChessMove {
         result.setFieldContent(this.from, PieceType.EMPTY);
         result.setFieldContent(this.to, PieceType.get(movingColor(), piece));
         
-        //update the parent field
-        result.setParent(state);
-        
         return result;
     }
 

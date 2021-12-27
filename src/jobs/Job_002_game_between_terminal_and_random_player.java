@@ -11,7 +11,7 @@ import nl.fh.gamereport.PGNformatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
 import nl.fh.player.terminal.TerminalPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 
 /**
  * 
@@ -25,12 +25,12 @@ public class Job_002_game_between_terminal_and_random_player {
       
       GameReport report;
       if(Math.random() > 0.5){
-        report = Chess.getGameDriver().playGame(player1, player2);
+        report = FIDEchess.getGameDriver().playGame(player1, player2);
       } else {
-        report = Chess.getGameDriver().playGame(player2, player1);          
+        report = FIDEchess.getGameDriver().playGame(player2, player1);          
       }
       
-      GameReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+      GameReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
       System.out.println(formatter.formatGame(report));
     }
 }

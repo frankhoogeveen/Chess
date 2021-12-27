@@ -16,7 +16,7 @@ import nl.fh.metric.MaterialCountMetric;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 
 /**
  * 
@@ -43,16 +43,16 @@ public class Job_007a_list_moves {
         sb.append("\n\n");
         sb.append("move1;move2;Value;\n");
         
-        for(Move move1 : Chess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state)){
+        for(Move move1 : FIDEchess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state)){
             GameState state1 = move1.applyTo(state);
 
-            for(Move move2 : Chess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state1)){
+            for(Move move2 : FIDEchess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state1)){
                 GameState s = move2.applyTo(state1);
                 double value2 = metric.eval(s);
                 
-                sb.append(((ChessMove)move1).formatPGN(state, Chess.getGameDriver()));
+                sb.append(((ChessMove)move1).formatPGN(state, FIDEchess.getGameDriver()));
                 sb.append(";");
-                sb.append(((ChessMove)move2).formatPGN(state1, Chess.getGameDriver()));
+                sb.append(((ChessMove)move2).formatPGN(state1, FIDEchess.getGameDriver()));
                 sb.append(";");
                 sb.append(value2);
                 sb.append(";"); 

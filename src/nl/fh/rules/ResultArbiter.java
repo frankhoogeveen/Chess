@@ -7,7 +7,7 @@ package nl.fh.rules;
 
 import java.util.Set;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.GameResult;
+import nl.fh.gamereport.ChessGameResult;
 import nl.fh.move.Move;
 
 /**
@@ -22,6 +22,6 @@ public interface ResultArbiter {
      * @return the current status of the game, based on the report 
      * The contents of report is NOT changed
      */
-    public GameResult determineResult(GameReport report, Set<Move> legalMoves);
+    public ChessGameResult determineResult(GameReport report, Set<Move> legalMoves);
 
 }

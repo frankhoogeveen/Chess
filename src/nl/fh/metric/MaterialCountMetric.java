@@ -13,7 +13,7 @@ import nl.fh.metric.utilities.OutcomeMetric;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.ChessMoveGenerator;
 import nl.fh.rules.ChessResultArbiter;
 import nl.fh.rules.GameDriver;
@@ -41,7 +41,7 @@ public class MaterialCountMetric implements Metric<GameState>{
      */
     public static Metric<GameState> getWrappedInstance(){
         double mateValue = 1.e6;
-        GameDriver driver = Chess.getGameDriver();
+        GameDriver driver = FIDEchess.getGameDriver();
         Metric<GameState> base = new MaterialCountMetric();
         Metric<GameState> result = new OutcomeMetric(base, mateValue, driver);
         return result;

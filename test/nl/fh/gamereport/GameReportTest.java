@@ -26,7 +26,7 @@ public class GameReportTest {
         assertEquals(0, r.getTags().size());
         assertEquals(0, r.getMoveList().size());
         assertEquals(0, r.getStateList().size());
-        assertEquals(GameResult.UNDECIDED, r.getGameResult());
+        assertEquals(ChessGameResult.UNDECIDED, r.getGameResult());
         
     }
 }

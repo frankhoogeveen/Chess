@@ -17,7 +17,7 @@ import nl.fh.move.Resignation;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 
 /**
@@ -29,7 +29,7 @@ import nl.fh.rules.GameDriver;
 public class PgnReplayer implements Player {
     
     private static PGN_Reader reader = new TolerantReader();
-    private static final GameDriver driver = Chess.getGameDriver();
+    private static final GameDriver driver = FIDEchess.getGameDriver();
 
     private int counter;
     private List<ChessMove>  moveList;

@@ -36,14 +36,14 @@ public class GameReport {
     private GameDriver gameDriver;
     private final ArrayList<GameState> stateList;
     private final ArrayList<ChessMove> moveList;
-    private GameResult gameResult;
+    private ChessGameResult gameResult;
     
     private final HashMap<String, String> tagValuePairs;
 
     public GameReport(){
         stateList = new ArrayList<GameState>();
         moveList = new ArrayList<ChessMove>();
-        gameResult = GameResult.UNDECIDED;
+        gameResult = ChessGameResult.UNDECIDED;
         tagValuePairs = new HashMap<String, String>();
     }
     
@@ -87,7 +87,7 @@ public class GameReport {
      * 
      * @return the result of the game. 
      */
-    public GameResult getGameResult() {
+    public ChessGameResult getGameResult() {
         return gameResult;
     }
 
@@ -164,7 +164,7 @@ public class GameReport {
      * it is overwritten
      * @param result 
      */
-    public void setResult(GameResult result){
+    public void setResult(ChessGameResult result){
        gameResult = result;
        if(this.tagValuePairs.keySet().contains("Result")){
             this.addTag("Result", result.toString());
@@ -186,13 +186,11 @@ public class GameReport {
      * @param firstPlayer
      * @param secondPlayer 
      * 
-     * Adds tags White and Black for the two players. Note that this does not
-     * work correctly for games where black makes the first move.
-     * //TODO make this work for Go
+     * Adds tags White and Black for the two players. 
      */
     public void setPlayers(Player firstPlayer, Player secondPlayer) {
-        this.tagValuePairs.put("White", firstPlayer.toString());
-        this.tagValuePairs.put("Black", secondPlayer.toString());
+        this.tagValuePairs.put("Player1", firstPlayer.toString());
+        this.tagValuePairs.put("Player2", secondPlayer.toString());
     }      
     
 }

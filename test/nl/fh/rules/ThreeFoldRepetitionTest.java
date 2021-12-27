@@ -10,7 +10,7 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.player.pgn_replayer.PgnReplayer;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.GameResult;
+import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
@@ -27,7 +27,7 @@ import org.junit.Test;
  */
 public class ThreeFoldRepetitionTest {
     
-    private GameDriver gameDriver = Chess.getGameDriver();
+    private GameDriver gameDriver = FIDEchess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();   
     private ChessResultArbiter arbiter = (ChessResultArbiter) gameDriver.getResultArbiter();
     
@@ -60,7 +60,7 @@ public class ThreeFoldRepetitionTest {
     @Test
     public void testThreefoldRepetitionManually(){
         GameReport report = new GameReport();
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         
         Field f3 = Field.getInstance("f3");
         Field f6 = Field.getInstance("f6");
@@ -103,22 +103,22 @@ public class ThreeFoldRepetitionTest {
         report.addPly(Ng1, state);
         assertFalse(arbiter.isThreeFoldRepetition(report));
         
-        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        assertEquals(ChessGameResult.UNDECIDED, report.getGameResult());
         
         state = state.apply(Ng8);
         report.addPly(Ng8, state);
         assertTrue(arbiter.isThreeFoldRepetition(report));    
         
-        assertEquals(GameResult.UNDECIDED, report.getGameResult());               
+        assertEquals(ChessGameResult.UNDECIDED, report.getGameResult());               
         Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
-        GameResult result = arbiter.determineResult(report, legalMoves);
+        ChessGameResult result = arbiter.determineResult(report, legalMoves);
         
         // the arbiter determines the result, but does not change the report
-        assertEquals(GameResult.UNDECIDED, report.getGameResult());          
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION, result);       
+        assertEquals(ChessGameResult.UNDECIDED, report.getGameResult());          
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION, result);       
         report.setResult(result);
         
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION, report.getGameResult());        
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION, report.getGameResult());        
         
     }
     
@@ -135,7 +135,7 @@ public class ThreeFoldRepetitionTest {
         GameReport report = gameDriver.playGame(playerW, playerB);
         
         assertEquals(12, report.getMoveList().size());
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
         
         assertTrue(arbiter.isThreeFoldRepetition(report));        
@@ -172,7 +172,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(10, report.getMoveList().size());
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
     } 
     
@@ -206,7 +206,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(9, report.getMoveList().size());
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
     } 
     
@@ -245,7 +245,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(10, report.getMoveList().size());
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
     }       
     
@@ -284,7 +284,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(9, report.getMoveList().size());
-        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
     }   
 

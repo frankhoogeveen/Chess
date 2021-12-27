@@ -5,7 +5,7 @@
 package nl.fh.gamestate;
 
 import java.util.ArrayList;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class GameStateTest {
     @Test
     public void testToFEN2() {
 
-        GameState instance = Chess.getInitialState();
+        GameState instance = FIDEchess.getInitialState();
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         String result = instance.toFEN();
         assertEquals(expResult, result);
@@ -70,7 +70,7 @@ public class GameStateTest {
     @Test
     public void testToFEN3() {
 
-        GameState instance = Chess.getInitialState();
+        GameState instance = FIDEchess.getInitialState();
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 7";
         String result = instance.toFEN(7);
         assertEquals(expResult, result);
@@ -87,7 +87,7 @@ public class GameStateTest {
     @Test
     public void testFromFEN2() {
         String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        GameState expResult = Chess.getInitialState();
+        GameState expResult = FIDEchess.getInitialState();
         GameState result = GameState.fromFEN(fen);
         assertEquals(expResult, result);
     }

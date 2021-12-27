@@ -19,7 +19,7 @@ import nl.fh.metric.MaterialCountMetric;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 
 /**
  * 
@@ -38,11 +38,11 @@ public class Job_003_match_between_random_and_static_evaluation {
         GameFilter filterM = new CapFilter(10, new NotFilter(filterR));
         GameFilter filter = new OrFilter(filterR, filterM);        
         
-        Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
+        Match match = new AlternatingMatch(nGames, FIDEchess.getGameDriver());
         
         MatchReport result = match.play(playerR, playerM, filter);
             
-        MatchReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+        MatchReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
         System.out.println(formatter.formatMatch(result));
     }
 

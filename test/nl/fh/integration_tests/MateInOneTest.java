@@ -14,7 +14,7 @@ import nl.fh.move.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
 import static org.junit.Assert.assertEquals;
@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class MateInOneTest {
     
-    GameDriver gameDriver = Chess.getGameDriver();
+    GameDriver gameDriver = FIDEchess.getGameDriver();
     MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
     
     @Test
@@ -39,7 +39,7 @@ public class MateInOneTest {
         Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
         ChessMove move = (ChessMove) player.getMove(state, legalMoves);
-        assertEquals("Qb2#", move.formatPGN(state, Chess.getGameDriver()));
+        assertEquals("Qb2#", move.formatPGN(state, FIDEchess.getGameDriver()));
        
     } 
     

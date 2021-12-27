@@ -20,12 +20,12 @@ import static org.junit.Assert.*;
  */
 public class SimpleRulesTest {
     
-    private GameDriver gameDriver = Chess.getGameDriver();
+    private GameDriver gameDriver = FIDEchess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
       
     @Test
     public void testLegalMove1(){
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         
         Field from = Field.getInstance("b1");
         Field to   = Field.getInstance("a3");
@@ -37,7 +37,7 @@ public class SimpleRulesTest {
     @Test
     public void testLegalMove2(){
 
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         state.increment();
         
         Field from = Field.getInstance("g8");
@@ -50,7 +50,7 @@ public class SimpleRulesTest {
     @Test
     public void testLegalMoveGenerator(){
 
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         
         Field from = Field.getInstance("e2");
         Field to   = Field.getInstance("e4");

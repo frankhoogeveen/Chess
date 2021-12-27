@@ -12,7 +12,7 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.GameResult;
+import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.DrawOfferAccepted;
@@ -47,52 +47,52 @@ public class ChessResultArbiter implements ResultArbiter {
    }
 
     @Override
-    public GameResult determineResult(GameReport report, Set<Move> legalMoves) {
+    public ChessGameResult determineResult(GameReport report, Set<Move> legalMoves) {
         Move move = report.getFinalMove();
         GameState state = report.getFinalState();
         
             // resignation ends the game on the spot
             if(move instanceof Resignation){
                 if(state.getToMove() == Color.WHITE){
-                    return GameResult.RESIGNATION_BY_WHITE;
+                    return ChessGameResult.RESIGNATION_BY_WHITE;
                 } else {
-                    return GameResult.RESIGNATION_BY_BLACK; 
+                    return ChessGameResult.RESIGNATION_BY_BLACK; 
                 }
             }
             
             // accepted draw offers end the game on the spot
             if(move instanceof DrawOfferAccepted){
-                return GameResult.DRAW_AGREED;
+                return ChessGameResult.DRAW_AGREED;
             }             
            
             //insufficient material ends the game on the spot
             if(!sufficientMaterial(state)){
-                return GameResult.DRAW_INSUFFICIENT_MATERIAL;                
+                return ChessGameResult.DRAW_INSUFFICIENT_MATERIAL;                
             }
 
             // (stale) mate ends the game
             if(legalMoves.isEmpty()){
                 if(isCheck(state)){
                     if(state.getToMove() == Color.WHITE){
-                        return GameResult.WIN_WHITE;
+                        return ChessGameResult.WIN_WHITE;
                     } else {
-                        return GameResult.WIN_BLACK;
+                        return ChessGameResult.WIN_BLACK;
                     }
                 } else {
-                    return GameResult.DRAW_STALEMATE;
+                    return ChessGameResult.DRAW_STALEMATE;
                 }
             }
             
             if(isThreeFoldRepetition(report)){
-                return GameResult.DRAW_BY_THREEFOLD_REPETITION;
+                return ChessGameResult.DRAW_BY_THREEFOLD_REPETITION;
             }
             
             if(isAtFiftyMoveRule(state)){
-                return GameResult.DRAW_BY_50_MOVE_RULE;                
+                return ChessGameResult.DRAW_BY_50_MOVE_RULE;                
             }
 
                 
-       return GameResult.UNDECIDED;
+       return ChessGameResult.UNDECIDED;
 
     }
     

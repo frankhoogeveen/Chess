@@ -11,7 +11,7 @@ import nl.fh.gamereport.PGNformatter;
 import nl.fh.match.MatchReportFormatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 
 /**
  * 
@@ -23,7 +23,7 @@ public class Job_001_game_between_two_random_players {
       Player player1 = new RandomPlayer();
       Player player2 = new RandomPlayer();
       
-      GameReport report = Chess.getGameDriver().playGame(player1, player2);
+      GameReport report = FIDEchess.getGameDriver().playGame(player1, player2);
 
       /*
       System.out.println(report.getStateList().get(0));
@@ -35,7 +35,7 @@ public class Job_001_game_between_two_random_players {
           System.out.println();
       }
       */
-      GameReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+      GameReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
       String pgn = formatter.formatGame(report);
       System.out.println(pgn);
     }

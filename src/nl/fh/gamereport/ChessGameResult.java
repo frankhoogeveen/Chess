@@ -5,12 +5,7 @@
 
 package nl.fh.gamereport;
 
-/**
- * copyright F. Hoogeveen
- * @author frank
- */
-public enum GameResult {
-    //TODO split GameResult in GameResult and Reason For Draw...
+public enum ChessGameResult {
     WIN_WHITE(+1), 
     WIN_BLACK(-1), 
     UNDECIDED(0),     // for use when the game is not finished yet
@@ -27,7 +22,7 @@ public enum GameResult {
     
     private int value;
     
-    GameResult(int value){
+    ChessGameResult(int value){
         this.value = value;
     }
     

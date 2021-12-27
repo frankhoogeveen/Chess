@@ -16,7 +16,7 @@ import nl.fh.move.Move;
  * 
  */
 public class Perft {
-    private static MoveGenerator moveGenerator = Chess.getGameDriver().getMoveGenerator();
+    private static MoveGenerator moveGenerator = FIDEchess.getGameDriver().getMoveGenerator();
     
     /**
      * 

@@ -13,7 +13,7 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.ChessResultArbiter;
 import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
@@ -205,9 +205,6 @@ public class PieceMove extends ChessMove {
         PieceType piece = result.getFieldContent(this.from);
         result.setFieldContent(this.from, PieceType.EMPTY);
         result.setFieldContent(this.to, piece);
-        
-        //update the parent field
-        result.setParent(state);
         
         return result;
     }

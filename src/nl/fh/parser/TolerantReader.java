@@ -15,7 +15,7 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.GameResult;
+import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
 import nl.fh.move.ChessMove;
@@ -300,7 +300,7 @@ public class TolerantReader implements PGN_Reader{
 
     private void checkTerminator() throws PgnException {
         if(pgn.charAt(index) == '*'){
-            currentReport.setResult(GameResult.UNDECIDED);
+            currentReport.setResult(ChessGameResult.UNDECIDED);
             wrapUp();
             this.terminated = true;
             return;
@@ -313,7 +313,7 @@ public class TolerantReader implements PGN_Reader{
         if(pgn.charAt(index) == '1' && pgn.charAt(index+1) == '-'){
             // we are checking here for "1-", but we actually need "1-0"
             index += 3; 
-            currentReport.setResult(GameResult.WIN_WHITE);
+            currentReport.setResult(ChessGameResult.WIN_WHITE);
             wrapUp();
             this.terminated = true;
             return;            
@@ -322,7 +322,7 @@ public class TolerantReader implements PGN_Reader{
         if(pgn.charAt(index) == '1' && pgn.charAt(index+1) == '/'){
             // we are checking here for "1/", but we actually need "1/2-1/2"
             index += 7; 
-            currentReport.setResult(GameResult.DRAW);
+            currentReport.setResult(ChessGameResult.DRAW);
             wrapUp();
             this.terminated = true;
             return;            
@@ -331,7 +331,7 @@ public class TolerantReader implements PGN_Reader{
         if(pgn.charAt(index) == '0' && pgn.charAt(index+1) == '-'){
             // we are checking here for "0-", but we actually need "0-1"
             index += 3; 
-            currentReport.setResult(GameResult.WIN_BLACK);
+            currentReport.setResult(ChessGameResult.WIN_BLACK);
             wrapUp();
             this.terminated = true;          
         }        

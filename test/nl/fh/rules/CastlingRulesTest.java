@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class CastlingRulesTest {
     
-    private GameDriver gameDriver = Chess.getGameDriver();
+    private GameDriver gameDriver = FIDEchess.getGameDriver();
 
     @Test
     /**

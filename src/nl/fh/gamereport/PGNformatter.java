@@ -6,6 +6,7 @@
 package nl.fh.gamereport;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import nl.fh.gamestate.GameState;
@@ -34,8 +35,6 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
     private final GameDriver gameDriver;
     private Map<String, String> tagValuePairs;
 
-        
-    
     public PGNformatter(GameDriver gameDriver){
         this.gameDriver = gameDriver; 
     }
@@ -43,7 +42,16 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
     @Override
     public String formatGame(GameReport report) {
         
-        this.tagValuePairs = report.getTagValuePairs();
+        this.tagValuePairs = new HashMap(report.getTagValuePairs());
+        if(tagValuePairs.containsKey("Player1") && !tagValuePairs.containsKey("White")){
+            tagValuePairs.put("White", tagValuePairs.get("Player1"));
+            tagValuePairs.remove("Player1");
+        }
+        if(tagValuePairs.containsKey("Player2") && !tagValuePairs.containsKey("Black")){
+            tagValuePairs.put("Black", tagValuePairs.get("Player2"));
+            tagValuePairs.remove("Player2");            
+        }        
+        
         return formatGamePGN(report.getMoveList(), report.getGameResult());
         
     }
@@ -74,7 +82,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
      * 
      * @return a formatted report of the tags, moves and result; 
      */
-    private String formatGamePGN(List<ChessMove> moveList, GameResult result){
+    private String formatGamePGN(List<ChessMove> moveList, ChessGameResult result){
 
         
         StringBuilder sb = new StringBuilder();
@@ -158,7 +166,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         return sb.toString();
     }
 
-    private String resultString(GameResult gameResult) {
+    private String resultString(ChessGameResult gameResult) {
         if(gameResult == null){
             return "null";
         }
@@ -209,8 +217,8 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         Player player2 = report.getPlayer2();
         int score = report.getScore();
         int count = report.getCount();
-        Map<GameResult, Integer> player1White = report.getPlayer1WhiteResults();
-        Map<GameResult, Integer> player2White = report.getPlayer2WhiteResults();        
+        Map<ChessGameResult, Integer> player1White = report.getPlayer1WhiteResults();
+        Map<ChessGameResult, Integer> player2White = report.getPlayer2WhiteResults();        
         
         StringBuilder sb = new StringBuilder();
         sb.append(";");
@@ -237,7 +245,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         sb.append(";");          
         sb.append(player1.getDescription());
         sb.append(" playing as white\n");
-        for(GameResult g : GameResult.values()){
+        for(ChessGameResult g : ChessGameResult.values()){
            sb.append(";");              
            sb.append(g.toString());
            sb.append(" : ");
@@ -248,7 +256,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         sb.append(";");         
         sb.append(player2.getDescription());
         sb.append(" playing as white\n");
-        for(GameResult g : GameResult.values()){
+        for(ChessGameResult g : ChessGameResult.values()){
            sb.append(";");             
            sb.append(g.toString());
            sb.append(" : ");

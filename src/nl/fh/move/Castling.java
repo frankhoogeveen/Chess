@@ -13,7 +13,7 @@ import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
 
@@ -82,9 +82,6 @@ public class Castling extends ChessMove {
             result.setFieldContent(Field.getInstance("c8"), PieceType.BLACK_KING);
             result.setFieldContent(Field.getInstance("d8"), PieceType.BLACK_ROOK);               
         }
-        
-        //update the parent field
-        result.setParent(state);
         
         return result;
     }
@@ -155,7 +152,7 @@ public class Castling extends ChessMove {
     
     @Override
     public String toString(){
-        return formatPGN(null, Chess.getGameDriver());
+        return formatPGN(null, FIDEchess.getGameDriver());
     }
 
     @Override

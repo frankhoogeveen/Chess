@@ -7,7 +7,7 @@ package nl.fh.metric;
 
 import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.GameDriver;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class MaterialCountMetricTest {
     private final double delta = 1.e-9;
-    private GameDriver gameDriver = Chess.getGameDriver();
+    private GameDriver gameDriver = FIDEchess.getGameDriver();
     private double MATE_VALUE = 1.e6;
     
     @Test

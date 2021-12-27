@@ -15,10 +15,9 @@ import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.ChessResultArbiter;
 import nl.fh.rules.GameDriver;
-import nl.fh.rules.ResultArbiter;
 
 /**
  * A minimalistic ASCII interface
@@ -26,20 +25,17 @@ import nl.fh.rules.ResultArbiter;
  */
 public class TerminalPlayer implements Player {
     private static final String CURSOR = ">";
-    private static final GameDriver driver =Chess.getGameDriver();
+    private static final GameDriver driver =FIDEchess.getGameDriver();
     private static final ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    
-    
-    
+    private GameState previous = null;
+        
     @Override
     public Move getMove(GameState currentState, Set<Move> legalMoves) {
         
         System.out.println();
         System.out.println("----------------------------");
 
-        
-        GameState previous = currentState.getParent();
         if(previous != null){
             ChessMove previousMove = null;
             for(Move m : driver.getMoveGenerator().calculateAllLegalMoves(previous)){
@@ -53,7 +49,6 @@ public class TerminalPlayer implements Player {
             System.out.println();
         }
         
-
         // display the current state
         System.out.println();
         System.out.println("#help to get help");
@@ -83,6 +78,7 @@ public class TerminalPlayer implements Player {
                     } else {
                         for(Move m : legalMoves){
                             if(clean(code).equals(clean(((ChessMove)m).formatPGN(currentState, driver)))){
+                                previous = m.applyTo(currentState);
                                 return m;
                             }
                         }

@@ -18,7 +18,7 @@ import nl.fh.metric.utilities.NoiseAdder;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 
 /**
  * 
@@ -39,11 +39,11 @@ public class Job_004_match_between_two_static_evaluators {
         int nGames = 4;
         GameFilter filter = new TransparentFilter();
         
-        Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
+        Match match = new AlternatingMatch(nGames, FIDEchess.getGameDriver());
         
         MatchReport result = match.play(player1, player2, filter);
             
-        MatchReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+        MatchReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
         System.out.println(formatter.formatMatch(result));
     }
 

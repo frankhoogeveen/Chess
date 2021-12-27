@@ -1,6 +1,6 @@
 
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.MoveGenerator;
 import nl.fh.rules.Perft;
 import nl.fh.rules.PerftCase;
@@ -27,7 +27,7 @@ public class PerftTest {
     
     @Test
     public void testInitialState(){
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         
         assertEquals(1, Perft.value(state, 0));
         assertEquals(20, Perft.value(state, 1));  

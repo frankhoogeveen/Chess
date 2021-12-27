@@ -20,7 +20,7 @@ import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public class MatchTest {
         int nRounds = 2;
         int nGames = 2;     
         GameFilter filter = new TransparentFilter();
-        Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
+        Match match = new AlternatingMatch(nGames, FIDEchess.getGameDriver());
         
         for(int iRound = 0; iRound < nRounds; iRound++){
             
@@ -52,11 +52,11 @@ public class MatchTest {
             for(int iGame = 0; iGame<nGames; iGame++){
                 
                 MatchReport result = match.play(playerR, playerM, filter);
-                MatchReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+                MatchReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
                 String pgn = formatter.formatMatch(result);
 
                 PGN_Reader reader = new TolerantReader();
-                List<GameReport> result2 = reader.getGames(pgn, Chess.getGameDriver());
+                List<GameReport> result2 = reader.getGames(pgn, FIDEchess.getGameDriver());
 
                 assertEquals(nGames, result2.size());
             }

@@ -40,8 +40,6 @@ public class GameState implements Colored   {
 // the data independently describing the board state
 ////////////////////////////////////////////////////////////////////////////////     
     
-    private GameState parent;     // the history is part of the gamestate, due to the 3fold repetition rule
-    
     private PieceType[][] board;  // first coordinate is file, second is rank:
                                   // board[0][0] is a1
                                   // board[7][0] is h1 
@@ -612,23 +610,6 @@ public class GameState implements Colored   {
     public void setFieldContent(Field field, PieceType type){
         this.board[field.getX()][field.getY()] = type;
     }
-    
-    /**
-     * 
-     * @param parent 
-     */
-    public void setParent(GameState parent){
-        this.parent = parent;
-    }
-    
-    /**
-     * 
-     * @return the parent of this state, i.e. the state before the last move
-     */
-    public GameState getParent(){
-        return this.parent;
-    }
-    
     /**
      * 
      * @param move
@@ -679,8 +660,6 @@ public class GameState implements Colored   {
 //        result.fullMoveNumber =this.fullMoveNumber;
 
         result.drawOffered = this.drawOffered; 
-        
-        result.parent = this.parent;
         
         return result;
     }
@@ -888,7 +867,6 @@ public class GameState implements Colored   {
     public GameState changeColor() {
         GameState result = this.copy();
         result.activeColor = this.activeColor.flip();
-        result.parent = null;
         result.enPassantField = null;
         return result;
     }

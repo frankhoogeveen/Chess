@@ -10,7 +10,7 @@ import nl.fh.move.DrawOfferAccepted;
 import nl.fh.move.EnPassantCapture;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
-import nl.fh.rules.Chess;
+import nl.fh.rules.FIDEchess;
 import nl.fh.rules.ChessResultArbiter;
 import nl.fh.rules.GameDriver;
 import static org.junit.Assert.assertEquals;
@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public class MoveCodesTest {
     
-    GameDriver driver = Chess.getGameDriver();
+    GameDriver driver = FIDEchess.getGameDriver();
 
     
     @Test
@@ -105,7 +105,7 @@ public class MoveCodesTest {
     
     @Test
     public void testPieceMove1(){
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         
         Field from = Field.getInstance("b1");
         Field to   = Field.getInstance("c3");
@@ -116,7 +116,7 @@ public class MoveCodesTest {
     
     @Test
     public void testPieceMove2(){
-        GameState state = Chess.getInitialState();
+        GameState state = FIDEchess.getInitialState();
         
         Field from = Field.getInstance("a2");
         Field to   = Field.getInstance("a4");

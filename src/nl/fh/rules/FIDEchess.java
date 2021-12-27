@@ -8,12 +8,11 @@ package nl.fh.rules;
 import nl.fh.gamestate.GameState;
 
 /**
- * Defines regular chess.
+ * Defines regular chess according to the FIDE laws of chess( but without the 
+ * time controls for the moment).
  * 
- * Thing like "50" in the 50 moves rule could be pushed up here in the future
  */
-public class Chess {
-//TODO change into FideChess  , perhaps create a variant where capturing the king is the objective 
+public class FIDEchess {
     public final static String initialFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
     
     /**
