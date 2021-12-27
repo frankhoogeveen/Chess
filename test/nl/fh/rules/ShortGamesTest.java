@@ -33,7 +33,7 @@ public class ShortGamesTest {
         
         List<GameState> list = report.getStateList();
         GameState end = list.get(list.size()-1);
-        String endFEN = end.toFEN();
+        String endFEN = end.toFEN(4);
         
         assertEquals(target, endFEN);
     }
@@ -50,7 +50,7 @@ public class ShortGamesTest {
         
         List<GameState> list = report.getStateList();
         GameState end = list.get(list.size()-1);
-        String endFEN = end.toFEN();
+        String endFEN = end.toFEN(2);
         
         assertEquals(target, endFEN);
     }  
@@ -67,7 +67,7 @@ public class ShortGamesTest {
         GameReport report = reports.get(0);
         List<GameState> list = report.getStateList();
         GameState end = list.get(list.size()-1);
-        String endFEN = end.toFEN();
+        String endFEN = end.toFEN(4);
         
         assertEquals(target, endFEN);
     }        

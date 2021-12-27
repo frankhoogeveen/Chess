@@ -500,7 +500,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.WIN_WHITE, report.getGameResult());
         
         String fen2 = "rnbqk1Q1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
-        assertEquals(fen2, report.getFinalState().toFEN());
+        assertEquals(fen2, report.getFinalState().toFEN(1));
     }
     
     @Test
@@ -519,7 +519,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         
         String fen2 = "rnbqk1N1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
-        assertEquals(fen2, report.getFinalState().toFEN());
+        assertEquals(fen2, report.getFinalState().toFEN(1));
     }    
     
     @Test
@@ -540,7 +540,7 @@ public class TolerantReaderTest {
         
         
         String fen2 = "4k3/8/8/8/8/8/8/R4RK1 b - - 1 1";
-        assertEquals(fen2, report.getFinalState().toFEN());        
+        assertEquals(fen2, report.getFinalState().toFEN(1));        
     }
     @Test
     public void testCastlingWhiteQueenside(){
@@ -559,7 +559,7 @@ public class TolerantReaderTest {
         assertEquals(1, report.getMoveList().size());        
         
         String fen2 = "4k3/8/8/8/8/8/8/2KR3R b - - 1 1";
-        assertEquals(fen2, report.getFinalState().toFEN());        
+        assertEquals(fen2, report.getFinalState().toFEN(1));        
     }    
     
     @Test
@@ -579,7 +579,7 @@ public class TolerantReaderTest {
         assertEquals(1, report.getMoveList().size());        
         
         String fen2 = "r4rk1/8/8/8/8/8/8/4K3 w - - 1 2";
-        assertEquals(fen2, report.getFinalState().toFEN());        
+        assertEquals(fen2, report.getFinalState().toFEN(2));        
     }
     @Test
     public void testCastlingBlackQueenside(){
@@ -598,6 +598,6 @@ public class TolerantReaderTest {
         assertEquals(1, report.getMoveList().size());        
         
         String fen2 = "2kr3r/8/8/8/8/8/8/4K3 w - - 1 2";
-        assertEquals(fen2, report.getFinalState().toFEN());        
+        assertEquals(fen2, report.getFinalState().toFEN(2));        
     }       
 }

@@ -159,7 +159,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("k7/8/8/8/8/8/8/4K2R w - - 4 3", finalState.toFEN());
+        assertEquals("k7/8/8/8/8/8/8/4K2R w - - 4 3", finalState.toFEN(3));
     }  
     
     @Test
@@ -189,7 +189,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("k7/8/8/8/8/8/8/4K2R w - - 4 3", finalState.toFEN());
+        assertEquals("k7/8/8/8/8/8/8/4K2R w - - 4 3", finalState.toFEN(3));
     }  
     
     @Test
@@ -219,7 +219,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue( isLegalMove(move, finalState));
         
-        assertEquals("1k6/8/8/8/8/8/8/R3K2R w K - 4 3", finalState.toFEN());
+        assertEquals("1k6/8/8/8/8/8/8/R3K2R w K - 4 3", finalState.toFEN(3));
     }     
 
 ////////////////////////////////////////////////////////////////////
@@ -385,7 +385,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));           
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("7k/8/8/8/8/8/8/R3K3 w K - 4 3", finalState.toFEN());
+        assertEquals("7k/8/8/8/8/8/8/R3K3 w K - 4 3", finalState.toFEN(3));
     } 
     
     @Test
@@ -415,7 +415,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("7k/8/8/8/8/8/8/R3K3 w - - 4 3", finalState.toFEN());
+        assertEquals("7k/8/8/8/8/8/8/R3K3 w - - 4 3", finalState.toFEN(3));
     }  
     
     @Test
@@ -445,7 +445,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue( isLegalMove(move, finalState));
         
-        assertEquals("1k6/8/8/8/8/8/8/R3K2R w Q - 4 3", finalState.toFEN());
+        assertEquals("1k6/8/8/8/8/8/8/R3K2R w Q - 4 3", finalState.toFEN(3));
     }
 ////////////////////////////////////////////////////////////////////////////////
   
@@ -585,7 +585,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b q - 4 3", finalState.toFEN());
+        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b q - 4 3", finalState.toFEN(3));
     }  
     
     @Test
@@ -615,7 +615,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b - - 4 3", finalState.toFEN());
+        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b - - 4 3", finalState.toFEN(3));
     }  
     
     @Test
@@ -645,7 +645,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue( isLegalMove(move, finalState));
         
-        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b k - 4 3", finalState.toFEN());
+        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b k - 4 3", finalState.toFEN(3));
     }     
 
 ////////////////////////////////////////////////////////////////////
@@ -810,7 +810,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));           
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b k - 4 3", finalState.toFEN());
+        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b k - 4 3", finalState.toFEN(3));
     } 
     
     @Test
@@ -840,7 +840,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue(!isLegalMove(move, finalState));
         
-        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b - - 4 3", finalState.toFEN());
+        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b - - 4 3", finalState.toFEN(3));
     }  
     
     @Test
@@ -870,7 +870,7 @@ public class CastlingRulesTest {
         assertTrue( isLegalMove(move, initialState));        
         assertTrue( isLegalMove(move, finalState));
         
-        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b q - 4 3", finalState.toFEN());
+        assertEquals("r3k2r/8/8/8/8/8/8/4K3 b q - 4 3", finalState.toFEN(3));
     }    
 
     private boolean isLegalMove(Move move, GameState state) {

@@ -27,6 +27,8 @@ public class GameStateTest {
     
     @BeforeClass
     public static void setUpClass() {
+        // note that all fen strings in this list should have move number 1,
+        // since move number is not part of the game state.
         
         // the starting position
         fenList.add("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -38,10 +40,10 @@ public class GameStateTest {
         fenList.add("8/8/8/8/8/8/8/8 w - - 0 1");     
         
         // not all castling allowed
-        fenList.add("rnbqkbnr/1ppppppp/8/p7/7P/8/PPPPPPP1/RNBQKBNR w Qk - 4 4");
+        fenList.add("rnbqkbnr/1ppppppp/8/p7/7P/8/PPPPPPP1/RNBQKBNR w Qk - 4 1");
         
         //example with en passant
-        fenList.add("r1bqkbnr/pppp1ppp/n7/3Pp3/8/8/PPP1PPPP/RNBQKBNR w KQkq e6 0 3");
+        fenList.add("r1bqkbnr/pppp1ppp/n7/3Pp3/8/8/PPP1PPPP/RNBQKBNR w KQkq e6 0 1");
     }
     
     @Before
@@ -63,7 +65,16 @@ public class GameStateTest {
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         String result = instance.toFEN();
         assertEquals(expResult, result);
-    }    
+    }  
+    
+    @Test
+    public void testToFEN3() {
+
+        GameState instance = Chess.getInitialState();
+        String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 7";
+        String result = instance.toFEN(7);
+        assertEquals(expResult, result);
+    }     
 
     @Test
     public void testFromFEN() {
@@ -90,6 +101,8 @@ public class GameStateTest {
         GameState result2 = GameState.fromFEN(fen2);
         assertEquals(result1, result2);        
     }
+    
+    
     
     
     @Test

@@ -57,10 +57,9 @@ public class GameState implements Colored   {
     private Field enPassantField;  // field where an en passant capture is possible, null otherwise
     
     private int halfMoveClock;
-    private int fullMoveNumber;    //TODO remove full move number from gamestate
+//    private int fullMoveNumber;    Keeping track of the move number is the concern of the context of GameState
     
     private boolean drawOffered;
-    private boolean drawAgreed;
     
     /**
      * set up the board for a new game
@@ -91,10 +90,8 @@ public class GameState implements Colored   {
         enPassantField = null;
         
         halfMoveClock = 0;
-        fullMoveNumber = 1;   
         
         drawOffered = false;
-        drawAgreed = false;
     }    
     
     /**
@@ -102,7 +99,7 @@ public class GameState implements Colored   {
      * @return the game state in Forsyth-Edwards notation 
      * https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
      */
-    public String toFEN(){
+    public String toFEN(int moveNumber){
         StringBuilder sb = new StringBuilder();
         
         boardToFEN(sb);
@@ -117,9 +114,17 @@ public class GameState implements Colored   {
         enPassantToFEN(sb);
         sb.append(" ");
         
-        moveNumberToFEN(sb);
+        moveNumberToFEN(sb, moveNumber);
         
         return sb.toString();
+    }
+    
+    /**
+     * 
+     * @return the FEN string with assumed move number 1 
+     */
+    public String toFEN(){
+        return toFEN(1);
     }
     
     /**
@@ -139,7 +144,7 @@ public class GameState implements Colored   {
      * Given this choice, repeating XFEN three times in a game, implies that the
      * 3 fold repetition draw can be claimed. This is unlike the traditional FEN.
      */
-    public String toXFEN(MoveGenerator moveGenerator){
+    public String toXFEN(MoveGenerator moveGenerator, int moveNumber){
         StringBuilder sb = new StringBuilder();
         
         boardToFEN(sb);
@@ -154,10 +159,19 @@ public class GameState implements Colored   {
         enPassantToXFEN(sb, moveGenerator);
         sb.append(" ");
         
-        moveNumberToFEN(sb);
+        moveNumberToFEN(sb, moveNumber);
         
         return sb.toString();
     }    
+    
+    /**
+     * 
+     * @param moveGenerator
+     * @return the XFEN string with assumed move number 1. 
+     */
+    public String toXFEN(MoveGenerator moveGenerator){
+        return toXFEN(moveGenerator, 1);
+    }        
 
     
     
@@ -207,10 +221,10 @@ public class GameState implements Colored   {
         }
     }    
 
-    private void moveNumberToFEN(StringBuilder sb) {
+    private void moveNumberToFEN(StringBuilder sb, int moveNumber) {
         sb.append(halfMoveClock);
         sb.append(" ");
-        sb.append(fullMoveNumber);
+        sb.append(moveNumber);
     }
 
     private void castlingToFen(StringBuilder sb) {
@@ -453,10 +467,10 @@ public class GameState implements Colored   {
         }
         
         // the full move number
-        result.fullMoveNumber = Integer.parseInt(piece[5]);
-        if(result.fullMoveNumber < 0){
-            throw new IllegalArgumentException("FEN negative number of full moves: " + fen);
-        }
+//        result.fullMoveNumber = Integer.parseInt(piece[5]);
+//        if(result.fullMoveNumber < 0){
+//            throw new IllegalArgumentException("FEN negative number of full moves: " + fen);
+//        }
         
         return result;
     }
@@ -633,9 +647,9 @@ public class GameState implements Colored   {
      */
     public void increment(){
         this.halfMoveClock += 1;
-        if(this.activeColor == Color.BLACK){
-            this.fullMoveNumber += 1;
-        }
+//        if(this.activeColor == Color.BLACK){
+//            this.fullMoveNumber += 1;
+//        }
         this.activeColor = this.activeColor.flip();
     }
     
@@ -662,7 +676,7 @@ public class GameState implements Colored   {
         result.enPassantField = this.enPassantField;
 
         result.halfMoveClock =this.halfMoveClock;
-        result.fullMoveNumber =this.fullMoveNumber;
+//        result.fullMoveNumber =this.fullMoveNumber;
 
         result.drawOffered = this.drawOffered; 
         
@@ -799,7 +813,7 @@ public class GameState implements Colored   {
     }
     
     public void agreeDraw(){
-        this.drawAgreed = true;
+        // consider maintaining a this.drawAgreed field. For the moment there is no need
         if(!drawOffered){
            throw new IllegalStateException("Draw agreed, but not offered");   
         }
