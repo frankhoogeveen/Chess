@@ -42,7 +42,7 @@ public class MatchTest {
         int nRounds = 2;
         int nGames = 2;     
         GameFilter filter = new TransparentFilter();
-        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
+        Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
         
         for(int iRound = 0; iRound < nRounds; iRound++){
             
@@ -55,7 +55,7 @@ public class MatchTest {
                 String pgn = result.toPGN();
 
                 PGN_Reader reader = new TolerantReader();
-                List<GameReport> result2 = reader.getGames(pgn, Chess.gameDriver);
+                List<GameReport> result2 = reader.getGames(pgn, Chess.getGameDriver());
 
                 assertEquals(nGames, result2.size());
             }

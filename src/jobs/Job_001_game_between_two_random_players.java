@@ -20,7 +20,7 @@ public class Job_001_game_between_two_random_players {
       Player player1 = new RandomPlayer();
       Player player2 = new RandomPlayer();
       
-      GameReport report = Chess.gameDriver.playGame(player1, player2);
+      GameReport report = Chess.getGameDriver().playGame(player1, player2);
 
       /*
       System.out.println(report.getStateList().get(0));

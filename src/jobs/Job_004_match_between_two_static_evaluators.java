@@ -37,7 +37,7 @@ public class Job_004_match_between_two_static_evaluators {
         int nGames = 4;
         GameFilter filter = new TransparentFilter();
         
-        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
+        Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
         
         MatchResult result = match.play(player1, player2, filter);
             

@@ -57,7 +57,7 @@ public class GameState implements Colored   {
     private Field enPassantField;  // field where an en passant capture is possible, null otherwise
     
     private int halfMoveClock;
-    private int fullMoveNumber;
+    private int fullMoveNumber;    //TODO remove full move number from gamestate
     
     private boolean drawOffered;
     private boolean drawAgreed;
@@ -806,71 +806,27 @@ public class GameState implements Colored   {
     } 
     
 
-    /**
-     * 
-     * @param state
-     * @return true if this repeats this game state in the sense of the FIDE 
-     * rules of chess art 9.2:
-     * - the same player is to move
-     * - the castling information should be the same* 
-     * - the location of the pieces on the board should be the same
-     * - the same moves (e.g. en passant captures should be allowed). This differs from just
-     *   having the en passant fields being equal.
-     */
-    public boolean repeats(GameState state) {
-        if (this == state) {
-            return true;
-        }
-        if (state == null) {
-            return false;
-        }
-        
-        if (this.activeColor != state.activeColor) {
-            return false;
-        }        
 
-        if (this.whiteCanCastleKingside != state.whiteCanCastleKingside) {
-            return false;
-        }
-        if (this.whiteCanCastleQueenside != state.whiteCanCastleQueenside) {
-            return false;
-        }
-        if (this.blackCanCastleKingside != state.blackCanCastleKingside) {
-            return false;
-        }
-        if (this.blackCanCastleQueenside != state.blackCanCastleQueenside) {
-            return false;
-        }
 
-        if (!Arrays.deepEquals(this.board, state.board)) {
-            return false;
-        }
-//TODO reconsider this piece of code        
-//        if(!this.getLegalMoves().equals(state.getLegalMoves())){
-//            return false;
+//TODO remove potentially obsolete code    
+//    /**
+//     * 
+//     * @return the number of times this position is repeated in the current game 
+//     */
+//    public int countRepetitions() {
+//        int result = 1;  // this repeats itself, by definition
+//        GameState current = this.parent;
+//        while((current != null)){
+//            if(this.repeats(current)){
+//                result += 1;
+//            }
+//            if(current.halfMoveClock == 0){
+//                break;
+//            }
+//            current = current.parent;
 //        }
-
-        return true;
-    }  
-    
-    /**
-     * 
-     * @return the number of times this position is repeated in the current game 
-     */
-    public int countRepetitions() {
-        int result = 1;  // this repeats itself, by definition
-        GameState current = this.parent;
-        while((current != null)){
-            if(this.repeats(current)){
-                result += 1;
-            }
-            if(current.halfMoveClock == 0){
-                break;
-            }
-            current = current.parent;
-        }
-        return result;
-    }    
+//        return result;
+//    }    
 
     @Override
     public int hashCode() {

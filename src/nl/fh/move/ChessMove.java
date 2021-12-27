@@ -32,7 +32,7 @@ public abstract class ChessMove implements Move {
     public abstract Field getFrom();
     
     /**
-     * @param state
+     * @param state the state BEFORE the move
      * @param driver
      * @return the string the represents the move in an exported PGN 
      * 
@@ -43,6 +43,10 @@ public abstract class ChessMove implements Move {
      * - to add the supplemental rank or file info when needed
      * - to add the x when capturing
      * - to add the promoted piece
+     * 
+     * Setting the state to a state that is not equal to the state before the
+     * move (e.g. to the state after the move) leads to undefined results. 
+     * No test is made to ensure that move is legal in the given state.
      * 
      */
     public abstract String formatPGN(GameState state, GameDriver driver);

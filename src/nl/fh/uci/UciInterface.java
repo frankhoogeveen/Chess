@@ -157,7 +157,7 @@ public class UciInterface implements Runnable {
     
     public static void main(String[] args){
         Player player = MetricPlayer.getInstance(new ShannonMetric());
-        GameDriver driver = Chess.gameDriver;
+        GameDriver driver = Chess.getGameDriver();
         UciInterface uci = new UciInterface(player, driver);
         uci.run();
     }    

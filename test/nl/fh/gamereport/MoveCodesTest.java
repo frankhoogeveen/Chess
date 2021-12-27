@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public class MoveCodesTest {
     
-    GameDriver driver = Chess.gameDriver;
+    GameDriver driver = Chess.getGameDriver();
 
     
     @Test
@@ -87,7 +87,7 @@ public class MoveCodesTest {
     
     @Test
     public void testPieceMove1(){
-        GameState state = Chess.initialState;
+        GameState state = Chess.getInitialState();
         
         Field from = Field.getInstance("b1");
         Field to   = Field.getInstance("c3");
@@ -98,7 +98,7 @@ public class MoveCodesTest {
     
     @Test
     public void testPieceMove2(){
-        GameState state = Chess.initialState;
+        GameState state = Chess.getInitialState();
         
         Field from = Field.getInstance("a2");
         Field to   = Field.getInstance("a4");

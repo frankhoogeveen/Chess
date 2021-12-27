@@ -20,7 +20,8 @@ public interface ResultArbiter {
      * 
      * @param report
      * @return the current status of the game, based on the report 
+     * The contents of report is NOT changed
      */
-    public GameResult updateResult(GameReport report, Set<Move> legalMoves);
+    public GameResult determineResult(GameReport report, Set<Move> legalMoves);
 
 }

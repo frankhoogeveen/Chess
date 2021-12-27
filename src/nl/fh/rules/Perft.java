@@ -16,6 +16,7 @@ import nl.fh.move.Move;
  * 
  */
 public class Perft {
+    private static MoveGenerator moveGenerator = Chess.getGameDriver().getMoveGenerator();
     
     /**
      * 
@@ -33,7 +34,7 @@ public class Perft {
         }
         
         long result = 0;
-        for(GameState child : Chess.moveGenerator.calculateChildren(state)){
+        for(GameState child : moveGenerator.calculateChildren(state)){
             result += value(child, depth -1);
         }
         
@@ -55,7 +56,7 @@ public class Perft {
         sb.append("\n");
         
         long total = 0;
-        for(Move move : Chess.moveGenerator.calculateAllLegalMoves(state)){
+        for(Move move : moveGenerator.calculateAllLegalMoves(state)){
             GameState child = move.applyTo(state);
             
             long perft = Perft.value(child, depth-1);
@@ -197,6 +198,4 @@ public class Perft {
         
         return result;
     }
-    
-    
 }

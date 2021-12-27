@@ -10,6 +10,8 @@ import nl.fh.gamestate.GameState;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -19,8 +21,12 @@ import org.junit.Test;
  */
 public class NegaMaxMetricTest {
     private final double delta = 1.e-9;
-    Metric<GameState> baseMetric = new MaterialCountMetric(Chess.gameDriver);   
-    NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric, Chess.moveGenerator, 0);
+    
+    private GameDriver gameDriver = Chess.getGameDriver();
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();   
+    
+    Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);   
+    NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric, moveGenerator, 0);
     
     @Test
     public void BackRankCaseTest(){

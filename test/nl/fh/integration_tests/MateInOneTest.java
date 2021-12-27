@@ -17,6 +17,8 @@ import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.rules.Chess;
 import nl.fh.rules.Rules;
 import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -26,6 +28,9 @@ import org.junit.Test;
  */
 public class MateInOneTest {
     
+    GameDriver gameDriver = Chess.getGameDriver();
+    MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
+    
     @Test
     public void testMateInOneShannon(){
         String fen = "rnb1k1nr/pppp1ppp/4p3/4P3/3b4/8/4qPPP/1K5R b kq - 0 15";
@@ -33,10 +38,10 @@ public class MateInOneTest {
         ShannonMetric shannon = new ShannonMetric();
         
         Player player = MetricPlayer.getInstance(shannon);
-        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
         ChessMove move = (ChessMove) player.getMove(state, legalMoves);
-        assertEquals("Qb2#", move.formatPGN(state, Chess.gameDriver));
+        assertEquals("Qb2#", move.formatPGN(state, Chess.getGameDriver()));
        
     } 
     
@@ -48,10 +53,10 @@ public class MateInOneTest {
         ShannonMetric shannon = new ShannonMetric();
         
         Player player = MetricPlayer.getInstance(shannon);
-        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
         ChessMove move = (ChessMove) player.getMove(state, legalMoves);
-        assertEquals("Qb2#", move.formatPGN(state, Chess.gameDriver));
+        assertEquals("Qb2#", move.formatPGN(state, gameDriver));
     }
     
    //@Test  //test switched off because of time consumption
@@ -61,23 +66,23 @@ public class MateInOneTest {
         ShannonMetric shannon = new ShannonMetric();
         
         int depth = 2;
-        Player player = MetricPlayer.getInstance(new NegaMax(shannon, Chess.moveGenerator, depth));
-        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);        
+        Player player = MetricPlayer.getInstance(new NegaMax(shannon, moveGenerator, depth));
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);        
         
         ChessMove move = (ChessMove) player.getMove(state, legalMoves);
-        assertEquals("Qb2#", move.formatPGN(state, Chess.gameDriver));
+        assertEquals("Qb2#", move.formatPGN(state, gameDriver));
     }   
     
     @Test
     public void testMateInOneBlackToMove(){
         String fen = "3K4/7r/3k4/8/8/8/8/8 b - - 0 1";
         GameState state = GameState.fromFEN(fen);
-        MaterialCountMetric metric = new MaterialCountMetric(Chess.gameDriver);
+        MaterialCountMetric metric = new MaterialCountMetric(gameDriver);
         
         Player player = MetricPlayer.getInstance(metric);
-        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);             
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);             
         ChessMove move = (ChessMove) player.getMove(state, legalMoves);
-        assertEquals("Rh8#", move.formatPGN(state, Chess.gameDriver));
+        assertEquals("Rh8#", move.formatPGN(state, gameDriver));
        
     }     
 
@@ -86,11 +91,11 @@ public class MateInOneTest {
     public void testMateInOneWhiteToMove(){
         String fen = "8/8/8/qn6/kn6/1n6/1KP5/8 w - - 0 1";
         GameState state = GameState.fromFEN(fen);
-        MaterialCountMetric metric = new MaterialCountMetric(Chess.gameDriver);
+        MaterialCountMetric metric = new MaterialCountMetric(gameDriver);
         
         Player player = MetricPlayer.getInstance(metric);
-        Set<Move> legalMoves = Chess.moveGenerator.calculateAllLegalMoves(state);             
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);             
         ChessMove move = (ChessMove) player.getMove(state, legalMoves);
-        assertEquals("cxb3#", move.formatPGN(state, Chess.gameDriver));
+        assertEquals("cxb3#", move.formatPGN(state, gameDriver));
     }     
 }

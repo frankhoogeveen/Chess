@@ -14,34 +14,36 @@ import nl.fh.metric.utilities.Counter;
 import nl.fh.metric.utilities.TableBuffer;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
-import nl.fh.rules.Rules;
-import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 
 /**
  * 
  */
 public class Job_008_measure_effect_pruning {
     
-        
+    private static GameDriver gameDriver = Chess.getGameDriver();
+    private static MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
+    
     public static void main(String[] args){
 
-        Metric<GameState> baseMetric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);
         
         Counter<GameState> counter = new Counter<GameState>(baseMetric);
-        NegaMax<GameState> nega = new NegaMax<GameState>(counter, Chess.moveGenerator, 0);
+        NegaMax<GameState> nega = new NegaMax<GameState>(counter, moveGenerator, 0);
         
         Counter<GameState> counterAB = new Counter<GameState>(baseMetric);        
-        NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(counterAB, Chess.moveGenerator, 0);
+        NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(counterAB, moveGenerator, 0);
         
         int size2 = 10000;
         Counter<GameState> counterAB2 = new Counter<GameState>(baseMetric);  
         TableBuffer<GameState> buffered = new TableBuffer<GameState>(counterAB2, size2);        
-        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(buffered, Chess.moveGenerator, 0);
+        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(buffered, moveGenerator, 0);
         
         int size3 = 20000;
         Counter<GameState> counterAB3 = new Counter<GameState>(baseMetric);  
         TableBuffer<GameState> buffered3 = new TableBuffer<GameState>(counterAB3, size3);        
-        NegaMaxGen3<GameState> negaAB3= new NegaMaxGen3<GameState>(buffered3, Chess.moveGenerator, 0);      
+        NegaMaxGen3<GameState> negaAB3= new NegaMaxGen3<GameState>(buffered3, moveGenerator, 0);      
 
         nega.setDepth(3);
         negaAB.setDepth(3);

@@ -26,7 +26,7 @@ import nl.fh.rules.ResultArbiter;
  */
 public class TerminalPlayer implements Player {
     private static final String CURSOR = ">";
-    private static final GameDriver driver =Chess.gameDriver;
+    private static final GameDriver driver =Chess.getGameDriver();
     private static final ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     

@@ -18,13 +18,16 @@ import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
-import nl.fh.rules.Rules;
-import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 
 /**
  * 
  */
 public class Job_007b_list_moves_depth3 {
+    
+    private static GameDriver gameDriver = Chess.getGameDriver();
+    private static MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
     
         
     // list moves at depth two
@@ -38,8 +41,8 @@ public class Job_007b_list_moves_depth3 {
         String fen = "k7/ppr5/8/8/8/8/7R/7K w - - 0 1";
         GameState state = GameState.fromFEN(fen);
 
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
-        NegaMax<GameState> nega = new NegaMax(metric, Chess.moveGenerator,  0);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        NegaMax<GameState> nega = new NegaMax(metric, moveGenerator,  0);
 
         StringBuilder sb = new StringBuilder();
         
@@ -53,29 +56,29 @@ public class Job_007b_list_moves_depth3 {
         sb.append("\n\n");
         sb.append("move1;move2;move3;depth0;depth1;depth2;\n");
         
-        for(Move move1 :Chess.moveGenerator.calculateAllLegalMoves(state)){
+        for(Move move1 :moveGenerator.calculateAllLegalMoves(state)){
             GameState state1 = move1.applyTo(state);
             nega.setDepth(2);
             double value2 = nega.eval(state1);              
 
-            for(Move move2 : Chess.moveGenerator.calculateAllLegalMoves(state1)){
+            for(Move move2 : moveGenerator.calculateAllLegalMoves(state1)){
                 GameState state2 = move2.applyTo(state1);
                 
                 nega.setDepth(1);
                 double value1 = nega.eval(state2);             
                 
-                for(Move move3 : Chess.moveGenerator.calculateAllLegalMoves(state2)){
+                for(Move move3 : moveGenerator.calculateAllLegalMoves(state2)){
                     
                     GameState state3 = move3.applyTo(state2);
                     
                     nega.setDepth(0);
                     double value0 = nega.eval(state3);  
 
-                    sb.append(((ChessMove)move1).formatPGN(state, Chess.gameDriver));
+                    sb.append(((ChessMove)move1).formatPGN(state, gameDriver));
                     sb.append(";");
-                    sb.append(((ChessMove)move2).formatPGN(state, Chess.gameDriver));
+                    sb.append(((ChessMove)move2).formatPGN(state, gameDriver));
                     sb.append(";");
-                    sb.append(((ChessMove)move3).formatPGN(state, Chess.gameDriver));
+                    sb.append(((ChessMove)move3).formatPGN(state, gameDriver));
                     sb.append(";");                    
                     sb.append(value0);
                     sb.append(";"); 

@@ -12,8 +12,8 @@ import nl.fh.metric.utilities.MaxOfChildren;
 import nl.fh.metric.utilities.MinOfChildren;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
-import nl.fh.rules.Rules;
-import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -23,8 +23,11 @@ import org.junit.Test;
  */
 public class NegaMaxMetricTest4 {
     private final double delta = 1.e-9;
-    Metric<GameState> baseMetric = new MaterialCountMetric(Chess.gameDriver);   
-    NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric, Chess.moveGenerator, 0);
+    
+    private GameDriver gameDriver = Chess.getGameDriver();
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();       
+    Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);   
+    NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric, moveGenerator, 0);
     
     String fenW = "k7/pp1b4/8/8/8/8/7R/7K w - - 0 1";
     String fenB = "k7/pp1b4/8/8/8/8/7R/7K b - - 0 1";
@@ -58,7 +61,7 @@ public class NegaMaxMetricTest4 {
         
         nega.setDepth(1);
 
-        Metric<GameState> metric = new MaxOfChildren(baseMetric, Chess.gameDriver);
+        Metric<GameState> metric = new MaxOfChildren(baseMetric, gameDriver);
         
         assertEquals( 0.0 , metric.eval(state), delta);    
         assertEquals(metric.eval(state),nega.eval(state), delta);          
@@ -71,7 +74,7 @@ public class NegaMaxMetricTest4 {
         
         nega.setDepth(1);
         
-        Metric<GameState> metric = new MinOfChildren(baseMetric, Chess.gameDriver);
+        Metric<GameState> metric = new MinOfChildren(baseMetric, gameDriver);
         
         assertEquals( 0.0, metric.eval(state), delta);    
         assertEquals(metric.eval(state),nega.eval(state), delta);    
@@ -85,8 +88,8 @@ public class NegaMaxMetricTest4 {
         nega.setDepth(2);
 
         Metric<GameState> metric = baseMetric;
-        metric = new MinOfChildren(metric, Chess.gameDriver);        
-        metric = new MaxOfChildren(metric, Chess.gameDriver);
+        metric = new MinOfChildren(metric, gameDriver);        
+        metric = new MaxOfChildren(metric, gameDriver);
         
         assertEquals( 0.0 , metric.eval(state), delta);    
         assertEquals(metric.eval(state),nega.eval(state), delta);          
@@ -100,8 +103,8 @@ public class NegaMaxMetricTest4 {
         nega.setDepth(2);
         
         Metric<GameState> metric = baseMetric;
-        metric = new MaxOfChildren(metric, Chess.gameDriver);        
-        metric = new MinOfChildren(metric, Chess.gameDriver);        
+        metric = new MaxOfChildren(metric, gameDriver);        
+        metric = new MinOfChildren(metric, gameDriver);        
 
         assertEquals( 0.0, metric.eval(state), delta);    
         assertEquals(metric.eval(state),nega.eval(state), delta);    
@@ -115,9 +118,9 @@ public class NegaMaxMetricTest4 {
         nega.setDepth(3);
 
         Metric<GameState> metric = baseMetric;
-        metric = new MaxOfChildren(metric, Chess.gameDriver);        
-        metric = new MinOfChildren(metric, Chess.gameDriver);        
-        metric = new MaxOfChildren(metric, Chess.gameDriver);
+        metric = new MaxOfChildren(metric, gameDriver);        
+        metric = new MinOfChildren(metric, gameDriver);        
+        metric = new MaxOfChildren(metric, gameDriver);
         
         assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);    
         assertEquals(metric.eval(state),nega.eval(state), delta);          
@@ -131,9 +134,9 @@ public class NegaMaxMetricTest4 {
         nega.setDepth(3);
         
         Metric<GameState> metric = baseMetric;
-        metric = new MinOfChildren(metric, Chess.gameDriver);           
-        metric = new MaxOfChildren(metric, Chess.gameDriver);  
-        metric = new MinOfChildren(metric, Chess.gameDriver);       
+        metric = new MinOfChildren(metric, gameDriver);           
+        metric = new MaxOfChildren(metric, gameDriver);  
+        metric = new MinOfChildren(metric, gameDriver);       
 
         assertEquals( 0.0, metric.eval(state), delta);    
         assertEquals(metric.eval(state),nega.eval(state), delta);    

@@ -40,7 +40,7 @@ public class PhilidorTest {
                 
         // process the pgn file
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, Chess.getGameDriver());
         assertEquals(6, reports.size());
                 
     }   

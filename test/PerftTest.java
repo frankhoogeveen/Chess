@@ -1,11 +1,9 @@
 
 import nl.fh.gamestate.GameState;
 import nl.fh.rules.Chess;
-import nl.fh.rules.GameDriver;
 import nl.fh.rules.MoveGenerator;
 import nl.fh.rules.Perft;
 import nl.fh.rules.PerftCase;
-import nl.fh.rules.Rules;
 import nl.fh.rules.ChessMoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -29,7 +27,7 @@ public class PerftTest {
     
     @Test
     public void testInitialState(){
-        GameState state = Chess.initialState;
+        GameState state = Chess.getInitialState();
         
         assertEquals(1, Perft.value(state, 0));
         assertEquals(20, Perft.value(state, 1));  

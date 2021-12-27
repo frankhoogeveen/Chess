@@ -8,6 +8,8 @@ import nl.fh.metric.minimax.NegaMax;
 import nl.fh.metric.minimax.NegaMaxGen3;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
+import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +28,9 @@ public class NegaMaxGen3Test {
     private List<String> cases;
     private final double delta = 1.e-9;
     
+    private GameDriver gameDriver = Chess.getGameDriver();
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();       
+    
     @Before
     public void setUpTestStates(){
         this.cases = new ArrayList<String>();
@@ -39,9 +44,9 @@ public class NegaMaxGen3Test {
     public void testComparison(){
         int depth = 3;
         
-        Metric<GameState> baseMetric = new MaterialCountMetric(Chess.gameDriver);
-        Metric<GameState> nega = new NegaMax(baseMetric, Chess.moveGenerator, depth);
-        Metric<GameState> gen3 = new NegaMaxGen3(baseMetric, Chess.moveGenerator, depth);
+        Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> nega = new NegaMax(baseMetric, moveGenerator, depth);
+        Metric<GameState> gen3 = new NegaMaxGen3(baseMetric, moveGenerator, depth);
         
         for(String fen : cases){
             GameState state = GameState.fromFEN(fen);

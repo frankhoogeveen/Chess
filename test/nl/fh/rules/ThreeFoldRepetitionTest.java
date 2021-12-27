@@ -5,11 +5,16 @@
 
 package nl.fh.rules;
 
+import java.util.Set;
 import nl.fh.chess.Color;
+import nl.fh.chess.Field;
 import nl.fh.player.pgn_replayer.PgnReplayer;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
+import nl.fh.move.ChessMove;
+import nl.fh.move.Move;
+import nl.fh.move.PieceMove;
 import nl.fh.player.Player;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -22,6 +27,101 @@ import org.junit.Test;
  */
 public class ThreeFoldRepetitionTest {
     
+    private GameDriver gameDriver = Chess.getGameDriver();
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();   
+    private ChessResultArbiter arbiter = (ChessResultArbiter) gameDriver.getResultArbiter();
+    
+    @Test
+    public void testRepetition(){
+        String fen1 = "rnbq1bnr/pppkpppp/8/3p4/3P4/8/PPPBPPPP/RN1QKBNR w KQ - 2 3";
+        String fen2 = "rnbq1bnr/pppkpppp/8/3p4/3P4/8/PPPBPPPP/RN1QKBNR w KQ - 6 5";
+        GameState state1 = GameState.fromFEN(fen1);
+        GameState state2 = GameState.fromFEN(fen2);
+        
+        assertTrue(arbiter.repeats(state1, state2));
+    }  
+    
+    @Test
+    public void testRepetition2(){
+        // This case shows equal states. At first sight, there
+        // is no repetition since the en passant flag is raised 
+        // in one case and not in the other. However, e.p. is 
+        // illegal due to a pin. Therefore both the locations
+        // of the pieces on the board and the allowed moves are the same.
+        // According to rule 9.2 FIDE Laws of Chess, these are repeating positions
+        String fen1 = "7k/8/8/K1pP3r/8/8/8/8 w - - 0 2";
+        String fen2 = "7k/8/8/K1pP3r/8/8/8/8 w - c6 0 2";
+        GameState state1 = GameState.fromFEN(fen1);
+        GameState state2 = GameState.fromFEN(fen2);
+        
+        assertTrue(arbiter.repeats(state1, state2));
+    }     
+    
+    @Test
+    public void testThreefoldRepetitionManually(){
+        GameReport report = new GameReport();
+        GameState state = Chess.getInitialState();
+        
+        Field f3 = Field.getInstance("f3");
+        Field f6 = Field.getInstance("f6");
+        Field g1 = Field.getInstance("g1");
+        Field g8 = Field.getInstance("g8");        
+        
+        ChessMove Nf3 = PieceMove.getInstance(g1, f3);
+        ChessMove Nf6 = PieceMove.getInstance(g8, f6);
+        ChessMove Ng1 = PieceMove.getInstance(f3, g1);
+        ChessMove Ng8 = PieceMove.getInstance(f6, g8);        
+                
+        report.addGameState(state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Nf3);
+        report.addPly(Nf3, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Nf6);
+        report.addPly(Nf6, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Ng1);
+        report.addPly(Ng1, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Ng8);
+        report.addPly(Ng8, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Nf3);
+        report.addPly(Nf3, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Nf6);
+        report.addPly(Nf6, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        state = state.apply(Ng1);
+        report.addPly(Ng1, state);
+        assertFalse(arbiter.isThreeFoldRepetition(report));
+        
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
+        
+        state = state.apply(Ng8);
+        report.addPly(Ng8, state);
+        assertTrue(arbiter.isThreeFoldRepetition(report));    
+        
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());               
+        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
+        GameResult result = arbiter.determineResult(report, legalMoves);
+        
+        // the arbiter determines the result, but does not change the report
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());          
+        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION, result);       
+        report.setResult(result);
+        
+        assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION, report.getGameResult());        
+        
+    }
+    
     
     @Test
     public void testThreeFoldRepetition(){
@@ -32,25 +132,13 @@ public class ThreeFoldRepetitionTest {
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = Chess.gameDriver.playGame(playerW, playerB);
+        GameReport report = gameDriver.playGame(playerW, playerB);
         
         assertEquals(12, report.getMoveList().size());
         assertEquals(GameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
                      report.getTag("Result"));
         
-        ChessResultArbiter arbiter = new ChessResultArbiter();
-        for(int i = 0; i < report.getStateList().size()-1; i++){
-            assertFalse(arbiter.isThreeFoldRepetition(report.getStateList().get(i)));
-        }
-        
-//        for(int i = 0; i < report.getStateList().size(); i++){
-//            System.out.println(i);
-//            System.out.println(report.getStateList().get(i).toFEN());
-//            System.out.println(report.getStateList().get(i).countRepetitions());
-//            System.out.println();
-//        }
-        
-        assertTrue(arbiter.isThreeFoldRepetition(report.getStateList().get(12)));        
+        assertTrue(arbiter.isThreeFoldRepetition(report));        
         
     }
 
@@ -67,7 +155,7 @@ public class ThreeFoldRepetitionTest {
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
+        GameReport report = gameDriver.playGame(playerW, playerB, initial);
 //        
 //        
 //        System.out.println(pgn);
@@ -102,7 +190,7 @@ public class ThreeFoldRepetitionTest {
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
+        GameReport report = gameDriver.playGame(playerW, playerB, initial);
         
 //        System.out.println(pgn);
 //        System.out.println();
@@ -141,7 +229,7 @@ public class ThreeFoldRepetitionTest {
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
         
-        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
+        GameReport report = gameDriver.playGame(playerW, playerB, initial);
 //        
 //        System.out.println(pgn);
 //        System.out.println();
@@ -181,7 +269,7 @@ public class ThreeFoldRepetitionTest {
         Player playerW = PgnReplayer.getInstance(pgn, nl.fh.chess.Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, nl.fh.chess.Color.BLACK);     
         
-        GameReport report = Chess.gameDriver.playGame(playerW, playerB, initial);
+        GameReport report = gameDriver.playGame(playerW, playerB, initial);
         
 //        System.out.println(pgn);
 //        System.out.println();

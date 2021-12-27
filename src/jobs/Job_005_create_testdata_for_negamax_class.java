@@ -37,7 +37,7 @@ public class Job_005_create_testdata_for_negamax_class {
         
         System.out.println("-------------------------------");
         System.out.println(state.toFEN());
-        Set<GameState> children = Chess.moveGenerator.calculateChildren(state);
+        Set<GameState> children = Chess.getGameDriver().getMoveGenerator().calculateChildren(state);
         for(GameState s : children){
             double val = metric.eval(s);
             if(val > vmax){

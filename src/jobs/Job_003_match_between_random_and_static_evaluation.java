@@ -36,7 +36,7 @@ public class Job_003_match_between_random_and_static_evaluation {
         GameFilter filterM = new CapFilter(10, new NotFilter(filterR));
         GameFilter filter = new OrFilter(filterR, filterM);        
         
-        Match match = new AlternatingMatch(nGames, Chess.gameDriver);
+        Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
         
         MatchResult result = match.play(playerR, playerM, filter);
             

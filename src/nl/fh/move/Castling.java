@@ -132,7 +132,7 @@ public class Castling extends ChessMove {
     
     @Override
     public String toString(){
-        return formatPGN(null, Chess.gameDriver);
+        return formatPGN(null, Chess.getGameDriver());
     }
 
     @Override

@@ -35,6 +35,10 @@ public class GameDriver {
      * @param moveGenerator
      * @param resultArbiter
      * @return a game driver 
+     * 
+     * Is is the concern of the GameDrive to:
+     * 1)call the move generator and the result arbiter
+     * 2)maintain the report
      */
     public static GameDriver getInstance(GameState initialState, MoveGenerator moveGenerator, ResultArbiter resultArbiter){
         
@@ -93,16 +97,23 @@ public class GameDriver {
     public GameReport playGame(Player firstPlayer, Player secondPlayer, GameState initialState){
         GameReport report = setUpReport(firstPlayer, secondPlayer);
         
-        GameState currentState = this.initialState;
+        GameState currentState = initialState;
         Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(currentState);      
         report.addGameState(currentState);
         
         Player currentPlayer = firstPlayer;
         GameResult currentStatus = GameResult.UNDECIDED;
         
+        System.out.println("=== playing game ===");
+        
         while(currentStatus == GameResult.UNDECIDED){
+            //TODO remove print statements
+            System.out.println("----------");
+            System.out.println(currentState);            
 
             Move move = currentPlayer.getMove(currentState, legalMoves);
+            //TODO remove print
+            System.out.println(((ChessMove)move).formatPGN(currentState, this));            
             
             report.addMove((ChessMove)move);
             if(moveIsIllegal(legalMoves, move, (currentPlayer==firstPlayer), report)){
@@ -113,10 +124,18 @@ public class GameDriver {
             legalMoves = moveGenerator.calculateAllLegalMoves(currentState);            
             report.addGameState(currentState);
             
-            currentStatus = resultArbiter.updateResult(report, legalMoves);
+            currentStatus = resultArbiter.determineResult(report, legalMoves);
+            //TODO remove
+            System.out.println("as calculated by arbiter: " + currentStatus);            
+            
             report.setResult(currentStatus);
             
             currentPlayer = (currentPlayer == firstPlayer) ? secondPlayer : firstPlayer;
+            
+            //TODO remove print statements
+            System.out.println(currentState);
+            System.out.println(currentStatus);
+            System.out.println();
         }
         
         return report;

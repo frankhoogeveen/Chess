@@ -9,7 +9,6 @@ import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.chess.PieceKind;
-import nl.fh.chess.PieceType;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
@@ -21,37 +20,37 @@ import static org.junit.Assert.*;
  */
 public class SimpleRulesTest {
     
-    public SimpleRulesTest() {
-    }
+    private GameDriver gameDriver = Chess.getGameDriver();
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
       
     @Test
     public void testLegalMove1(){
-        GameState state = Chess.initialState;
+        GameState state = Chess.getInitialState();
         
         Field from = Field.getInstance("b1");
         Field to   = Field.getInstance("a3");
         Move move = PieceMove.getInstance(from, to);
         
-        assertTrue(Chess.moveGenerator.calculateAllLegalMoves(state).contains(move));      
+        assertTrue(moveGenerator.calculateAllLegalMoves(state).contains(move));      
     }   
 
     @Test
     public void testLegalMove2(){
 
-        GameState state = Chess.initialState;
+        GameState state = Chess.getInitialState();
         state.increment();
         
         Field from = Field.getInstance("g8");
         Field to   = Field.getInstance("h6");
         Move move = PieceMove.getInstance(from, to);
         
-        assertTrue(Chess.moveGenerator.calculateAllLegalMoves(state).contains(move));    
+        assertTrue(moveGenerator.calculateAllLegalMoves(state).contains(move));    
     }  
     
     @Test
     public void testLegalMoveGenerator(){
 
-        GameState state = Chess.initialState;
+        GameState state = Chess.getInitialState();
         
         Field from = Field.getInstance("e2");
         Field to   = Field.getInstance("e4");
@@ -59,7 +58,7 @@ public class SimpleRulesTest {
         
         state = state.apply(move);
         
-        Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);        
+        Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);        
         assertEquals(20, moves.size());
     }
     
@@ -90,7 +89,7 @@ public class SimpleRulesTest {
         GameState state = GameState.fromFEN(fen);
 
         
-        Set<Move> moves = Chess.moveGenerator.calculateAllLegalMoves(state);
+        Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
         assertEquals(1, moves.size());
     }
     
@@ -100,7 +99,7 @@ public class SimpleRulesTest {
         String fen = "rnbqk3/ppppp1P1/8/8/8/8/PPPPPP1P/RNBQKBNR w KQq - 0 1";
         GameState state = GameState.fromFEN(fen);
         
-        Set<Move> set = Chess.moveGenerator.calculateAllLegalMoves(state);
+        Set<Move> set = moveGenerator.calculateAllLegalMoves(state);
         
         Field from = Field.getInstance("g7");        
         Field to = Field.getInstance("g8");
@@ -108,7 +107,7 @@ public class SimpleRulesTest {
         Move movePawn = PieceMove.getInstance(from, to);
         Move movePromotion = Promotion.getInstance(from, to, PieceKind.KNIGHT);
         
-        assertTrue(!Chess.moveGenerator.calculateAllLegalMoves(state).contains(movePawn));
-        assertTrue(Chess.moveGenerator.calculateAllLegalMoves(state).contains(movePromotion));        
+        assertTrue(!moveGenerator.calculateAllLegalMoves(state).contains(movePawn));
+        assertTrue(moveGenerator.calculateAllLegalMoves(state).contains(movePromotion));        
     }      
 }

@@ -29,7 +29,7 @@ import nl.fh.rules.GameDriver;
 public class PgnReplayer implements Player {
     
     private static PGN_Reader reader = new TolerantReader();
-    private static final GameDriver driver = Chess.gameDriver;
+    private static final GameDriver driver = Chess.getGameDriver();
 
     private int counter;
     private List<ChessMove>  moveList;

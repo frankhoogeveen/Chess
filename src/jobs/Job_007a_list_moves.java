@@ -37,7 +37,7 @@ public class Job_007a_list_moves {
         String fen = "k7/8/8/8/8/3K4/3p4/8 b - - 0 1";
         GameState state = GameState.fromFEN(fen);
 
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(Chess.getGameDriver());
 
         StringBuilder sb = new StringBuilder();
         
@@ -45,16 +45,16 @@ public class Job_007a_list_moves {
         sb.append("\n\n");
         sb.append("move1;move2;Value;\n");
         
-        for(Move move1 : Chess.moveGenerator.calculateAllLegalMoves(state)){
+        for(Move move1 : Chess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state)){
             GameState state1 = move1.applyTo(state);
 
-            for(Move move2 : Chess.moveGenerator.calculateAllLegalMoves(state1)){
+            for(Move move2 : Chess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state1)){
                 GameState s = move2.applyTo(state1);
                 double value2 = metric.eval(s);
                 
-                sb.append(((ChessMove)move1).formatPGN(state, Chess.gameDriver));
+                sb.append(((ChessMove)move1).formatPGN(state, Chess.getGameDriver()));
                 sb.append(";");
-                sb.append(((ChessMove)move2).formatPGN(state1, Chess.gameDriver));
+                sb.append(((ChessMove)move2).formatPGN(state1, Chess.getGameDriver()));
                 sb.append(";");
                 sb.append(value2);
                 sb.append(";"); 

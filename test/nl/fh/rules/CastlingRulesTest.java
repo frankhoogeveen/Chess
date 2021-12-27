@@ -7,7 +7,6 @@ package nl.fh.rules;
 
 import nl.fh.gamestate.GameState;
 import java.util.List;
-import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.gamereport.GameReport;
 import nl.fh.move.Castling;
@@ -22,6 +21,8 @@ import org.junit.Test;
  * 
  */
 public class CastlingRulesTest {
+    
+    private GameDriver gameDriver = Chess.getGameDriver();
 
     @Test
     /**
@@ -146,7 +147,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -176,7 +177,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -206,7 +207,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -372,7 +373,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -402,7 +403,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -432,7 +433,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -572,7 +573,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -602,7 +603,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -632,7 +633,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -797,7 +798,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -827,7 +828,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -857,7 +858,7 @@ public class CastlingRulesTest {
                 + " *\n";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         GameReport report = reports.get(0);
         List<GameState> states = report.getStateList();
         
@@ -873,6 +874,6 @@ public class CastlingRulesTest {
     }    
 
     private boolean isLegalMove(Move move, GameState state) {
-        return Chess.moveGenerator.calculateAllLegalMoves(state).contains(move);
+        return gameDriver.getMoveGenerator().calculateAllLegalMoves(state).contains(move);
     }
 }

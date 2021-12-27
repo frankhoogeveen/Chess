@@ -16,6 +16,9 @@ import org.junit.Test;
  * 
  */
 public class ShortGamesTest {
+    
+    private GameDriver gameDriver = Chess.getGameDriver();
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();    
       
     @Test
     public void testPawnCapture(){
@@ -23,7 +26,10 @@ public class ShortGamesTest {
         String target = "rnbqkbnr/ppppp1pp/6p1/8/8/8/PPPPPPPP/RNBQKB1R w KQkq - 0 4";
         
         PGN_Reader parser = new TolerantReader();
-        GameReport report = parser.getGames(pgn, Chess.gameDriver).get(0);
+        
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
+        assertEquals(1, reports.size());
+        GameReport report = reports.get(0);
         
         List<GameState> list = report.getStateList();
         GameState end = list.get(list.size()-1);
@@ -38,7 +44,9 @@ public class ShortGamesTest {
         String target = "rnbqkbnr/ppp1pppp/8/3P4/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2";
         
         PGN_Reader parser = new TolerantReader();
-        GameReport report = parser.getGames(pgn, Chess.gameDriver).get(0);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
+        assertEquals(1, reports.size());
+        GameReport report = reports.get(0);
         
         List<GameState> list = report.getStateList();
         GameState end = list.get(list.size()-1);
@@ -53,7 +61,7 @@ public class ShortGamesTest {
         String target = "rnbqkbnr/ppp1pppp/3P4/8/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 4";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, Chess.gameDriver);
+        List<GameReport> reports = parser.getGames(pgn, gameDriver);
         assertEquals(1, reports.size());
         
         GameReport report = reports.get(0);

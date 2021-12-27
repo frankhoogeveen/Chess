@@ -15,6 +15,7 @@ import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
 import nl.fh.rules.ChessMoveGenerator;
 import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rules.GameDriver;
 
 /**
  * Evaluates the state of the board, in line with
@@ -23,9 +24,11 @@ import nl.fh.rules.ChessResultArbiter;
  */
 
 public class ShannonMetric implements Metric<GameState>{ 
-    private static MaterialCountMetric material = new MaterialCountMetric(Chess.gameDriver);
-    public final ChessResultArbiter arbiter = (ChessResultArbiter) Chess.resultArbiter;    
-    private final ChessMoveGenerator moveGenerator = (ChessMoveGenerator) Chess.moveGenerator;    
+    private static GameDriver gameDriver = Chess.getGameDriver();
+    
+    private static MaterialCountMetric material = new MaterialCountMetric(gameDriver);
+    public final ChessResultArbiter arbiter = (ChessResultArbiter) gameDriver.getResultArbiter();
+    private final ChessMoveGenerator moveGenerator = (ChessMoveGenerator) gameDriver.getMoveGenerator();
     
     @Override
     public double eval(GameState state) {
@@ -38,7 +41,7 @@ public class ShannonMetric implements Metric<GameState>{
             legalChessMoves.add((ChessMove)m);
         }
         
-        if(arbiter.isDrawn(state, legalChessMoves)){
+        if(arbiter.isDraw(state, legalChessMoves, null)){
             return 0.;
         }    
         

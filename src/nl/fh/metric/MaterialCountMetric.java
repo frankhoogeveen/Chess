@@ -50,7 +50,7 @@ public class MaterialCountMetric implements Metric<GameState>{
             legalChessMoves.add((ChessMove)m);
         }
         
-        if(arbiter.isDrawn(state, legalChessMoves)){
+        if(arbiter.isDraw(state, legalChessMoves, null)){
             return 0.;
         }
         

@@ -8,8 +8,7 @@ package nl.fh.metric;
 import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
-import nl.fh.rules.Rules;
-import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rules.GameDriver;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -19,6 +18,7 @@ import org.junit.Test;
  */
 public class MaterialCountMetricTest {
     private final double delta = 1.e-9;
+    private GameDriver gameDriver = Chess.getGameDriver();
     
     @Test
     public void BackRankCaseTest(){
@@ -26,7 +26,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(+3.0, metric.eval(state), delta);     
         
@@ -38,7 +38,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);     
         
@@ -50,7 +50,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);     
     }    
@@ -61,7 +61,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-2.0, metric.eval(state), delta);        
     } 
@@ -72,7 +72,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-7.0, metric.eval(state), delta);      
     }    
@@ -82,7 +82,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-10.0, metric.eval(state), delta);      
     }    
@@ -92,7 +92,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-10.0, metric.eval(state), delta);    
     }  
@@ -102,7 +102,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-10.0, metric.eval(state), delta);       
     }  
@@ -112,7 +112,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-7.0, metric.eval(state), delta);      
     }  
@@ -122,7 +122,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-7.0, metric.eval(state), delta);    
     }  
@@ -132,7 +132,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-2.0, metric.eval(state), delta);     
     }  
@@ -142,7 +142,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals(-2.0, metric.eval(state), delta);       
     }  
@@ -152,7 +152,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(Chess.gameDriver);
+        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
         
         assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);     
     }      

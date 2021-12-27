@@ -23,9 +23,9 @@ public class Job_002_game_between_terminal_and_random_player {
       
       GameReport report;
       if(Math.random() > 0.5){
-        report = Chess.gameDriver.playGame(player1, player2);
+        report = Chess.getGameDriver().playGame(player1, player2);
       } else {
-        report = Chess.gameDriver.playGame(player2, player1);          
+        report = Chess.getGameDriver().playGame(player2, player1);          
       }
       
       System.out.println(report.toPGN());
