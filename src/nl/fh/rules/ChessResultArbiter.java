@@ -252,7 +252,7 @@ public class ChessResultArbiter implements ResultArbiter {
         Color opponentColor = playerColor.flip();
         Field kingField = findKing(playerColor, state);
         
-        boolean result =Field.isCovered(kingField, state, opponentColor);
+        boolean result = kingField.isCovered(state, opponentColor);
         return result;
     }    
 

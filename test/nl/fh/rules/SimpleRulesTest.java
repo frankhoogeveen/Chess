@@ -68,18 +68,18 @@ public class SimpleRulesTest {
         
         GameState state = GameState.fromFEN(fen);
         
-        assertTrue(!Field.isCovered(Field.getInstance("a4"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("b4"),state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("c4"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("d4"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("e4"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("f4"), state, Color.BLACK));
-        assertTrue(!Field.isCovered(Field.getInstance("g4"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("h4"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("g5"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("g6"), state, Color.BLACK));
-        assertTrue( Field.isCovered(Field.getInstance("g7"), state, Color.BLACK));
-        assertTrue(!Field.isCovered(Field.getInstance("g8"), state, Color.BLACK));        
+        assertTrue(!Field.getInstance("a4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("b4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("c4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("d4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("e4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("f4").isCovered(state, Color.BLACK));
+        assertTrue(!Field.getInstance("g4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("h4").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("g5").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("g6").isCovered(state, Color.BLACK));
+        assertTrue( Field.getInstance("g7").isCovered(state, Color.BLACK));
+        assertTrue(!Field.getInstance("g8").isCovered(state, Color.BLACK));        
     }
     
     @Test

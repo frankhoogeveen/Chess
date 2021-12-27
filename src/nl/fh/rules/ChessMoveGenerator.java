@@ -165,9 +165,9 @@ public class ChessMoveGenerator implements MoveGenerator{
             result = result && (state.getFieldContent(5, 0) == PieceType.EMPTY);
             result = result && (state.getFieldContent(6, 0) == PieceType.EMPTY);            
             result = result && (state.getFieldContent(7, 0) == PieceType.WHITE_ROOK);
-            result = result && (!Field.isCovered(Field.getInstance(4,0), state, Color.BLACK));
-            result = result && (!Field.isCovered(Field.getInstance(5,0), state, Color.BLACK));
-            result = result && (!Field.isCovered(Field.getInstance(6,0), state, Color.BLACK));            
+            result = result && (!Field.getInstance(4,0).isCovered(state, Color.BLACK));
+            result = result && (!Field.getInstance(5,0).isCovered(state, Color.BLACK));
+            result = result && (!Field.getInstance(6,0).isCovered(state, Color.BLACK));            
         }
         
         if((state.getToMove() == Color.BLACK) && (boardSide == BoardSide.KINGSIDE)){
@@ -175,9 +175,9 @@ public class ChessMoveGenerator implements MoveGenerator{
             result = result && (state.getFieldContent(5,7) == PieceType.EMPTY);
             result = result && (state.getFieldContent(6,7) == PieceType.EMPTY);             
             result = result && (state.getFieldContent(7,7) == PieceType.BLACK_ROOK);
-            result = result && (!Field.isCovered(Field.getInstance(4,7), state, Color.WHITE));
-            result = result && (!Field.isCovered(Field.getInstance(5,7), state, Color.WHITE));
-            result = result && (!Field.isCovered(Field.getInstance(6,7), state, Color.WHITE));            
+            result = result && (!Field.getInstance(4,7).isCovered(state, Color.WHITE));
+            result = result && (!Field.getInstance(5,7).isCovered(state, Color.WHITE));
+            result = result && (!Field.getInstance(6,7).isCovered(state, Color.WHITE));            
         }    
         
         if((state.getToMove() == Color.WHITE) && (boardSide == BoardSide.QUEENSIDE)){
@@ -186,9 +186,9 @@ public class ChessMoveGenerator implements MoveGenerator{
             result = result && (state.getFieldContent(2,0) == PieceType.EMPTY);   
             result = result && (state.getFieldContent(1,0) == PieceType.EMPTY);              
             result = result && (state.getFieldContent(0,0) == PieceType.WHITE_ROOK);
-            result = result && (!Field.isCovered(Field.getInstance(4,0), state, Color.BLACK));
-            result = result && (!Field.isCovered(Field.getInstance(3,0), state, Color.BLACK));
-            result = result && (!Field.isCovered(Field.getInstance(2,0), state, Color.BLACK));            
+            result = result && (!Field.getInstance(4,0).isCovered(state, Color.BLACK));
+            result = result && (!Field.getInstance(3,0).isCovered(state, Color.BLACK));
+            result = result && (!Field.getInstance(2,0).isCovered(state, Color.BLACK));            
         }
         
         if((state.getToMove() == Color.BLACK) && (boardSide == BoardSide.QUEENSIDE)){
@@ -197,9 +197,9 @@ public class ChessMoveGenerator implements MoveGenerator{
             result = result && (state.getFieldContent(2,7) == PieceType.EMPTY);   
             result = result && (state.getFieldContent(1,7) == PieceType.EMPTY);              
             result = result && (state.getFieldContent(0,7) == PieceType.BLACK_ROOK);
-            result = result && (!Field.isCovered(Field.getInstance(4,7), state, Color.WHITE));
-            result = result && (!Field.isCovered(Field.getInstance(3,7), state, Color.WHITE));
-            result = result && (!Field.isCovered(Field.getInstance(2,7), state, Color.WHITE));            
+            result = result && (!Field.getInstance(4,7).isCovered(state, Color.WHITE));
+            result = result && (!Field.getInstance(3,7).isCovered(state, Color.WHITE));
+            result = result && (!Field.getInstance(2,7).isCovered(state, Color.WHITE));         
         }             
         
         return result;
@@ -289,7 +289,7 @@ public class ChessMoveGenerator implements MoveGenerator{
             return true;
         }
         
-        boolean result = Field.isCovered(kingField, postState, attackerColor);
+        boolean result = kingField.isCovered(postState, attackerColor);
         return result;
     }
 }

@@ -489,15 +489,13 @@ public class Field {
     
     /**
      * 
-     * @param field
      * @param state
      * @param color of a player
-     * @return true if the field is covered by the player color 
+     * @return true if this field is covered by the player color 
      */
-    //TODO turn into non static method
-    public static boolean isCovered(Field field, GameState state, Color color){
-        //TODO make to a non static method with one argument less
-        return (controllingFields(field, state, color).size() > 0);
+    
+    public boolean isCovered(GameState state, Color color){
+        return (controllingFields(this, state, color).size() > 0);
     }
     
     /**
