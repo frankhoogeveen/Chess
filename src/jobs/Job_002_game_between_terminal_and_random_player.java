@@ -6,6 +6,8 @@
 package jobs;
 
 import nl.fh.gamereport.GameReport;
+import nl.fh.gamereport.GameReportFormatter;
+import nl.fh.gamereport.PGNformatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
 import nl.fh.player.terminal.TerminalPlayer;
@@ -28,6 +30,7 @@ public class Job_002_game_between_terminal_and_random_player {
         report = Chess.getGameDriver().playGame(player2, player1);          
       }
       
-      System.out.println(report.toPGN());
+      GameReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+      System.out.println(formatter.formatGame(report));
     }
 }

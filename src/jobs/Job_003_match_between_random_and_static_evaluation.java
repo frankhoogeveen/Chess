@@ -6,13 +6,15 @@
 package jobs;
 
 import nl.fh.gamereport.GameFilter;
+import nl.fh.gamereport.PGNformatter;
 import nl.fh.gamereport.filter.CapFilter;
 import nl.fh.gamereport.filter.NotFilter;
 import nl.fh.gamereport.filter.OrFilter;
 import nl.fh.gamereport.filter.WinnerFilter;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
-import nl.fh.match.MatchResult;
+import nl.fh.match.MatchReport;
+import nl.fh.match.MatchReportFormatter;
 import nl.fh.metric.MaterialCountMetric;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
@@ -38,9 +40,10 @@ public class Job_003_match_between_random_and_static_evaluation {
         
         Match match = new AlternatingMatch(nGames, Chess.getGameDriver());
         
-        MatchResult result = match.play(playerR, playerM, filter);
+        MatchReport result = match.play(playerR, playerM, filter);
             
-        System.out.println(result.toPGN());
+        MatchReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+        System.out.println(formatter.formatMatch(result));
     }
 
 }

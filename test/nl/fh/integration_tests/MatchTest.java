@@ -8,10 +8,12 @@ package nl.fh.integration_tests;
 import java.util.List;
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
+import nl.fh.gamereport.PGNformatter;
 import nl.fh.gamereport.filter.TransparentFilter;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
-import nl.fh.match.MatchResult;
+import nl.fh.match.MatchReport;
+import nl.fh.match.MatchReportFormatter;
 import nl.fh.metric.MaterialCountMetric;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
@@ -49,8 +51,9 @@ public class MatchTest {
             
             for(int iGame = 0; iGame<nGames; iGame++){
                 
-                MatchResult result = match.play(playerR, playerM, filter);
-                String pgn = result.toPGN();
+                MatchReport result = match.play(playerR, playerM, filter);
+                MatchReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+                String pgn = formatter.formatMatch(result);
 
                 PGN_Reader reader = new TolerantReader();
                 List<GameReport> result2 = reader.getGames(pgn, Chess.getGameDriver());

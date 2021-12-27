@@ -27,9 +27,9 @@ public class AlternatingMatch implements Match {
     }
 
     @Override
-    public MatchResult play(Player player1, Player player2, GameFilter filter) {
+    public MatchReport play(Player player1, Player player2, GameFilter filter) {
         
-        MatchResult result = new MatchResult(player1, player2, filter);
+        MatchReport result = new MatchReport(player1, player2, filter);
         GameReport report = null;
         
         for(int i = 0; i < nGames; i++){

@@ -69,7 +69,7 @@ public class Job_007a_list_moves {
                 System.out.println("Written to " + filePath);
             }
         } catch (IOException ex) {
-            Logger.getLogger(Job_006_reproduce_and_analyze_intermittent_bug.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Job_007a_list_moves.class.getName()).log(Level.SEVERE, null, ex);
         }        
         
     }

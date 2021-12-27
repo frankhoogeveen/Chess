@@ -21,6 +21,6 @@ public interface Match {
      * @param filter determines which games are in detail stored in the match report
      * @return the outcome a match 
      */
-    public MatchResult play(Player player1, Player player2, GameFilter filter);
+    public MatchReport play(Player player1, Player player2, GameFilter filter);
 
 }

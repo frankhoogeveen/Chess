@@ -6,6 +6,9 @@
 package jobs;
 
 import nl.fh.gamereport.GameReport;
+import nl.fh.gamereport.GameReportFormatter;
+import nl.fh.gamereport.PGNformatter;
+import nl.fh.match.MatchReportFormatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
 import nl.fh.rules.Chess;
@@ -32,7 +35,8 @@ public class Job_001_game_between_two_random_players {
           System.out.println();
       }
       */
-      
-      System.out.println(report.toPGN());
+      GameReportFormatter formatter = new PGNformatter(Chess.getGameDriver());
+      String pgn = formatter.formatGame(report);
+      System.out.println(pgn);
     }
 }

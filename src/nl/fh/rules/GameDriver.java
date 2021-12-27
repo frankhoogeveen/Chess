@@ -104,8 +104,6 @@ public class GameDriver {
         Player currentPlayer = firstPlayer;
         GameResult currentStatus = GameResult.UNDECIDED;
         
-        System.out.println("=== playing game ===");
-        
         while(currentStatus == GameResult.UNDECIDED){        
 
             Move move = currentPlayer.getMove(currentState, legalMoves);        

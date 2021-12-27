@@ -101,7 +101,7 @@ public class Job_007b_list_moves_depth3 {
                 System.out.println("Written to " + filePath);
             }
         } catch (IOException ex) {
-            Logger.getLogger(Job_006_reproduce_and_analyze_intermittent_bug.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Job_007b_list_moves_depth3.class.getName()).log(Level.SEVERE, null, ex);
         }        
         
     }

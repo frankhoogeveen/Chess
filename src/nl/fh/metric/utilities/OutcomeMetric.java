@@ -76,6 +76,6 @@ public class OutcomeMetric implements Metric<GameState>{
 
     @Override
     public String getDescription() {
-        return "OutcomeMetric";
+        return "OutcomeMetric/" + baseMetric.getDescription();
     }
 }
