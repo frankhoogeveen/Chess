@@ -804,29 +804,6 @@ public class GameState implements Colored   {
            throw new IllegalStateException("Draw agreed, but not offered");   
         }
     } 
-    
-
-
-
-//TODO remove potentially obsolete code    
-//    /**
-//     * 
-//     * @return the number of times this position is repeated in the current game 
-//     */
-//    public int countRepetitions() {
-//        int result = 1;  // this repeats itself, by definition
-//        GameState current = this.parent;
-//        while((current != null)){
-//            if(this.repeats(current)){
-//                result += 1;
-//            }
-//            if(current.halfMoveClock == 0){
-//                break;
-//            }
-//            current = current.parent;
-//        }
-//        return result;
-//    }    
 
     @Override
     public int hashCode() {

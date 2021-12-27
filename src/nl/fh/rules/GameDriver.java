@@ -106,14 +106,9 @@ public class GameDriver {
         
         System.out.println("=== playing game ===");
         
-        while(currentStatus == GameResult.UNDECIDED){
-            //TODO remove print statements
-            System.out.println("----------");
-            System.out.println(currentState);            
+        while(currentStatus == GameResult.UNDECIDED){        
 
-            Move move = currentPlayer.getMove(currentState, legalMoves);
-            //TODO remove print
-            System.out.println(((ChessMove)move).formatPGN(currentState, this));            
+            Move move = currentPlayer.getMove(currentState, legalMoves);        
             
             report.addMove((ChessMove)move);
             if(moveIsIllegal(legalMoves, move, (currentPlayer==firstPlayer), report)){
@@ -124,18 +119,11 @@ public class GameDriver {
             legalMoves = moveGenerator.calculateAllLegalMoves(currentState);            
             report.addGameState(currentState);
             
-            currentStatus = resultArbiter.determineResult(report, legalMoves);
-            //TODO remove
-            System.out.println("as calculated by arbiter: " + currentStatus);            
+            currentStatus = resultArbiter.determineResult(report, legalMoves);          
             
             report.setResult(currentStatus);
             
             currentPlayer = (currentPlayer == firstPlayer) ? secondPlayer : firstPlayer;
-            
-            //TODO remove print statements
-            System.out.println(currentState);
-            System.out.println(currentStatus);
-            System.out.println();
         }
         
         return report;

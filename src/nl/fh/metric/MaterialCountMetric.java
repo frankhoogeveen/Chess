@@ -9,9 +9,11 @@ import java.util.HashSet;
 import java.util.Set;
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
+import nl.fh.metric.utilities.OutcomeMetric;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
+import nl.fh.rules.Chess;
 import nl.fh.rules.ChessMoveGenerator;
 import nl.fh.rules.ChessResultArbiter;
 import nl.fh.rules.GameDriver;
@@ -26,35 +28,28 @@ import nl.fh.rules.ResultArbiter;
 
 public class MaterialCountMetric implements Metric<GameState>{
     
-    public static final double MATE_VALUE = 1.e6;
-    public final ChessResultArbiter arbiter;
-    private final ChessMoveGenerator moveGenerator;
     
     /**
-     * 
-     * @param arbiter object that detects (stale)mate and other draws 
+     *  
      */
-    public MaterialCountMetric(GameDriver driver){
-        this.arbiter = (ChessResultArbiter)driver.getResultArbiter();
-        this.moveGenerator = (ChessMoveGenerator) driver.getMoveGenerator();
+    public MaterialCountMetric(){
+
+    }
+    
+    /**
+     * returns a  MaterialCount Metric that keeps track of  mate and drawn positions
+     */
+    public static Metric<GameState> getWrappedInstance(){
+        double mateValue = 1.e6;
+        GameDriver driver = Chess.getGameDriver();
+        Metric<GameState> base = new MaterialCountMetric();
+        Metric<GameState> result = new OutcomeMetric(base, mateValue, driver);
+        return result;
     }
 
     @Override
     public double eval(GameState state) {
         double score = 0.;
-        
-        //TODO repair the kludgy casting here is a code smell
-        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
-        HashSet<ChessMove> legalChessMoves = new HashSet<ChessMove>();
-        for(Move m : legalMoves){
-            legalChessMoves.add((ChessMove)m);
-        }
-        
-        if(arbiter.isDraw(state, legalChessMoves, null)){
-            return 0.;
-        }
-        
-        score += mateScore(state, legalChessMoves);
         
         score += materialScore(state);
         
@@ -100,29 +95,6 @@ public class MaterialCountMetric implements Metric<GameState>{
         }
         return score;
     }  
-
-    private double mateScore(GameState state, Set<ChessMove> legalChessMoves) {
-        double result = 0.;
-        
-        if(arbiter.isMate(state, legalChessMoves)){
-            result = - MATE_VALUE * state.getToMove().getSign();
-            return result;
-        }
-        
-        
-        GameState opponentState = state.changeColor();
-        Set<Move> opponentLegalMoves = this.moveGenerator.calculateAllLegalMoves(opponentState);
-        Set<ChessMove> opponentChessMoves = new HashSet<ChessMove>();
-        for(Move m : opponentLegalMoves){
-            opponentChessMoves.add((ChessMove) m);
-        }
-        if(arbiter.isMate(opponentState, opponentChessMoves)){
-            result = + MATE_VALUE * state.getToMove().getSign();
-            return result;
-        }        
-
-        return result;
-    }
 
     @Override
     public String getDescription() {

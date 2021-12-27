@@ -13,7 +13,7 @@ import nl.fh.gamereport.filter.WinnerFilter;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchResult;
-import nl.fh.metric.ShannonMetric;
+import nl.fh.metric.MaterialCountMetric;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
@@ -28,7 +28,7 @@ public class Job_003_match_between_random_and_static_evaluation {
     public static void main(String[] args){
         
         Player playerR = new RandomPlayer();
-        Player playerM = MetricPlayer.getInstance(new ShannonMetric());
+        Player playerM = MetricPlayer.getInstance(MaterialCountMetric.getWrappedInstance());
         
         int nGames = 30;
         

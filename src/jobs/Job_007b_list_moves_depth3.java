@@ -41,7 +41,7 @@ public class Job_007b_list_moves_depth3 {
         String fen = "k7/ppr5/8/8/8/8/7R/7K w - - 0 1";
         GameState state = GameState.fromFEN(fen);
 
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric = MaterialCountMetric.getWrappedInstance();
         NegaMax<GameState> nega = new NegaMax(metric, moveGenerator,  0);
 
         StringBuilder sb = new StringBuilder();

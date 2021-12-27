@@ -16,7 +16,7 @@ import nl.fh.gamereport.filter.TransparentFilter;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchResult;
-import nl.fh.metric.ShannonMetric;
+import nl.fh.metric.MaterialCountMetric;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
@@ -42,7 +42,7 @@ public class Job_006_reproduce_and_analyze_intermittent_bug {
     public static void main(String[] args){
         
         Player playerR = new RandomPlayer();
-        Player playerM = MetricPlayer.getInstance(new ShannonMetric());
+        Player playerM = MetricPlayer.getInstance(MaterialCountMetric.getWrappedInstance());
         
         int nRounds = 200;
         int nGames = 100;     

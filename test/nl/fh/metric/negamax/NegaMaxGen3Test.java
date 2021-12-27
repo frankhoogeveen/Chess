@@ -27,6 +27,7 @@ public class NegaMaxGen3Test {
     
     private List<String> cases;
     private final double delta = 1.e-9;
+    private double MATE_VALUE = 1.e6;       
     
     private GameDriver gameDriver = Chess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();       
@@ -44,7 +45,7 @@ public class NegaMaxGen3Test {
     public void testComparison(){
         int depth = 3;
         
-        Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();
         Metric<GameState> nega = new NegaMax(baseMetric, moveGenerator, depth);
         Metric<GameState> gen3 = new NegaMaxGen3(baseMetric, moveGenerator, depth);
         

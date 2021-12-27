@@ -163,11 +163,18 @@ public class ChessResultArbiter implements ResultArbiter {
     /**
      * 
      * @param report
-     * @return true is the FINAL state of the report is a threefold repetition 
+     * @return true is the FINAL state of the report is a threefold repetition.
+     * 
+     * In case report is null, false is returned.
      * 
      * 
      */
     public boolean isThreeFoldRepetition(GameReport report) {
+        
+        if(report == null){
+            return false;
+        }
+        
         
         int nrep = 0;
         GameState state = report.getFinalState();
@@ -288,18 +295,12 @@ public class ChessResultArbiter implements ResultArbiter {
      * If the report is null, no check for three fold repetition is made.
      * 
      */
-    //TODO the construction with report != is kludgy.
-    // there should be two slightly different result arbiters. w/ and w/o the three fold repetition
-    // (one wrapped around the other??, or subclassing??)
-    // A Metric<GameState> could use either one. Which of course impacts performance
     public boolean isDraw(GameState state, Set<ChessMove> legalMoves, GameReport report){
         boolean result = false;
         
         result |= isStaleMate(state, legalMoves);
         result |= isAtFiftyMoveRule(state);
-        if(report != null){
-                result |= isThreeFoldRepetition(report);
-        }
+        result |= isThreeFoldRepetition(report);
         
         return result;
     }

@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.fh.gamestate.GameState;
-import nl.fh.metric.ShannonMetric;
+import nl.fh.metric.MaterialCountMetric;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
@@ -156,7 +156,7 @@ public class UciInterface implements Runnable {
     }
     
     public static void main(String[] args){
-        Player player = MetricPlayer.getInstance(new ShannonMetric());
+        Player player = MetricPlayer.getInstance(MaterialCountMetric.getWrappedInstance());
         GameDriver driver = Chess.getGameDriver();
         UciInterface uci = new UciInterface(player, driver);
         uci.run();

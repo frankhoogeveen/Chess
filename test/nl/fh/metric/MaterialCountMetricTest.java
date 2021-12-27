@@ -19,6 +19,7 @@ import org.junit.Test;
 public class MaterialCountMetricTest {
     private final double delta = 1.e-9;
     private GameDriver gameDriver = Chess.getGameDriver();
+    private double MATE_VALUE = 1.e6;
     
     @Test
     public void BackRankCaseTest(){
@@ -26,7 +27,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(+3.0, metric.eval(state), delta);     
         
@@ -38,22 +39,23 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
-        assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);     
+        assertEquals( MATE_VALUE, metric.eval(state), delta);     
         
     }  
-    
-    @Test
-    public void BackRankCaseTest3(){
-        String fen = "k6R/pp6/8/8/8/8/8/7K w - - 1 1";
-        
-        GameState state  = GameState.fromFEN(fen);
-        
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
-        
-        assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);     
-    }    
+//    The state tested here cannot be reached legally, therefor the
+//    test is commented out.
+//    @Test
+//    public void BackRankCaseTest3(){
+//        String fen = "k6R/pp6/8/8/8/8/8/7K w - - 1 1";
+//        
+//        GameState state  = GameState.fromFEN(fen);
+//        
+//        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
+//        
+//        assertEquals( MATE_VALUE, metric.eval(state), delta);     
+//    }    
     
     @Test
     public void BackRankCaseTest4(){
@@ -61,7 +63,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-2.0, metric.eval(state), delta);        
     } 
@@ -72,7 +74,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-7.0, metric.eval(state), delta);      
     }    
@@ -82,7 +84,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-10.0, metric.eval(state), delta);      
     }    
@@ -92,7 +94,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-10.0, metric.eval(state), delta);    
     }  
@@ -102,7 +104,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-10.0, metric.eval(state), delta);       
     }  
@@ -112,7 +114,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-7.0, metric.eval(state), delta);      
     }  
@@ -122,7 +124,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-7.0, metric.eval(state), delta);    
     }  
@@ -132,7 +134,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-2.0, metric.eval(state), delta);     
     }  
@@ -142,7 +144,7 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
         assertEquals(-2.0, metric.eval(state), delta);       
     }  
@@ -152,9 +154,9 @@ public class MaterialCountMetricTest {
         
         GameState state  = GameState.fromFEN(fen);
         
-        Metric<GameState> metric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> metric =MaterialCountMetric.getWrappedInstance();
         
-        assertEquals( MaterialCountMetric.MATE_VALUE + 3.0, metric.eval(state), delta);     
+        assertEquals( MATE_VALUE, metric.eval(state), delta);     
     }      
 }
 

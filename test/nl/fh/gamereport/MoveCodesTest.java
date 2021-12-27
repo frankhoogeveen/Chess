@@ -34,17 +34,35 @@ public class MoveCodesTest {
     
     @Test
     public void testCastlingLong(){
-        GameState state = null;
+        String fen = "8/6k1/8/8/8/8/8/R3K2R w KQ - 0 1";
+        GameState state = GameState.fromFEN(fen);
         ChessMove m = Castling.getInstance(BoardSide.QUEENSIDE);
         assertEquals("O-O-O", m.formatPGN(state, driver));
     }
     
     @Test
     public void testCastlingShort(){
-        GameState state = null;
+        String fen = "8/3k4/8/8/8/8/8/R3K2R w KQ - 0 1";
+        GameState state = GameState.fromFEN(fen);
         ChessMove m = Castling.getInstance(BoardSide.KINGSIDE);
         assertEquals("O-O", m.formatPGN(state, driver));       
     }
+    
+    @Test
+    public void testCastlingCheck(){
+        String fen = "8/8/8/8/8/8/8/k3K2R w K - 0 1";
+        GameState state = GameState.fromFEN(fen);
+        ChessMove m = Castling.getInstance(BoardSide.KINGSIDE);
+        assertEquals("O-O+", m.formatPGN(state, driver));       
+    }  
+    
+    @Test
+    public void testCastlingMate(){
+        String fen = "8/8/8/8/8/8/R7/R3K2k w Q - 0 1";
+        GameState state = GameState.fromFEN(fen);
+        ChessMove m = Castling.getInstance(BoardSide.QUEENSIDE);
+        assertEquals("O-O-O#", m.formatPGN(state, driver));       
+    }       
     
     @Test
     public void testDrawOfferAccepted(){

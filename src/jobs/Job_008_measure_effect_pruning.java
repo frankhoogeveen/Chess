@@ -27,7 +27,7 @@ public class Job_008_measure_effect_pruning {
     
     public static void main(String[] args){
 
-        Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);
+        Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();
         
         Counter<GameState> counter = new Counter<GameState>(baseMetric);
         NegaMax<GameState> nega = new NegaMax<GameState>(counter, moveGenerator, 0);

@@ -68,5 +68,5 @@ public abstract class ChessMove implements Move {
      * add a draw offer the this move
      */
     public abstract void offerDraw();    
-
+   
 }

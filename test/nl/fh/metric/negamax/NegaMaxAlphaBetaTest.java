@@ -26,7 +26,7 @@ public class NegaMaxAlphaBetaTest {
     private GameDriver gameDriver = Chess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();    
     
-    Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);   
+    Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();   
     NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric,moveGenerator, 0);
     NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(baseMetric, moveGenerator,  0);
 

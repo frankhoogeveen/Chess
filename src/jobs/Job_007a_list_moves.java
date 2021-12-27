@@ -17,8 +17,6 @@ import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rules.Chess;
-import nl.fh.rules.Rules;
-import nl.fh.rules.ChessMoveGenerator;
 
 /**
  * 
@@ -37,7 +35,7 @@ public class Job_007a_list_moves {
         String fen = "k7/8/8/8/8/3K4/3p4/8 b - - 0 1";
         GameState state = GameState.fromFEN(fen);
 
-        Metric<GameState> metric = new MaterialCountMetric(Chess.getGameDriver());
+        Metric<GameState> metric = MaterialCountMetric.getWrappedInstance();
 
         StringBuilder sb = new StringBuilder();
         

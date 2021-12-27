@@ -28,7 +28,7 @@ public class Job_007_match_negamax_player {
     public static void main(String[] args){
         
         
-        Metric<GameState> baseMetric = new MaterialCountMetric(Chess.getGameDriver());              
+        Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();   
          
         int depth1 = 2;
         double sigma1 = 0.0;

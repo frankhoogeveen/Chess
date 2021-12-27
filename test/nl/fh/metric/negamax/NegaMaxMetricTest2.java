@@ -23,10 +23,11 @@ import org.junit.Test;
  */
 public class NegaMaxMetricTest2 {
     private final double delta = 1.e-9;
+    private double MATE_VALUE = 1.e6;       
     
     private GameDriver gameDriver = Chess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();       
-    Metric<GameState> baseMetric = new MaterialCountMetric(gameDriver);   
+    Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();   
     NegaMax<GameState> nega = new NegaMax<GameState>(baseMetric, moveGenerator, 0);
     
     String fenW = "k7/8/8/8/8/3K4/3p4/8 w - - 0 1";

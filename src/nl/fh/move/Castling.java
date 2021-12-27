@@ -7,6 +7,7 @@ package nl.fh.move;
 
 import nl.fh.rules.ChessResultArbiter;
 import java.util.Objects;
+import java.util.Set;
 import nl.fh.chess.BoardSide;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
@@ -14,6 +15,7 @@ import nl.fh.chess.PieceType;
 import nl.fh.gamestate.GameState;
 import nl.fh.rules.Chess;
 import nl.fh.rules.GameDriver;
+import nl.fh.rules.MoveGenerator;
 
 /**
  * copyright F. Hoogeveen
@@ -88,16 +90,37 @@ public class Castling extends ChessMove {
     }
 
     @Override
-    //TODO add + and # indicators
     public String formatPGN(GameState state, GameDriver driver) {
+        
+        ChessResultArbiter  arbiter = (ChessResultArbiter) driver.getResultArbiter();
+        MoveGenerator moveGenerator = driver.getMoveGenerator();
+        
+        StringBuilder sb = new StringBuilder();
+        
         switch(boardSide){
             case KINGSIDE:
-                return "O-O";
+                sb.append("O-O");
+                break;
             case QUEENSIDE:
-                return "O-O-O";
+                sb.append("O-O-O");
+                break;
             default:
                 throw new IllegalStateException("This should not happen in castling");
         }   
+        
+        //the indicators for check and checkmate
+        GameState state2 = this.applyTo(state);
+        Set<Move> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
+        Set<ChessMove> legalChessMoves = (Set<ChessMove>)(Set<?>) legalMoves;        
+        if(arbiter.isMate(state2, legalChessMoves)){
+            sb.append("#");
+        } else {
+            if(arbiter.isCheck(state2)){
+                sb.append("+");
+            }
+        }     
+        
+        return sb.toString();
     }
     
     @Override
