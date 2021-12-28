@@ -5,12 +5,13 @@
 package nl.fh.parser;
 
 import java.util.List;
-import nl.fh.chess.Field;
+import nl.fh.gamestate.chess.Field;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
-import nl.fh.move.PieceMove;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.move.PieceMove;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.GameDriver;
 import org.junit.Test;
@@ -493,11 +494,11 @@ public class TolerantReaderTest {
                         "1. g8=Q# 1-0";
         
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, gameDriver);
+        List<GameReport<ChessState>> reports = parser.getGames(pgn, gameDriver);
         
         assertEquals(1, reports.size());        
         
-        GameReport report = reports.get(0);
+        GameReport<ChessState> report = reports.get(0);
         assertEquals(GameResult.WIN_FIRST_MOVER, report.getGameResult());
         
         String fen2 = "rnbqk1Q1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
@@ -516,7 +517,7 @@ public class TolerantReaderTest {
         
         assertEquals(1, reports.size());        
         
-        GameReport report = reports.get(0);
+        GameReport<ChessState> report = reports.get(0);
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         
         String fen2 = "rnbqk1N1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
@@ -535,7 +536,7 @@ public class TolerantReaderTest {
         
         assertEquals(1, reports.size());        
         
-        GameReport report = reports.get(0);
+        GameReport<ChessState> report = reports.get(0);
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         assertEquals(1, report.getMoveList().size());
         
@@ -555,7 +556,7 @@ public class TolerantReaderTest {
         
         assertEquals(1, reports.size());        
         
-        GameReport report = reports.get(0);
+        GameReport<ChessState> report = reports.get(0);
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         assertEquals(1, report.getMoveList().size());        
         
@@ -575,7 +576,7 @@ public class TolerantReaderTest {
         
         assertEquals(1, reports.size());        
         
-        GameReport report = reports.get(0);
+        GameReport<ChessState> report = reports.get(0);
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         assertEquals(1, report.getMoveList().size());        
         
@@ -594,7 +595,7 @@ public class TolerantReaderTest {
         
         assertEquals(1, reports.size());        
         
-        GameReport report = reports.get(0);
+        GameReport<ChessState> report = reports.get(0);
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         assertEquals(1, report.getMoveList().size());        
         

@@ -2,18 +2,18 @@
  * License: GPL v3
  * 
  */
-package nl.fh.move;
+package nl.fh.gamestate.chess.move;
 
+import nl.fh.gamestate.Move;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import nl.fh.chess.BoardSide;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceKind;
-import nl.fh.chess.PieceType;
-import nl.fh.gamestate.GameState;
-import nl.fh.rule.FIDEchess;
+import nl.fh.gamestate.chess.BoardSide;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceKind;
+import nl.fh.gamestate.chess.PieceType;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
@@ -50,10 +50,16 @@ public class PieceMove extends ChessMove {
         
     }
 
+    /**
+     *
+     * @param state
+     * @param driver
+     * @return
+     */
     @Override
-    public String formatPGN(GameState state, GameDriver driver){       
+    public String formatPGN(ChessState state, GameDriver driver){       
         ChessResultArbiter  arbiter = (ChessResultArbiter) driver.getResultArbiter();
-        MoveGenerator moveGenerator = driver.getMoveGenerator();
+        MoveGenerator<ChessState> moveGenerator = driver.getMoveGenerator();
         
         StringBuilder sb = new StringBuilder();
 
@@ -63,7 +69,7 @@ public class PieceMove extends ChessMove {
         // determine if there is ambiguity and, if yes, add resolver
         boolean resolver = false;
         Set<ChessMove> movesTo = new HashSet<ChessMove>();
-        for(Move m : moveGenerator.calculateAllLegalMoves(state)){
+        for(Move<ChessState> m : moveGenerator.calculateAllLegalMoves(state)){
             if(m instanceof PieceMove){
                 boolean samePiece = (state.getFieldContent(from) == state.getFieldContent(((PieceMove) m).from));
                 boolean sameTo    = to.equals(((PieceMove)m).getTo());
@@ -109,11 +115,9 @@ public class PieceMove extends ChessMove {
         sb.append(to);
         
         //the indicators for check and checkmate
-        GameState state2 = this.applyTo(state);
-        Set<Move> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
-        
-        Set<ChessMove> legalChessMoves = (Set<ChessMove>)(Set<?>) legalMoves;        
-        if(arbiter.isMate(state2, legalChessMoves)){
+        ChessState state2 = this.applyTo(state);
+        Set<Move<ChessState>> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);    
+        if(arbiter.isMate(state2, legalMoves)){
             sb.append("#");
         } else {
             if(arbiter.isCheck(state2)){
@@ -128,7 +132,7 @@ public class PieceMove extends ChessMove {
     
 
     @Override
-    public String formatUCI(GameState state) {
+    public String formatUCI(ChessState state) {
         return getFrom().toString() + getTo().toString();
     }    
 
@@ -152,8 +156,8 @@ public class PieceMove extends ChessMove {
     }
 
     @Override
-    public GameState applyTo(GameState state) {
-        GameState result = state.copy();
+    public ChessState applyTo(ChessState state) {
+        ChessState result = state.copy();
         
         // increment the counters
         result.increment();

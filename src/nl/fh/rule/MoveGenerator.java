@@ -7,12 +7,12 @@ package nl.fh.rule;
 
 import java.util.Set;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 
 /**
  * License GPL v3
  */
-public interface MoveGenerator {
+public interface MoveGenerator<S extends GameState> {
     
     /**
      * @param state
@@ -20,15 +20,16 @@ public interface MoveGenerator {
      * 
      * This is an expensive method to call. 
      */
-    public Set<Move> calculateAllLegalMoves(GameState state);
+    public Set<Move<S>> calculateAllLegalMoves(S state);
     
     /**
      * 
      * @param state
      * @return all states that are the result of applying legal moves to
      * the given state. 
+     * This is an expensive method to call.
      */
-    public Set<GameState> calculateChildren(GameState state);
+    public Set<S> calculateChildren(S state);
 
     
 }

@@ -11,34 +11,35 @@ import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 import nl.fh.rule.FIDEchess;
-import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
+import nl.fh.rule.ResultArbiter;
 
 /**
  * A minimalistic ASCII interface
  * 
  */
-public class TerminalPlayer implements Player {
+//TODO make TerminalPlayer generic rather than chess specific
+public class TerminalPlayer implements Player<ChessState> {
     private static final String CURSOR = ">";
-    private static final GameDriver driver =FIDEchess.getGameDriver();
-    private static final ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
+    private static final GameDriver<ChessState> driver =FIDEchess.getGameDriver();
+    private static final ResultArbiter<ChessState> arbiter = driver.getResultArbiter();
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private GameState previous = null;
+    private ChessState previous = null;
         
     @Override
-    public Move getMove(GameState currentState, Set<Move> legalMoves) {
+    public Move getMove(ChessState currentState, Set<Move<ChessState>> legalMoves) {
         
         System.out.println();
         System.out.println("----------------------------");
 
         if(previous != null){
             ChessMove previousMove = null;
-            for(Move m : driver.getMoveGenerator().calculateAllLegalMoves(previous)){
+            for(Move<ChessState> m : driver.getMoveGenerator().calculateAllLegalMoves(previous)){
                 if(m.applyTo(previous).equals(currentState)){
                     previousMove = (ChessMove) m;
                 }
@@ -76,7 +77,7 @@ public class TerminalPlayer implements Player {
                     if(code.charAt(0) == '#'){
                         processEscapedCommand(code);
                     } else {
-                        for(Move m : legalMoves){
+                        for(Move<ChessState> m : legalMoves){
                             if(clean(code).equals(clean(((ChessMove)m).formatPGN(currentState, driver)))){
                                 previous = m.applyTo(currentState);
                                 return m;

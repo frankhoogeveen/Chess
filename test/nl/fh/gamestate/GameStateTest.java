@@ -4,6 +4,7 @@
  */
 package nl.fh.gamestate;
 
+import nl.fh.gamestate.chess.ChessState;
 import java.util.ArrayList;
 import nl.fh.rule.FIDEchess;
 import org.junit.Before;
@@ -52,7 +53,7 @@ public class GameStateTest {
 
     @Test
     public void testToFEN() {
-        GameState instance = new GameState();
+        ChessState instance = new ChessState();
         String expResult = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
         String result = instance.toFEN();
         assertEquals(expResult, result);
@@ -61,7 +62,7 @@ public class GameStateTest {
     @Test
     public void testToFEN2() {
 
-        GameState instance = FIDEchess.getInitialState();
+        ChessState instance = FIDEchess.getInitialState();
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
         String result = instance.toFEN();
         assertEquals(expResult, result);
@@ -70,7 +71,7 @@ public class GameStateTest {
     @Test
     public void testToFEN3() {
 
-        GameState instance = FIDEchess.getInitialState();
+        ChessState instance = FIDEchess.getInitialState();
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 7";
         String result = instance.toFEN(7);
         assertEquals(expResult, result);
@@ -79,16 +80,16 @@ public class GameStateTest {
     @Test
     public void testFromFEN() {
         String fen = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
-        GameState expResult = new GameState();
-        GameState result = GameState.fromFEN(fen);
+        ChessState expResult = new ChessState();
+        ChessState result = ChessState.fromFEN(fen);
         assertEquals(expResult, result);
     }
     
     @Test
     public void testFromFEN2() {
         String fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        GameState expResult = FIDEchess.getInitialState();
-        GameState result = GameState.fromFEN(fen);
+        ChessState expResult = FIDEchess.getInitialState();
+        ChessState result = ChessState.fromFEN(fen);
         assertEquals(expResult, result);
     }
 
@@ -97,8 +98,8 @@ public class GameStateTest {
         String fen = "r1bqkbnr/pppp1ppp/n7/3Pp3/8/8/PPP1PPPP/RNBQKBNR w KQkq e6 0 3";
         String fen2 = "  " + fen + " ";
         
-        GameState result1 = GameState.fromFEN(fen);
-        GameState result2 = GameState.fromFEN(fen2);
+        ChessState result1 = ChessState.fromFEN(fen);
+        ChessState result2 = ChessState.fromFEN(fen2);
         assertEquals(result1, result2);        
     }
     
@@ -108,7 +109,7 @@ public class GameStateTest {
     @Test
     public void testList(){
         for(String fen : fenList){
-            GameState state = GameState.fromFEN(fen);
+            ChessState state = ChessState.fromFEN(fen);
             String result = state.toFEN();
             assertEquals(fen, result);
         }

@@ -7,13 +7,13 @@ package nl.fh.rules;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.GameDriver;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import java.util.Set;
-import nl.fh.chess.Field;
-import nl.fh.move.ChessMove;
-import nl.fh.move.EnPassantCapture;
-import nl.fh.move.Move;
-import nl.fh.move.PieceMove;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.chess.move.EnPassantCapture;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.PieceMove;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class EnPassantRulesTest {
     public void testEnPassantWhite1(){
     String fen = "4k3/8/8/1pP5/8/8/8/4K3 w - b6 0 2";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
@@ -50,7 +50,7 @@ public class EnPassantRulesTest {
     public void testEnPassantWhite2(){
     String fen = "4k3/8/8/PpP5/8/8/8/4K3 w - b6 0 2";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
@@ -70,7 +70,7 @@ public class EnPassantRulesTest {
     public void testEnPassantWhite3(){
     String fen = "4k3/8/1P6/pP6/8/8/8/4K3 w - a6 0 4";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
@@ -91,7 +91,7 @@ public class EnPassantRulesTest {
     public void testEnPassantBlack1(){
     String fen = "4k3/8/8/8/1Pp5/8/8/4K3 b - b3 0 1";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
@@ -111,7 +111,7 @@ public class EnPassantRulesTest {
     public void testEnPassantBlack2(){
     String fen = "4k3/8/8/8/pPp5/8/8/4K3 b - b3 0 1";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
@@ -131,7 +131,7 @@ public class EnPassantRulesTest {
     public void testEnPassantBlack3(){
     String fen = "4k3/8/8/8/6pP/6p1/8/4K3 b - h3 0 4";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     int count = 0;
@@ -156,7 +156,7 @@ public class EnPassantRulesTest {
         
         
         String fen = "4k3/6p1/8/8/8/8/6P1/4K3 w - - 0 1";
-        GameState state = GameState.fromFEN(fen);
+        ChessState state = ChessState.fromFEN(fen);
         
         Move m;
         Field g2 = Field.getInstance("g2");
@@ -200,7 +200,7 @@ public class EnPassantRulesTest {
     
     @Test
     public void testEnPassantCase(){
-        GameState state = GameState.fromFEN("2kr1n1K/ppp2p2/8/4p1pn/PPp1b3/8/8/8 b - b3 0 33");
+        ChessState state = ChessState.fromFEN("2kr1n1K/ppp2p2/8/4p1pn/PPp1b3/8/8/8 b - b3 0 33");
         Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
         Move m = EnPassantCapture.getInstance(Field.getInstance("c4"), Field.getInstance("b3"));
@@ -210,7 +210,7 @@ public class EnPassantRulesTest {
     @Test
     public void testEnPassentCase2(){
         
-        GameState state = GameState.fromFEN("8/ppp2k2/8/5p1K/PPp2P1p/8/2P3PN/RNQ4R b - b3 0 28");
+        ChessState state = ChessState.fromFEN("8/ppp2k2/8/5p1K/PPp2P1p/8/2P3PN/RNQ4R b - b3 0 28");
         Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
         Move m = EnPassantCapture.getInstance(Field.getInstance("c4"), Field.getInstance("b3"));

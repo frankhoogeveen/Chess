@@ -7,14 +7,14 @@ package nl.fh.rules;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.GameDriver;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import java.util.Set;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceKind;
-import nl.fh.move.Move;
-import nl.fh.move.PieceMove;
-import nl.fh.move.Promotion;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceKind;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.PieceMove;
+import nl.fh.gamestate.chess.move.Promotion;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -28,7 +28,7 @@ public class SimpleRulesTest {
       
     @Test
     public void testLegalMove1(){
-        GameState state = FIDEchess.getInitialState();
+        ChessState state = FIDEchess.getInitialState();
         
         Field from = Field.getInstance("b1");
         Field to   = Field.getInstance("a3");
@@ -40,7 +40,7 @@ public class SimpleRulesTest {
     @Test
     public void testLegalMove2(){
 
-        GameState state = FIDEchess.getInitialState();
+        ChessState state = FIDEchess.getInitialState();
         state.increment();
         
         Field from = Field.getInstance("g8");
@@ -53,7 +53,7 @@ public class SimpleRulesTest {
     @Test
     public void testLegalMoveGenerator(){
 
-        GameState state = FIDEchess.getInitialState();
+        ChessState state = FIDEchess.getInitialState();
         
         Field from = Field.getInstance("e2");
         Field to   = Field.getInstance("e4");
@@ -69,7 +69,7 @@ public class SimpleRulesTest {
     public void testIsCovered(){
         String fen = "4k3/6b1/8/8/2R3r1/3n4/8/4K3 w - - 0 1";
         
-        GameState state = GameState.fromFEN(fen);
+        ChessState state = ChessState.fromFEN(fen);
         
         assertTrue(!Field.getInstance("a4").isCovered(state, Color.BLACK));
         assertTrue( Field.getInstance("b4").isCovered(state, Color.BLACK));
@@ -89,7 +89,7 @@ public class SimpleRulesTest {
     public void testCannotLeaveKingInCheck(){
         
         String fen = "1r5k/8/8/8/8/8/8/K7 w - - 0 1";
-        GameState state = GameState.fromFEN(fen);
+        ChessState state = ChessState.fromFEN(fen);
 
         
         Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
@@ -100,7 +100,7 @@ public class SimpleRulesTest {
     public void testFindLegalMoves(){
         
         String fen = "rnbqk3/ppppp1P1/8/8/8/8/PPPPPP1P/RNBQKBNR w KQq - 0 1";
-        GameState state = GameState.fromFEN(fen);
+        ChessState state = ChessState.fromFEN(fen);
         
         Set<Move> set = moveGenerator.calculateAllLegalMoves(state);
         

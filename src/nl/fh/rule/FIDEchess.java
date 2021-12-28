@@ -5,7 +5,7 @@
 
 package nl.fh.rule;
 
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 
 /**
  * Defines regular chess according to the FIDE laws of chess( but without the 
@@ -14,8 +14,8 @@ import nl.fh.gamestate.GameState;
  */
 public class FIDEchess {
     private final static String initialFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    private final static ChessMoveGenerator moveGenerator = new ChessMoveGenerator();
-    private final static ChessResultArbiter arbiter = new ChessResultArbiter(moveGenerator);
+    private final static MoveGenerator<ChessState> moveGenerator = new ChessMoveGenerator();
+    private final static ResultArbiter<ChessState> arbiter = new ChessResultArbiter(moveGenerator);
         
     
     
@@ -23,8 +23,8 @@ public class FIDEchess {
      * 
      * @return the initial state of regular chess 
      */
-    public static GameState getInitialState(){
-        return GameState.fromFEN(initialFEN);
+    public static ChessState getInitialState(){
+        return ChessState.fromFEN(initialFEN);
     }
     
     /**
@@ -32,8 +32,8 @@ public class FIDEchess {
      * @return the game driver of regular chess
      * 
      */
-    public static GameDriver getGameDriver(){
-        GameState state = getInitialState();    
+    public static GameDriver<ChessState> getGameDriver(){
+        ChessState state = getInitialState();    
         return GameDriver.getInstance(state, moveGenerator, arbiter);
     }
     

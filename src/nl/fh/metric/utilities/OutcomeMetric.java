@@ -7,12 +7,11 @@ package nl.fh.metric.utilities;
 
 import java.util.Set;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rule.ChessMoveGenerator;
-import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.ResultArbiter;
 
 /**
  * Evaluates the state of the board, in line with
@@ -20,12 +19,12 @@ import nl.fh.rule.GameDriver;
  * 
  */
 
-public class OutcomeMetric implements Metric<GameState>{
+public class OutcomeMetric<S extends GameState> implements Metric<S>{
     
     private final double mateValue;
-    private final ChessResultArbiter arbiter;
-    private final ChessMoveGenerator moveGenerator;
-    private final Metric<GameState> baseMetric;
+    private final ResultArbiter<S> arbiter;
+    private final MoveGenerator<S> moveGenerator;
+    private final Metric<S> baseMetric;
     
 
     /**
@@ -40,32 +39,32 @@ public class OutcomeMetric implements Metric<GameState>{
      * The decision if the position is mate or a draw is made by the result arbiter
      * off the game driver, but NOT using the history of the game state. 
      */
-    public OutcomeMetric(Metric<GameState> baseMetric, double mateValue, GameDriver driver){
+    public OutcomeMetric(Metric<S> baseMetric, double mateValue, GameDriver<S> driver){
         this.baseMetric = baseMetric;
-        this.arbiter = (ChessResultArbiter)driver.getResultArbiter();
-        this.moveGenerator = (ChessMoveGenerator) driver.getMoveGenerator();
+        this.arbiter = driver.getResultArbiter();
+        this.moveGenerator = driver.getMoveGenerator();
         
         this.mateValue = mateValue;
     }
 
     @Override
-    public double eval(GameState state) {
+    public double eval(S state) {
         
-        double sign = state.getToMove().getSign();
+        double sign = state.getColor().getSign();
         
-        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
-        Set<ChessMove> legalChessMoves = (Set<ChessMove>)(Set)legalMoves;
+        Set<Move<S>> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
-        if(arbiter.isMate(state, legalChessMoves)){
+        if(arbiter.isMate(state, legalMoves)){
             return - sign * mateValue;
         }
+
+//TODO reconsider if we need this         
+//        ChessState state2 = state.changeColor();
+//        if(arbiter.isMate(state2, legalChessMoves)){
+//            return + sign * mateValue;
+//        }        
         
-        GameState state2 = state.changeColor();
-        if(arbiter.isMate(state2, legalChessMoves)){
-            return + sign * mateValue;
-        }        
-        
-        if(arbiter.isDraw(state, legalChessMoves, null)){
+        if(arbiter.isDraw(state, legalMoves, null)){
             return 0.;
         }
         

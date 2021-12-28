@@ -2,17 +2,18 @@
  * License: GPL v3
  * 
  */
-package nl.fh.move;
+package nl.fh.gamestate.chess.move;
 
+import nl.fh.gamestate.Move;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import nl.fh.chess.BoardSide;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceKind;
-import nl.fh.chess.PieceType;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.BoardSide;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceKind;
+import nl.fh.gamestate.chess.PieceType;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
 
@@ -58,7 +59,7 @@ public class Promotion extends ChessMove {
     }
 
     @Override
-    public String formatPGN(GameState state, GameDriver driver){      
+    public String formatPGN(ChessState state, GameDriver driver){      
         StringBuilder sb = new StringBuilder();
         
         // determine if there is ambiguity and, if yes, add resolver
@@ -119,11 +120,9 @@ public class Promotion extends ChessMove {
         
         //the indicators for check and checkmate
         ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
-        GameState state2 = this.applyTo(state);
-        Set<Move> legalMoves2 = driver.getMoveGenerator().calculateAllLegalMoves(state2);
-        
-        Set<ChessMove> legalChessMoves2 = (Set<ChessMove>)(Set<?>) legalMoves2;        
-        if(arbiter.isMate(state2, legalChessMoves2)){
+        ChessState state2 = this.applyTo(state);
+        Set<Move<ChessState>> legalMoves2 = driver.getMoveGenerator().calculateAllLegalMoves(state2);    
+        if(arbiter.isMate(state2, legalMoves2)){
             sb.append("#");
         } else {
             if(arbiter.isCheck(state2)){
@@ -135,7 +134,7 @@ public class Promotion extends ChessMove {
     }
     
     @Override
-    public String formatUCI(GameState state) {
+    public String formatUCI(ChessState state) {
         return getFrom().toString() + getTo().toString() + this.piece.getMoveCode().toLowerCase();
     }        
 
@@ -189,8 +188,8 @@ public class Promotion extends ChessMove {
     }
 
     @Override
-    public GameState applyTo(GameState state) {
-        GameState result = state.copy();
+    public ChessState applyTo(ChessState state) {
+        ChessState result = state.copy();
         
         // increment the counters
         result.increment();

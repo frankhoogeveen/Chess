@@ -4,42 +4,42 @@
  */
 package nl.fh.rule;
 
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import java.util.HashSet;
 import java.util.Set;
-import nl.fh.chess.BoardSide;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
-import nl.fh.chess.MoveRange;
-import nl.fh.chess.MoveRangeType;
-import nl.fh.chess.PieceKind;
-import nl.fh.chess.PieceType;
-import nl.fh.move.Castling;
-import nl.fh.move.DrawOfferAccepted;
-import nl.fh.move.EnPassantCapture;
-import nl.fh.move.Move;
-import nl.fh.move.PieceMove;
-import nl.fh.move.Promotion;
+import nl.fh.gamestate.chess.BoardSide;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.MoveRange;
+import nl.fh.gamestate.chess.MoveRangeType;
+import nl.fh.gamestate.chess.PieceKind;
+import nl.fh.gamestate.chess.PieceType;
+import nl.fh.gamestate.chess.move.Castling;
+import nl.fh.gamestate.chess.move.DrawOfferAccepted;
+import nl.fh.gamestate.chess.move.EnPassantCapture;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.PieceMove;
+import nl.fh.gamestate.chess.move.Promotion;
 
 /**
  * Represent the rules of the game
  */
-public class ChessMoveGenerator implements MoveGenerator{
+public class ChessMoveGenerator implements MoveGenerator<ChessState>{
     
     
     @Override
-    public Set<GameState> calculateChildren(GameState state) {
-        Set<GameState> result = new HashSet<GameState>();
-        for(Move m : calculateAllLegalMoves(state)){
+    public Set<ChessState> calculateChildren(ChessState state) {
+        Set<ChessState> result = new HashSet<ChessState>();
+        for(Move<ChessState> m : calculateAllLegalMoves(state)){
             result.add(m.applyTo(state));
         }
         return result;
     }    
     
     @Override
-    public Set<Move> calculateAllLegalMoves(GameState state) {
+    public Set<Move<ChessState>> calculateAllLegalMoves(ChessState state) {
         
-        Set<Move> result = new HashSet<Move>();
+        Set<Move<ChessState>> result = new HashSet<Move<ChessState>>();
         
         if(state.isDrawOffered()){
             result.add(DrawOfferAccepted.getInstance());
@@ -65,7 +65,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @param result the set to which all valid piece moves are added
      *  The moves resulting in promotion are included here
      */
-    private void addAllPieceMoves(GameState state, Set<Move> result) {
+    private void addAllPieceMoves(ChessState state, Set<Move<ChessState>> result) {
         Color toMove = state.getToMove();
         for(Field field : Field.getAll()){
             if(state.getFieldContent(field).getColor() == toMove){
@@ -80,7 +80,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @param field
      * @param result set to which all the moves from a given field are added
      */
-    private void addAllPieceMovesFromField(GameState state, Field field, Set<Move> result) {
+    private void addAllPieceMovesFromField(ChessState state, Field field, Set<Move<ChessState>> result) {
         Set<MoveRange> ranges = field.getMoveRanges(state.getFieldContent(field));
         for(MoveRange range : ranges){
             addAllPieceMovesFromRange(state, field, range, result);
@@ -94,7 +94,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @param range
      * @param result to which all piece moves or promotions are added
      */
-    private void addAllPieceMovesFromRange(GameState state, Field field, MoveRange range, Set<Move> result) {
+    private void addAllPieceMovesFromRange(ChessState state, Field field, MoveRange range, Set<Move<ChessState>> result) {
         boolean done = false;
         for(Field to : range.getRange()){
             if(!done){
@@ -124,7 +124,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * 
      * The logic to either add a PieceMove or promotions is contained in this method
      */
-    private void addPieceMoveOrPromotions(GameState state, Field from, Field to, Set<Move> result){
+    private void addPieceMoveOrPromotions(ChessState state, Field from, Field to, Set<Move<ChessState>> result){
         
         PieceKind movingPiece = state.getFieldContent(from).getKind();
         int y = to.getY();
@@ -149,7 +149,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @param state
      * @param set to which all legal castling moves are added
      */
-    private void addAllCastlingMoves(GameState state, Set<Move> set) {
+    private void addAllCastlingMoves(ChessState state, Set<Move<ChessState>> set) {
         if(state.getCastlingAllowedFlag(state.getToMove(), BoardSide.KINGSIDE) && checkCastlingConditions(state, BoardSide.KINGSIDE)){
             set.add(Castling.getInstance(BoardSide.KINGSIDE));
         }
@@ -158,7 +158,7 @@ public class ChessMoveGenerator implements MoveGenerator{
         }        
     }
 
-    private boolean checkCastlingConditions(GameState state, BoardSide boardSide) {
+    private boolean checkCastlingConditions(ChessState state, BoardSide boardSide) {
         boolean result = true;
         if((state.getToMove() == Color.WHITE) && (boardSide == BoardSide.KINGSIDE)){
             result = result && (state.getFieldContent(4, 0) == PieceType.WHITE_KING);
@@ -213,7 +213,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @param state
      * @param result set to which all allowed castling moves are added 
      */
-    private void addAllEnPassantMoves(GameState state, Set<Move> result) {
+    private void addAllEnPassantMoves(ChessState state, Set<Move<ChessState>> result) {
         if(!state.allowsEnPassant()){
             return;
         }
@@ -260,10 +260,10 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @param state 
      * @return all moves that leave the king in check
      */
-    private Set<Move> movesLeavingKingInCheck(Set<Move> set, GameState state) {
+    private Set<Move> movesLeavingKingInCheck(Set<Move<ChessState>> set, ChessState state) {
         Set<Move> result = new HashSet<Move>();
         for(Move move : set){
-            GameState postState = state.apply(move);
+            ChessState postState = state.apply(move);
             if(kingRemainsInCheckAfterMove(postState)){
                 result.add(move);
             }
@@ -278,7 +278,7 @@ public class ChessMoveGenerator implements MoveGenerator{
      * @return true if the king remained in check after the last move, 
      * or when there is no king (of the color that just moved) on the board.
      */
-    private boolean kingRemainsInCheckAfterMove(GameState postState) {
+    private boolean kingRemainsInCheckAfterMove(ChessState postState) {
         Color attackerColor = postState.getToMove();
         Color kingColor = attackerColor.flip();
         

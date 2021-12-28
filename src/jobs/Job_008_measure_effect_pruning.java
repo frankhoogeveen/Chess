@@ -5,7 +5,7 @@
 
 package jobs;
 
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.MaterialCountMetric;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.metric.minimax.NegaMaxAlphaBeta;
@@ -27,23 +27,23 @@ public class Job_008_measure_effect_pruning {
     
     public static void main(String[] args){
 
-        Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();
+        Metric<ChessState> baseMetric = MaterialCountMetric.getWrappedInstance();
         
-        Counter<GameState> counter = new Counter<GameState>(baseMetric);
-        NegaMax<GameState> nega = new NegaMax<GameState>(counter, moveGenerator, 0);
+        Counter<ChessState> counter = new Counter<ChessState>(baseMetric);
+        NegaMax<ChessState> nega = new NegaMax<ChessState>(counter, moveGenerator, 0);
         
-        Counter<GameState> counterAB = new Counter<GameState>(baseMetric);        
-        NegaMaxAlphaBeta<GameState> negaAB = new NegaMaxAlphaBeta<GameState>(counterAB, moveGenerator, 0);
+        Counter<ChessState> counterAB = new Counter<ChessState>(baseMetric);        
+        NegaMaxAlphaBeta<ChessState> negaAB = new NegaMaxAlphaBeta<ChessState>(counterAB, moveGenerator, 0);
         
         int size2 = 10000;
-        Counter<GameState> counterAB2 = new Counter<GameState>(baseMetric);  
-        TableBuffer<GameState> buffered = new TableBuffer<GameState>(counterAB2, size2);        
-        NegaMaxAlphaBeta<GameState> negaAB2= new NegaMaxAlphaBeta<GameState>(buffered, moveGenerator, 0);
+        Counter<ChessState> counterAB2 = new Counter<ChessState>(baseMetric);  
+        TableBuffer<ChessState> buffered = new TableBuffer<ChessState>(counterAB2, size2);        
+        NegaMaxAlphaBeta<ChessState> negaAB2= new NegaMaxAlphaBeta<ChessState>(buffered, moveGenerator, 0);
         
         int size3 = 20000;
-        Counter<GameState> counterAB3 = new Counter<GameState>(baseMetric);  
-        TableBuffer<GameState> buffered3 = new TableBuffer<GameState>(counterAB3, size3);        
-        NegaMaxGen3<GameState> negaAB3= new NegaMaxGen3<GameState>(buffered3, moveGenerator, 0);      
+        Counter<ChessState> counterAB3 = new Counter<ChessState>(baseMetric);  
+        TableBuffer<ChessState> buffered3 = new TableBuffer<ChessState>(counterAB3, size3);        
+        NegaMaxGen3<ChessState> negaAB3= new NegaMaxGen3<ChessState>(buffered3, moveGenerator, 0);      
 
         nega.setDepth(3);
         negaAB.setDepth(3);
@@ -52,7 +52,7 @@ public class Job_008_measure_effect_pruning {
         
         String fen = "r2qkb1r/pppbpppp/2n5/1B1pN3/3PnB2/4P3/PPP2PPP/RN1QK2R b KQkq - 7 7";
 //        String fen = "k7/3q4/8/8/8/4Q3/7K/8 w - - 0 1";
-        GameState state  = GameState.fromFEN(fen);
+        ChessState state  = ChessState.fromFEN(fen);
         
         System.out.println(fen);
         System.out.println();

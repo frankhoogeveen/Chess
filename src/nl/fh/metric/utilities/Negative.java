@@ -5,6 +5,7 @@
 
 package nl.fh.metric.utilities;
 
+import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -12,16 +13,16 @@ import nl.fh.player.evalplayer.Metric;
  * adding an iid normally distributed random number;
  * 
  */
-public class Negative<T> implements Metric<T>{
+public class Negative<S extends GameState> implements Metric<S>{
 
-    private final Metric<T> baseMetric;
+    private final Metric<S> baseMetric;
     
-    public Negative(Metric<T> baseMetric){
+    public Negative(Metric<S> baseMetric){
      this.baseMetric = baseMetric;
     }
 
     @Override
-    public double eval(T t) {
+    public double eval(S t) {
         return - baseMetric.eval(t);
     }
 

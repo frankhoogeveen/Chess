@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 import nl.fh.gamereport.GameReport;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.rule.FIDEchess;
@@ -38,7 +39,7 @@ public class PhilidorTest {
                 
         // process the pgn file
         PGN_Reader parser = new TolerantReader();
-        List<GameReport> reports = parser.getGames(pgn, FIDEchess.getGameDriver());
+        List<GameReport<ChessState>> reports = parser.getGames(pgn, FIDEchess.getGameDriver());
         assertEquals(6, reports.size());
                 
     }   

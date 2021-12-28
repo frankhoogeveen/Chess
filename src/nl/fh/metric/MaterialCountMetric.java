@@ -7,11 +7,11 @@ package nl.fh.metric;
 
 import java.util.HashSet;
 import java.util.Set;
-import nl.fh.chess.Field;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.utilities.OutcomeMetric;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.ChessMoveGenerator;
@@ -26,7 +26,7 @@ import nl.fh.rule.ResultArbiter;
  * 
  */
 
-public class MaterialCountMetric implements Metric<GameState>{
+public class MaterialCountMetric implements Metric<ChessState>{
     
     
     /**
@@ -39,16 +39,16 @@ public class MaterialCountMetric implements Metric<GameState>{
     /**
      * returns a  MaterialCount Metric that keeps track of  mate and drawn positions
      */
-    public static Metric<GameState> getWrappedInstance(){
+    public static Metric<ChessState> getWrappedInstance(){
         double mateValue = 1.e6;
         GameDriver driver = new FIDEchess().getGameDriver();
-        Metric<GameState> base = new MaterialCountMetric();
-        Metric<GameState> result = new OutcomeMetric(base, mateValue, driver);
+        Metric<ChessState> base = new MaterialCountMetric();
+        Metric<ChessState> result = new OutcomeMetric(base, mateValue, driver);
         return result;
     }
 
     @Override
-    public double eval(GameState state) {
+    public double eval(ChessState state) {
         double score = 0.;
         
         score += materialScore(state);
@@ -56,7 +56,7 @@ public class MaterialCountMetric implements Metric<GameState>{
         return score;
     }
     
-    private double materialScore(GameState state){
+    private double materialScore(ChessState state){
         double score = 0.;
         for(Field f : Field.getAll()){
             switch(state.getFieldContent(f)){

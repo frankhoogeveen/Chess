@@ -2,7 +2,7 @@
  * License: GPL v3
  * 
  */
-package nl.fh.chess;
+package nl.fh.gamestate.chess;
 
 /**
  * Enumerates the colors of field contents (pieces or emptiness)

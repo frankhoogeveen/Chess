@@ -5,7 +5,7 @@
 
 package jobs;
 
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.output_file.OutputToFile;
 import nl.fh.rule.Perft;
 import nl.fh.rule.PerftCase;
@@ -24,7 +24,7 @@ public class Job_009_perft_job {
         PerftCase perftCase = Perft.getCases().get(caseId);
         int depth = perftCase.getDepth();
         long expValue = perftCase.getPerftValue();
-        GameState state = GameState.fromFEN(perftCase.getFen());
+        ChessState state = ChessState.fromFEN(perftCase.getFen());
         
         String result = Perft.details(state, depth);
         

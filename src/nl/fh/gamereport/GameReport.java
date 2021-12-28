@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 import nl.fh.rule.GameDriver;
 
@@ -29,25 +28,22 @@ import nl.fh.rule.GameDriver;
  * moves and game states are legal and consistent. 
  * 
  */
-public class GameReport {
+public class GameReport<S extends GameState> {
     
-
-    
-    private GameDriver gameDriver;
-    private final ArrayList<GameState> stateList;
-    private final ArrayList<Move> moveList;
+    private final ArrayList<S> stateList;
+    private final ArrayList<Move<S>> moveList;
     private GameResult gameResult;
     
     private final HashMap<String, String> tagValuePairs;
 
     public GameReport(){
-        stateList = new ArrayList<GameState>();
-        moveList = new ArrayList<Move>();
+        stateList = new ArrayList<S>();
+        moveList = new ArrayList<Move<S>>();
         gameResult = GameResult.UNDECIDED;
         tagValuePairs = new HashMap<String, String>();
     }
     
-    public List<GameState> getStateList() {
+    public List<S> getStateList() {
         return stateList;
     }
     
@@ -57,7 +53,7 @@ public class GameReport {
      * 
      * throws an exception when the stateList is empty
      */
-    public GameState getFinalState(){
+    public S getFinalState(){
         if(stateList.isEmpty()){
             throw new IllegalStateException();
         }
@@ -65,7 +61,7 @@ public class GameReport {
         return this.stateList.get(this.stateList.size()-1);
     }
 
-    public List<Move> getMoveList() {
+    public List<Move<S>> getMoveList() {
         return moveList;
     }
     
@@ -75,7 +71,7 @@ public class GameReport {
      * 
      * throws an exception when the stateList is empty
      */
-    public Move getFinalMove(){
+    public Move<S> getFinalMove(){
         if(moveList.isEmpty()){
             return null;
         }
@@ -136,7 +132,7 @@ public class GameReport {
      * add a move to this record
      * @param move
      */
-    public void addMove(Move move){
+    public void addMove(Move<S> move){
         moveList.add(move);
     }
     
@@ -144,7 +140,7 @@ public class GameReport {
      * add a game state to this record
      * @param state 
      */
-    public void addGameState(GameState state){
+    public void addGameState(S state){
         stateList.add(state);
     }
     
@@ -154,7 +150,7 @@ public class GameReport {
      * @param move
      * @param state 
      */
-    public void addPly(ChessMove move, GameState state){
+    public void addPly(Move<S> move, S state){
         moveList.add(move);
         stateList.add(state);        
     }
@@ -170,17 +166,7 @@ public class GameReport {
             this.addTag("Result", result.toString());
        }
     }
-    
-    /**
-     * set the driver of the game that determines e.g. the initial state,
-     * who is to move and when the game is finished with what outcome.
-     * @param driver 
-     */
-    public void setGameDriver(GameDriver driver){
-        this.gameDriver = driver;
-    }
-    
-    
+        
     /**
      * 
      * @param firstPlayer

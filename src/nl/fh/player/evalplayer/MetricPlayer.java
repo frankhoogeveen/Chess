@@ -6,10 +6,9 @@
 package nl.fh.player.evalplayer;
 
 import java.util.Set;
-import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
-import nl.fh.move.Resignation;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.ChessResignation;
 import nl.fh.player.Player;
 
 /**
@@ -20,9 +19,9 @@ import nl.fh.player.Player;
  * 
  * 
  */
-public class MetricPlayer implements Player{
+public class MetricPlayer<S extends GameState> implements Player<S>{
 
-    private Metric<GameState> metric;
+    private Metric<S> metric;
     
     private MetricPlayer(){
         
@@ -33,21 +32,21 @@ public class MetricPlayer implements Player{
     * @param metric
     * @return a player that evaluates the metric, but does not do any look-ahead
     */
-    public static MetricPlayer getInstance(Metric<GameState> metric){
+    public static MetricPlayer getInstance(Metric metric){
         MetricPlayer result = new MetricPlayer();
         result.metric = metric;
         return result;
     }
     
     @Override
-    public Move getMove(GameState state, Set<Move> legalMoves) {
+    public Move<S> getMove(S state, Set<Move<S>> legalMoves) {
         
-        int sign = state.getToMove().getSign();
+        int sign = state.getColor().getSign();
         
         double currentBestValue = -Double.MAX_VALUE;
-        Move currentBestMove = Resignation.getInstance();
+        Move<S> currentBestMove = ChessResignation.getInstance();
         
-        for(Move m : legalMoves){
+        for(Move<S> m : legalMoves){
             double value = sign * this.metric.eval(m.applyTo(state));
             if(value > currentBestValue){
                 currentBestMove = m;

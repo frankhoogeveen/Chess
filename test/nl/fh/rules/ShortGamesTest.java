@@ -7,7 +7,7 @@ package nl.fh.rules;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.GameDriver;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import java.util.List;
 import nl.fh.gamereport.GameReport;
 import nl.fh.parser.PGN_Reader;
@@ -34,8 +34,8 @@ public class ShortGamesTest {
         assertEquals(1, reports.size());
         GameReport report = reports.get(0);
         
-        List<GameState> list = report.getStateList();
-        GameState end = list.get(list.size()-1);
+        List<ChessState> list = report.getStateList();
+        ChessState end = list.get(list.size()-1);
         String endFEN = end.toFEN(4);
         
         assertEquals(target, endFEN);
@@ -51,8 +51,8 @@ public class ShortGamesTest {
         assertEquals(1, reports.size());
         GameReport report = reports.get(0);
         
-        List<GameState> list = report.getStateList();
-        GameState end = list.get(list.size()-1);
+        List<ChessState> list = report.getStateList();
+        ChessState end = list.get(list.size()-1);
         String endFEN = end.toFEN(2);
         
         assertEquals(target, endFEN);
@@ -68,8 +68,8 @@ public class ShortGamesTest {
         assertEquals(1, reports.size());
         
         GameReport report = reports.get(0);
-        List<GameState> list = report.getStateList();
-        GameState end = list.get(list.size()-1);
+        List<ChessState> list = report.getStateList();
+        ChessState end = list.get(list.size()-1);
         String endFEN = end.toFEN(4);
         
         assertEquals(target, endFEN);

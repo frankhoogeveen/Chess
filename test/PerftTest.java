@@ -1,5 +1,5 @@
 
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.Perft;
@@ -27,7 +27,7 @@ public class PerftTest {
     
     @Test
     public void testInitialState(){
-        GameState state = FIDEchess.getInitialState();
+        ChessState state = FIDEchess.getInitialState();
         
         assertEquals(1, Perft.value(state, 0));
         assertEquals(20, Perft.value(state, 1));  
@@ -48,7 +48,7 @@ public class PerftTest {
             
             int depth = perftCase.getDepth();
             long expValue = perftCase.getPerftValue();
-            GameState state = GameState.fromFEN(perftCase.getFen());
+            ChessState state = ChessState.fromFEN(perftCase.getFen());
             
             //System.out.println(caseId + " " + perftCase.getComment());
 

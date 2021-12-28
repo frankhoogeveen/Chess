@@ -9,11 +9,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.match.MatchReport;
 import nl.fh.match.MatchReportFormatter;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 import nl.fh.rule.GameDriver;
 
@@ -32,7 +32,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         "Black",
         "Result"
     });
-    private final GameDriver gameDriver;
+    private final GameDriver<ChessState> gameDriver;
     private Map<String, String> tagValuePairs;
 
     public PGNformatter(GameDriver gameDriver){
@@ -82,7 +82,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
      * 
      * @return a formatted report of the tags, moves and result; 
      */
-    private String formatGamePGN(List<Move> moveList, GameResult result){
+    private String formatGamePGN(List<Move<ChessState>> moveList, GameResult result){
 
         
         StringBuilder sb = new StringBuilder();
@@ -126,7 +126,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         return sb.toString();
     }
 
-    private String movesString(List<Move> moveList) {
+    private String movesString(List<Move<ChessState>> moveList) {
         int triggerLineLength = 65;
         int startSBcontent = 0;
         
@@ -134,9 +134,9 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         int moveCounter = 0;
         int currentPly = 0;
 
-        GameState state;
+        ChessState state;
         if(this.tagValuePairs.keySet().contains("FEN")){
-            state = GameState.fromFEN(tagValuePairs.get("FEN"));
+            state = ChessState.fromFEN(tagValuePairs.get("FEN"));
         } else {
             state = this.gameDriver.getInitialState();
         }

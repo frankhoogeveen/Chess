@@ -7,7 +7,7 @@ package nl.fh.metric.utilities;
 
 import java.util.Set;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.GameDriver;
 
@@ -17,22 +17,22 @@ import nl.fh.rule.GameDriver;
  * Use for testing purposes only.
  * 
  */
-public class MaxOfChildren<T extends GameState> implements Metric<T>{
+public class MaxOfChildren<S extends GameState> implements Metric<S>{
 
-    private final Metric<T> baseMetric;
+    private final Metric<S> baseMetric;
     private final GameDriver driver;
     
-    public MaxOfChildren(Metric<T> baseMetric, GameDriver driver){
+    public MaxOfChildren(Metric<S> baseMetric, GameDriver driver){
      this.baseMetric = baseMetric;
      this.driver = driver;
     }
 
     @Override
-    public double eval(T t) {
+    public double eval(S state) {
         double currentValue = - Double.MAX_VALUE;
-        Set<Move> moves = driver.getMoveGenerator().calculateAllLegalMoves(t);
+        Set<Move> moves = driver.getMoveGenerator().calculateAllLegalMoves(state);
         for(Move m : moves){
-            T child = (T) m.applyTo(t);
+            S child = (S) m.applyTo(state);
             double value = baseMetric.eval(child);
             if(value > currentValue){
                 currentValue = value;

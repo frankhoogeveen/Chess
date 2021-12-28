@@ -10,15 +10,15 @@ import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.GameDriver;
 import java.util.Set;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
 import nl.fh.player.pgn_replayer.PgnReplayer;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
-import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
-import nl.fh.move.PieceMove;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.PieceMove;
 import nl.fh.player.Player;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,8 +39,8 @@ public class ThreeFoldRepetitionTest {
     public void testRepetition(){
         String fen1 = "rnbq1bnr/pppkpppp/8/3p4/3P4/8/PPPBPPPP/RN1QKBNR w KQ - 2 3";
         String fen2 = "rnbq1bnr/pppkpppp/8/3p4/3P4/8/PPPBPPPP/RN1QKBNR w KQ - 6 5";
-        GameState state1 = GameState.fromFEN(fen1);
-        GameState state2 = GameState.fromFEN(fen2);
+        ChessState state1 = ChessState.fromFEN(fen1);
+        ChessState state2 = ChessState.fromFEN(fen2);
         
         assertTrue(arbiter.repeats(state1, state2));
     }  
@@ -55,8 +55,8 @@ public class ThreeFoldRepetitionTest {
         // According to rule 9.2 FIDE Laws of Chess, these are repeating positions
         String fen1 = "7k/8/8/K1pP3r/8/8/8/8 w - - 0 2";
         String fen2 = "7k/8/8/K1pP3r/8/8/8/8 w - c6 0 2";
-        GameState state1 = GameState.fromFEN(fen1);
-        GameState state2 = GameState.fromFEN(fen2);
+        ChessState state1 = ChessState.fromFEN(fen1);
+        ChessState state2 = ChessState.fromFEN(fen2);
         
         assertTrue(arbiter.repeats(state1, state2));
     }     
@@ -64,7 +64,7 @@ public class ThreeFoldRepetitionTest {
     @Test
     public void testThreefoldRepetitionManually(){
         GameReport report = new GameReport();
-        GameState state = FIDEchess.getInitialState();
+        ChessState state = FIDEchess.getInitialState();
         
         Field f3 = Field.getInstance("f3");
         Field f6 = Field.getInstance("f6");
@@ -114,7 +114,7 @@ public class ThreeFoldRepetitionTest {
         assertTrue(arbiter.isThreeFoldRepetition(report));    
         
         assertEquals(GameResult.UNDECIDED, report.getGameResult());               
-        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
+        Set<Move<ChessState>> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         GameResult result = arbiter.determineResult(report, legalMoves);
         
         // the arbiter determines the result, but does not change the report
@@ -154,7 +154,7 @@ public class ThreeFoldRepetitionTest {
                    + "5. Rg1 Rg8 6. Rh1 Rh8 7. Rg1 Rg8 8. Rh1 Rh8 "
                    + "9. Rg1 Rg8 10. Rh1 Rh8 11. Rg1 Rg8 12. Rh1 Rh8 *";
         
-        GameState initial = GameState.fromFEN("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
+        ChessState initial = ChessState.fromFEN("r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
@@ -189,7 +189,7 @@ public class ThreeFoldRepetitionTest {
                    + "10. Rc7 Rb6 11. Rc5 Rb4 12. Rc7 Rb6 13. Rc5 Rb4 "
                    + "14. Rc7 *";
         
-        GameState initial = GameState.fromFEN("k7/8/1r6/2R5/8/8/4P3/K7 w - - 0 1");
+        ChessState initial = ChessState.fromFEN("k7/8/1r6/2R5/8/8/4P3/K7 w - - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
@@ -228,7 +228,7 @@ public class ThreeFoldRepetitionTest {
                    + "10. Rc7 Rb6 11. Rc5 Rb4 12. Rc7 Rb6 13. Rc5 Rb4 "
                    + "14. Rc7 *";
         
-        GameState initial = GameState.fromFEN("k7/8/1r6/2R5/5p2/8/4P3/K7 w - - 0 1");
+        ChessState initial = ChessState.fromFEN("k7/8/1r6/2R5/5p2/8/4P3/K7 w - - 0 1");
         
         Player playerW = PgnReplayer.getInstance(pgn, Color.WHITE);
         Player playerB = PgnReplayer.getInstance(pgn, Color.BLACK);     
@@ -268,10 +268,10 @@ public class ThreeFoldRepetitionTest {
                    + "14. Rc7 "
                    + "*";
         
-        GameState initial = GameState.fromFEN("5R2/8/1r6/2R5/5p2/8/4P3/K4k2 w - - 0 1");
+        ChessState initial = ChessState.fromFEN("5R2/8/1r6/2R5/5p2/8/4P3/K4k2 w - - 0 1");
         
-        Player playerW = PgnReplayer.getInstance(pgn, nl.fh.chess.Color.WHITE);
-        Player playerB = PgnReplayer.getInstance(pgn, nl.fh.chess.Color.BLACK);     
+        Player playerW = PgnReplayer.getInstance(pgn, nl.fh.gamestate.chess.Color.WHITE);
+        Player playerB = PgnReplayer.getInstance(pgn, nl.fh.gamestate.chess.Color.BLACK);     
         
         GameReport report = gameDriver.playGame(playerW, playerB, initial);
         
