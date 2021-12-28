@@ -17,8 +17,8 @@ import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.GameDriver;
 
 /**
  * Wraps around a Player and communicates using the uci protocol

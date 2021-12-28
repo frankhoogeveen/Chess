@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.rules;
+package nl.fh.rule;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -13,6 +13,7 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.ChessGameResult;
+import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.DrawOfferAccepted;
@@ -47,52 +48,61 @@ public class ChessResultArbiter implements ResultArbiter {
    }
 
     @Override
-    public ChessGameResult determineResult(GameReport report, Set<Move> legalMoves) {
+    public GameResult determineResult(GameReport report, Set<Move> legalMoves) {
         Move move = report.getFinalMove();
         GameState state = report.getFinalState();
         
             // resignation ends the game on the spot
             if(move instanceof Resignation){
                 if(state.getToMove() == Color.WHITE){
-                    return ChessGameResult.RESIGNATION_BY_WHITE;
+                    return GameResult.WIN_FIRST_MOVER;
+//                    return ChessGameResult.RESIGNATION_BY_WHITE;
                 } else {
-                    return ChessGameResult.RESIGNATION_BY_BLACK; 
+                    return GameResult.WIN_SECOND_MOVER;
+//                    return ChessGameResult.RESIGNATION_BY_BLACK; 
                 }
             }
             
             // accepted draw offers end the game on the spot
             if(move instanceof DrawOfferAccepted){
-                return ChessGameResult.DRAW_AGREED;
+                return GameResult.DRAW;
+//                return ChessGameResult.DRAW_AGREED;
             }             
            
             //insufficient material ends the game on the spot
             if(!sufficientMaterial(state)){
-                return ChessGameResult.DRAW_INSUFFICIENT_MATERIAL;                
+                return GameResult.DRAW;
+//                return ChessGameResult.DRAW_INSUFFICIENT_MATERIAL;                
             }
 
             // (stale) mate ends the game
             if(legalMoves.isEmpty()){
                 if(isCheck(state)){
                     if(state.getToMove() == Color.WHITE){
-                        return ChessGameResult.WIN_WHITE;
+                        return GameResult.WIN_FIRST_MOVER;
+//                        return ChessGameResult.WIN_WHITE;
                     } else {
-                        return ChessGameResult.WIN_BLACK;
+                        return GameResult.WIN_SECOND_MOVER;
+//                        return ChessGameResult.WIN_BLACK;
                     }
                 } else {
-                    return ChessGameResult.DRAW_STALEMATE;
+                    return GameResult.DRAW;
+//                    return ChessGameResult.DRAW_STALEMATE;
                 }
             }
             
             if(isThreeFoldRepetition(report)){
-                return ChessGameResult.DRAW_BY_THREEFOLD_REPETITION;
+                return GameResult.DRAW;
+//                return ChessGameResult.DRAW_BY_THREEFOLD_REPETITION;
             }
             
             if(isAtFiftyMoveRule(state)){
-                return ChessGameResult.DRAW_BY_50_MOVE_RULE;                
+                return GameResult.DRAW;
+//                return ChessGameResult.DRAW_BY_50_MOVE_RULE;                
             }
 
                 
-       return ChessGameResult.UNDECIDED;
+       return GameResult.UNDECIDED;
 
     }
     
@@ -202,7 +212,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * 
      * This method returns false if state is equal to state2
      */
-    boolean repeats(GameState state, GameState state2) {
+    public boolean repeats(GameState state, GameState state2) {
         if (state == state2) {
             return false;
         }

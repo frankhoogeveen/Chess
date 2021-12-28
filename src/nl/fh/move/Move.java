@@ -4,7 +4,7 @@
  */
 package nl.fh.move;
 
-import nl.fh.rules.ChessResultArbiter;
+import nl.fh.rule.ChessResultArbiter;
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
 

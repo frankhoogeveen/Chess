@@ -5,7 +5,7 @@
 package nl.fh.gamestate;
 
 import java.util.ArrayList;
-import nl.fh.rules.FIDEchess;
+import nl.fh.rule.FIDEchess;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

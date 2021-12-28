@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.rules;
+package nl.fh.rule;
 
 import nl.fh.gamestate.GameState;
 
@@ -13,7 +13,11 @@ import nl.fh.gamestate.GameState;
  * 
  */
 public class FIDEchess {
-    public final static String initialFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    private final static String initialFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    private final static ChessMoveGenerator moveGenerator = new ChessMoveGenerator();
+    private final static ChessResultArbiter arbiter = new ChessResultArbiter(moveGenerator);
+        
+    
     
     /**
      * 
@@ -23,17 +27,13 @@ public class FIDEchess {
         return GameState.fromFEN(initialFEN);
     }
     
-    
     /**
      * 
      * @return the game driver of regular chess
      * 
      */
     public static GameDriver getGameDriver(){
-        GameState state = getInitialState();
-        ChessMoveGenerator moveGenerator = new ChessMoveGenerator();
-        ChessResultArbiter arbiter = new ChessResultArbiter(moveGenerator);
-        
+        GameState state = getInitialState();    
         return GameDriver.getInstance(state, moveGenerator, arbiter);
     }
     

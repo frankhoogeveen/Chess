@@ -7,8 +7,8 @@ package nl.fh.metric;
 
 import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.GameDriver;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

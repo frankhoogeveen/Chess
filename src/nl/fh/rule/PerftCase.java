@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.rules;
+package nl.fh.rule;
 
 /**
  * 

@@ -15,9 +15,9 @@ import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.ChessResultArbiter;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.GameDriver;
 
 /**
  * A minimalistic ASCII interface

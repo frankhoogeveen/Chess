@@ -13,9 +13,9 @@ import nl.fh.metric.minimax.NegaMaxGen3;
 import nl.fh.metric.utilities.Counter;
 import nl.fh.metric.utilities.TableBuffer;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.GameDriver;
-import nl.fh.rules.MoveGenerator;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.GameDriver;
+import nl.fh.rule.MoveGenerator;
 
 /**
  * 

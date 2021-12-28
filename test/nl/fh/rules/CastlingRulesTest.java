@@ -5,6 +5,8 @@
 package nl.fh.rules;
 
 
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.GameDriver;
 import nl.fh.gamestate.GameState;
 import java.util.List;
 import nl.fh.chess.BoardSide;

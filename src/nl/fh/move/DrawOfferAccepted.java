@@ -7,8 +7,8 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.ChessResultArbiter;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.GameDriver;
 
 /**
  * copyright F. Hoogeveen

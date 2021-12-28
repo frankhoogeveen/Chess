@@ -4,6 +4,9 @@
  */
 package nl.fh.rules;
 
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.GameDriver;
 import nl.fh.gamestate.GameState;
 import java.util.Set;
 import nl.fh.chess.Color;

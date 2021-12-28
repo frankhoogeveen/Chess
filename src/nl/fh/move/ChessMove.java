@@ -7,7 +7,7 @@ package nl.fh.move;
 
 import nl.fh.chess.Field;
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.GameDriver;
 
 /**
  * License GPL v3

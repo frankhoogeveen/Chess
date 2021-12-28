@@ -20,7 +20,7 @@ import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.FIDEchess;
+import nl.fh.rule.FIDEchess;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

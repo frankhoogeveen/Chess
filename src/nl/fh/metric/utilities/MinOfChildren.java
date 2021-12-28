@@ -9,7 +9,7 @@ import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.GameDriver;
 
 /**
  * Wrapping this around a given baseMetric, it goes one level deep into the 

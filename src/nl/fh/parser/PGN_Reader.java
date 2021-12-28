@@ -7,7 +7,7 @@ package nl.fh.parser;
 
 import java.util.List;
 import nl.fh.gamereport.GameReport;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.GameDriver;
 
 /**
  * copyright F. Hoogeveen

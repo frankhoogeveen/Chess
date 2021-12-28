@@ -2,7 +2,7 @@
  * License: GPL v3
  * 
  */
-package nl.fh.rules;
+package nl.fh.rule;
 
 import nl.fh.gamestate.GameState;
 import java.util.HashSet;

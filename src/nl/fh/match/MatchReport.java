@@ -10,7 +10,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
+import nl.fh.gamereport.GameResult;
 import nl.fh.player.Player;
 
 /**
@@ -30,8 +30,8 @@ public class MatchReport {
     
     private int score = 0;
     
-    private final Map<ChessGameResult, Integer> player1WhiteResults;
-    private final Map<ChessGameResult, Integer> player2WhiteResults; 
+    private final Map<GameResult, Integer> player1WhiteResults;
+    private final Map<GameResult, Integer> player2WhiteResults; 
 
     private int count = 0;
     /**
@@ -41,12 +41,12 @@ public class MatchReport {
      * @param player2 
      */
     public MatchReport(Player player1, Player player2, GameFilter filter) {
-        this.player2WhiteResults = new EnumMap<ChessGameResult, Integer>(ChessGameResult.class);
-        this.player1WhiteResults = new EnumMap<ChessGameResult, Integer>(ChessGameResult.class);
+        this.player2WhiteResults = new EnumMap<GameResult, Integer>(GameResult.class);
+        this.player1WhiteResults = new EnumMap<GameResult, Integer>(GameResult.class);
         this.player1 = player1;
         this.player2 = player2;
         
-        for(ChessGameResult result : ChessGameResult.values()){
+        for(GameResult result : GameResult.values()){
             player1WhiteResults.put(result, 0);
             player2WhiteResults.put(result, 0);
         }
@@ -69,7 +69,7 @@ public class MatchReport {
         }
         
         // update the score
-        ChessGameResult gameResult = report.getGameResult();
+        GameResult gameResult = report.getGameResult();
         
         if(player1.equals(this.player1) && player2.equals(this.player2)){
             int current = player1WhiteResults.get(gameResult);
@@ -104,11 +104,11 @@ public class MatchReport {
         return score;
     }
 
-    public Map<ChessGameResult, Integer> getPlayer1WhiteResults() {
+    public Map<GameResult, Integer> getPlayer1WhiteResults() {
         return player1WhiteResults;
     }
 
-    public Map<ChessGameResult, Integer> getPlayer2WhiteResults() {
+    public Map<GameResult, Integer> getPlayer2WhiteResults() {
         return player2WhiteResults;
     }
 

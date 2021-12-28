@@ -17,8 +17,8 @@ import nl.fh.move.Resignation;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.GameDriver;
 
 /**
  * This player replays all the moves from a PGN. When all 

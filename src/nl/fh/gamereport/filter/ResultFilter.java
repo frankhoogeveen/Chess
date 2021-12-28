@@ -7,7 +7,7 @@ package nl.fh.gamereport.filter;
 
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
+import nl.fh.gamereport.GameResult;
 
 /**
  * Filters a (set of) game results
@@ -15,15 +15,15 @@ import nl.fh.gamereport.ChessGameResult;
  */
 public class ResultFilter implements GameFilter{
 
-    private final ChessGameResult[] results;
+    private final GameResult[] results;
 
-    public ResultFilter(ChessGameResult... results){
+    public ResultFilter(GameResult... results){
         this.results = results;
     }
     
     @Override
     public boolean retain(GameReport report) {
-        for(ChessGameResult f : this.results){
+        for(GameResult f : this.results){
             if(f == report.getGameResult()){
                 return true;
             }

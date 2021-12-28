@@ -16,7 +16,7 @@ import nl.fh.metric.MaterialCountMetric;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.FIDEchess;
+import nl.fh.rule.FIDEchess;
 
 /**
  * 

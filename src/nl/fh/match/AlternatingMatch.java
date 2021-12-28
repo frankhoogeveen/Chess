@@ -7,10 +7,8 @@ package nl.fh.match;
 
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
 import nl.fh.player.Player;
-import nl.fh.rules.GameDriver;
-import nl.fh.rules.Rules;
+import nl.fh.rule.GameDriver;
 
 /**
  * 

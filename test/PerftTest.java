@@ -1,10 +1,10 @@
 
 import nl.fh.gamestate.GameState;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.MoveGenerator;
-import nl.fh.rules.Perft;
-import nl.fh.rules.PerftCase;
-import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.Perft;
+import nl.fh.rule.PerftCase;
+import nl.fh.rule.ChessMoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

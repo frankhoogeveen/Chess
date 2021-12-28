@@ -3,13 +3,14 @@
  * 
  */
 
-package nl.fh.rules;
+package nl.fh.rule;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.ChessGameResult;
+import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
@@ -52,12 +53,15 @@ public class GameDriver {
     
     /**
      * 
-     * @return the initial state of the game
+     * @return a copy of the initial state of the game
      * The initial state does not have to be deterministic. It might be
      * random. Repeated calls to this method may return different values.
+     * 
+     * What is currently implemented is a fixed initial state, but this may
+     * change over time.
      */
     public GameState getInitialState(){
-        return this.initialState;
+        return this.initialState.copy();
     }
     
     /**
@@ -102,9 +106,9 @@ public class GameDriver {
         report.addGameState(currentState);
         
         Player currentPlayer = firstPlayer;
-        ChessGameResult currentStatus = ChessGameResult.UNDECIDED;
+        GameResult currentStatus = GameResult.UNDECIDED;
         
-        while(currentStatus == ChessGameResult.UNDECIDED){        
+        while(currentStatus == GameResult.UNDECIDED){        
 
             Move move = currentPlayer.getMove(currentState, legalMoves);        
             
@@ -131,9 +135,9 @@ public class GameDriver {
         // making an illegal move ends the game on the spot
         if (!legalMoves.contains(move)) {
             if(currentPlayerIsWhite){
-                report.setResult(ChessGameResult.ILLEGAL_MOVE_BY_WHITE);
+                report.setResult(GameResult.WIN_SECOND_MOVER);
             } else {
-                report.setResult(ChessGameResult.ILLEGAL_MOVE_BY_BLACK);
+                report.setResult(GameResult.WIN_FIRST_MOVER);
             }
             return true;
         }
@@ -144,19 +148,14 @@ public class GameDriver {
         GameReport report = new GameReport();
 
         // add the required tags
-        report.addTag("White", firstPlayer.getDescription());
-        report.addTag("Black", secondPlayer.getDescription());
+        report.addTag("Player1", firstPlayer.getDescription());
+        report.addTag("Player2", secondPlayer.getDescription());
         report.addTag("Result", "*");
-        
-//        if(!initialState.equals(this.getInitialState())){
-//            report.addTag("SetUp", "1");
-//            report.addTag("FEN", initialState.toFEN());
-//        }
 
         LocalDateTime myDateObj = LocalDateTime.now();
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
-        report.addTag("Date", formattedDate);
+        report.addTag("DateTime", formattedDate);
         
         report.setGameDriver(this);
         report.setPlayers(firstPlayer, secondPlayer);

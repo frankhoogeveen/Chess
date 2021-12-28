@@ -16,6 +16,7 @@ import nl.fh.chess.PieceKind;
 import nl.fh.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.ChessGameResult;
+import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.Castling;
 import nl.fh.move.ChessMove;
@@ -23,9 +24,7 @@ import nl.fh.move.EnPassantCapture;
 import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.move.Promotion;
-import nl.fh.rules.GameDriver;
-import nl.fh.rules.MoveGenerator;
-import nl.fh.rules.Rules;
+import nl.fh.rule.GameDriver;
 
 /**
  * A basic reader implementing parts of the standard and designed to be tolerant.
@@ -300,7 +299,7 @@ public class TolerantReader implements PGN_Reader{
 
     private void checkTerminator() throws PgnException {
         if(pgn.charAt(index) == '*'){
-            currentReport.setResult(ChessGameResult.UNDECIDED);
+            currentReport.setResult(GameResult.UNDECIDED);
             wrapUp();
             this.terminated = true;
             return;
@@ -313,7 +312,7 @@ public class TolerantReader implements PGN_Reader{
         if(pgn.charAt(index) == '1' && pgn.charAt(index+1) == '-'){
             // we are checking here for "1-", but we actually need "1-0"
             index += 3; 
-            currentReport.setResult(ChessGameResult.WIN_WHITE);
+            currentReport.setResult(GameResult.WIN_FIRST_MOVER);
             wrapUp();
             this.terminated = true;
             return;            
@@ -322,7 +321,7 @@ public class TolerantReader implements PGN_Reader{
         if(pgn.charAt(index) == '1' && pgn.charAt(index+1) == '/'){
             // we are checking here for "1/", but we actually need "1/2-1/2"
             index += 7; 
-            currentReport.setResult(ChessGameResult.DRAW);
+            currentReport.setResult(GameResult.DRAW);
             wrapUp();
             this.terminated = true;
             return;            
@@ -331,7 +330,7 @@ public class TolerantReader implements PGN_Reader{
         if(pgn.charAt(index) == '0' && pgn.charAt(index+1) == '-'){
             // we are checking here for "0-", but we actually need "0-1"
             index += 3; 
-            currentReport.setResult(ChessGameResult.WIN_BLACK);
+            currentReport.setResult(GameResult.WIN_SECOND_MOVER);
             wrapUp();
             this.terminated = true;          
         }        

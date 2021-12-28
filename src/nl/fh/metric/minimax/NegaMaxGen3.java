@@ -9,7 +9,7 @@ import java.util.Set;
 import nl.fh.chess.Colored;
 import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.MoveGenerator;
+import nl.fh.rule.MoveGenerator;
 
 /**
  *  This wraps around a metric to create the negamax metric with alpha beta pruning

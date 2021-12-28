@@ -14,7 +14,7 @@ import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.GameDriver;
 
 /**
  * 
@@ -36,14 +36,14 @@ public class GameReport {
     private GameDriver gameDriver;
     private final ArrayList<GameState> stateList;
     private final ArrayList<ChessMove> moveList;
-    private ChessGameResult gameResult;
+    private GameResult gameResult;
     
     private final HashMap<String, String> tagValuePairs;
 
     public GameReport(){
         stateList = new ArrayList<GameState>();
         moveList = new ArrayList<ChessMove>();
-        gameResult = ChessGameResult.UNDECIDED;
+        gameResult = GameResult.UNDECIDED;
         tagValuePairs = new HashMap<String, String>();
     }
     
@@ -87,7 +87,7 @@ public class GameReport {
      * 
      * @return the result of the game. 
      */
-    public ChessGameResult getGameResult() {
+    public GameResult getGameResult() {
         return gameResult;
     }
 
@@ -164,7 +164,7 @@ public class GameReport {
      * it is overwritten
      * @param result 
      */
-    public void setResult(ChessGameResult result){
+    public void setResult(GameResult result){
        gameResult = result;
        if(this.tagValuePairs.keySet().contains("Result")){
             this.addTag("Result", result.toString());

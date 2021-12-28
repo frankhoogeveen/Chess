@@ -14,8 +14,8 @@ import nl.fh.match.MatchReport;
 import nl.fh.match.MatchReportFormatter;
 import nl.fh.move.ChessMove;
 import nl.fh.player.Player;
-import nl.fh.rules.GameDriver;
-import nl.fh.rules.MoveGenerator;
+import nl.fh.rule.GameDriver;
+import nl.fh.rule.MoveGenerator;
 
 /**
  * Turns game reports of chess games into PGN strings.
@@ -82,7 +82,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
      * 
      * @return a formatted report of the tags, moves and result; 
      */
-    private String formatGamePGN(List<ChessMove> moveList, ChessGameResult result){
+    private String formatGamePGN(List<ChessMove> moveList, GameResult result){
 
         
         StringBuilder sb = new StringBuilder();
@@ -166,28 +166,19 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         return sb.toString();
     }
 
-    private String resultString(ChessGameResult gameResult) {
+    private String resultString(GameResult gameResult) {
         if(gameResult == null){
             return "null";
         }
         
         switch(gameResult){
-            case WIN_WHITE:
-            case ILLEGAL_MOVE_BY_BLACK:
-            case RESIGNATION_BY_BLACK:
+            case WIN_FIRST_MOVER:
                 return "1-0";
                 
-            case WIN_BLACK:
-            case ILLEGAL_MOVE_BY_WHITE:
-            case RESIGNATION_BY_WHITE:
+            case WIN_SECOND_MOVER:
                 return "0-1";
                 
             case DRAW :
-            case DRAW_AGREED:
-            case DRAW_STALEMATE:
-            case DRAW_BY_THREEFOLD_REPETITION:
-            case DRAW_BY_50_MOVE_RULE:
-            case DRAW_INSUFFICIENT_MATERIAL:
                 return "1/2-1/2";
                 
             case UNDECIDED:
@@ -217,8 +208,8 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         Player player2 = report.getPlayer2();
         int score = report.getScore();
         int count = report.getCount();
-        Map<ChessGameResult, Integer> player1White = report.getPlayer1WhiteResults();
-        Map<ChessGameResult, Integer> player2White = report.getPlayer2WhiteResults();        
+        Map<GameResult, Integer> player1White = report.getPlayer1WhiteResults();
+        Map<GameResult, Integer> player2White = report.getPlayer2WhiteResults();        
         
         StringBuilder sb = new StringBuilder();
         sb.append(";");

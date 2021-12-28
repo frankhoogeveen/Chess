@@ -11,7 +11,7 @@ import nl.fh.gamereport.PGNformatter;
 import nl.fh.match.MatchReportFormatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rules.FIDEchess;
+import nl.fh.rule.FIDEchess;
 
 /**
  * 

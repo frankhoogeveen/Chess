@@ -14,9 +14,9 @@ import nl.fh.move.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.GameDriver;
-import nl.fh.rules.MoveGenerator;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.GameDriver;
+import nl.fh.rule.MoveGenerator;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

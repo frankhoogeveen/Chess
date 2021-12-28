@@ -5,12 +5,16 @@
 
 package nl.fh.rules;
 
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.GameDriver;
 import java.util.Set;
 import nl.fh.chess.Color;
 import nl.fh.chess.Field;
 import nl.fh.player.pgn_replayer.PgnReplayer;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
+import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
@@ -103,22 +107,22 @@ public class ThreeFoldRepetitionTest {
         report.addPly(Ng1, state);
         assertFalse(arbiter.isThreeFoldRepetition(report));
         
-        assertEquals(ChessGameResult.UNDECIDED, report.getGameResult());
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());
         
         state = state.apply(Ng8);
         report.addPly(Ng8, state);
         assertTrue(arbiter.isThreeFoldRepetition(report));    
         
-        assertEquals(ChessGameResult.UNDECIDED, report.getGameResult());               
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());               
         Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(state);
-        ChessGameResult result = arbiter.determineResult(report, legalMoves);
+        GameResult result = arbiter.determineResult(report, legalMoves);
         
         // the arbiter determines the result, but does not change the report
-        assertEquals(ChessGameResult.UNDECIDED, report.getGameResult());          
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION, result);       
+        assertEquals(GameResult.UNDECIDED, report.getGameResult());          
+        assertEquals(GameResult.DRAW, result);       
         report.setResult(result);
         
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION, report.getGameResult());        
+        assertEquals(GameResult.DRAW, report.getGameResult());        
         
     }
     
@@ -135,7 +139,7 @@ public class ThreeFoldRepetitionTest {
         GameReport report = gameDriver.playGame(playerW, playerB);
         
         assertEquals(12, report.getMoveList().size());
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(GameResult.DRAW.toString(),
                      report.getTag("Result"));
         
         assertTrue(arbiter.isThreeFoldRepetition(report));        
@@ -172,7 +176,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(10, report.getMoveList().size());
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(GameResult.DRAW.toString(),
                      report.getTag("Result"));
     } 
     
@@ -206,7 +210,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(9, report.getMoveList().size());
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(GameResult.DRAW.toString(),
                      report.getTag("Result"));
     } 
     
@@ -245,7 +249,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(10, report.getMoveList().size());
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(GameResult.DRAW.toString(),
                      report.getTag("Result"));
     }       
     
@@ -284,7 +288,7 @@ public class ThreeFoldRepetitionTest {
 //        System.out.println(report.getStateList().get(report.getStateList().size()-1).toFEN());
         
         assertEquals(9, report.getMoveList().size());
-        assertEquals(ChessGameResult.DRAW_BY_THREEFOLD_REPETITION.toString(),
+        assertEquals(GameResult.DRAW.toString(),
                      report.getTag("Result"));
     }   
 

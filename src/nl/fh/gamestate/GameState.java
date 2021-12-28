@@ -17,7 +17,7 @@ import nl.fh.chess.Field;
 import nl.fh.chess.PieceType;
 import nl.fh.move.ChessMove;
 import nl.fh.move.EnPassantCapture;
-import nl.fh.rules.MoveGenerator;
+import nl.fh.rule.MoveGenerator;
 
 /**
  * @author frank
@@ -27,7 +27,7 @@ import nl.fh.rules.MoveGenerator;
  * unnecessarily recalculated. The mechanism to achieve this is the dirty flag.
  * 
  */
-public class GameState implements Colored   {
+public class GameState<B> implements Colored   {
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data

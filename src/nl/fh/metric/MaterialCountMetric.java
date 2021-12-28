@@ -13,12 +13,12 @@ import nl.fh.metric.utilities.OutcomeMetric;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.ChessMoveGenerator;
-import nl.fh.rules.ChessResultArbiter;
-import nl.fh.rules.GameDriver;
-import nl.fh.rules.MoveGenerator;
-import nl.fh.rules.ResultArbiter;
+import nl.fh.rule.FIDEchess;
+import nl.fh.rule.ChessMoveGenerator;
+import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.GameDriver;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.ResultArbiter;
 
 /**
  * Evaluates the state of the board, in line with
@@ -41,7 +41,7 @@ public class MaterialCountMetric implements Metric<GameState>{
      */
     public static Metric<GameState> getWrappedInstance(){
         double mateValue = 1.e6;
-        GameDriver driver = FIDEchess.getGameDriver();
+        GameDriver driver = new FIDEchess().getGameDriver();
         Metric<GameState> base = new MaterialCountMetric();
         Metric<GameState> result = new OutcomeMetric(base, mateValue, driver);
         return result;

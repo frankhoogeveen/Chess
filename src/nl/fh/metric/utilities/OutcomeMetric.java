@@ -10,9 +10,9 @@ import nl.fh.gamestate.GameState;
 import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.ChessMoveGenerator;
-import nl.fh.rules.ChessResultArbiter;
-import nl.fh.rules.GameDriver;
+import nl.fh.rule.ChessMoveGenerator;
+import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.GameDriver;
 
 /**
  * Evaluates the state of the board, in line with

@@ -18,7 +18,7 @@ import nl.fh.metric.utilities.NoiseAdder;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rules.FIDEchess;
+import nl.fh.rule.FIDEchess;
 
 /**
  * 

@@ -6,13 +6,10 @@
 package jobs;
 
 import java.util.Set;
-import nl.fh.chess.Color;
 import nl.fh.gamestate.GameState;
 import nl.fh.metric.PawnLocationMetric;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rules.FIDEchess;
-import nl.fh.rules.Rules;
-import nl.fh.rules.ChessMoveGenerator;
+import nl.fh.rule.FIDEchess;
 
 /**
  * 

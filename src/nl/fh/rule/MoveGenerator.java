@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.rules;
+package nl.fh.rule;
 
 import java.util.Set;
 import nl.fh.gamestate.GameState;
