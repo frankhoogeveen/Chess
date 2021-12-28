@@ -8,7 +8,7 @@ package jobs;
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.PGNformatter;
 import nl.fh.gamereport.filter.TransparentFilter;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchReport;
@@ -29,11 +29,11 @@ public class Job_004_match_between_two_static_evaluators {
     public static void main(String[] args){
         
         double sigma1 = 0.3;
-        Metric<GameState> metric1 = new NoiseAdder(sigma1, MaterialCountMetric.getWrappedInstance());
+        Metric<ChessState> metric1 = new NoiseAdder(sigma1, MaterialCountMetric.getWrappedInstance());
         Player player1 = MetricPlayer.getInstance(metric1);
         
         double sigma2 = 1.0;
-        Metric<GameState> metric2 = new NoiseAdder(sigma2, MaterialCountMetric.getWrappedInstance());
+        Metric<ChessState> metric2 = new NoiseAdder(sigma2, MaterialCountMetric.getWrappedInstance());
         Player player2 = MetricPlayer.getInstance(metric2);
         
         int nGames = 4;

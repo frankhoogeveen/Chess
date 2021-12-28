@@ -11,10 +11,10 @@ import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.MaterialCountMetric;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.rule.FIDEchess;
@@ -31,10 +31,10 @@ public class UciInterface implements Runnable {
    
     private BufferedReader reader;
     
-    private  Player player;
-    private  GameDriver driver;
+    private  Player<ChessState> player;
+    private  GameDriver<ChessState> driver;
     
-    private GameState state;
+    private ChessState state;
 
     private UciInterface(Player player, GameDriver gameDriver) {
         this.player = player;
@@ -126,8 +126,8 @@ public class UciInterface implements Runnable {
     }
 
     private String nextMove() {
-        Set<Move> moves = this.driver.getMoveGenerator().calculateAllLegalMoves(state);
-        Move move = player.getMove(state, moves);
+        Set<Move<ChessState>> moves = this.driver.getMoveGenerator().calculateAllLegalMoves(state);
+        Move<ChessState> move = player.getMove(state, moves);
         String result = ((ChessMove)move).formatUCI(state);
         state = move.applyTo(state);
         return result;
@@ -144,7 +144,7 @@ public class UciInterface implements Runnable {
 
     private void guiMove(String string) {
         int count = 0;
-        for(Move m : driver.getMoveGenerator().calculateAllLegalMoves(state)){
+        for(Move<ChessState> m : driver.getMoveGenerator().calculateAllLegalMoves(state)){
             if(((ChessMove)m).formatUCI(state).equals(string)){
                 state = m.applyTo(state);
                 count += 1;

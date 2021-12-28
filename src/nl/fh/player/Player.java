@@ -6,13 +6,13 @@ package nl.fh.player;
 
 import java.util.Set;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 
 /**
  * Objects displaying this interface can play games by interacting with a 
  * proper game driver.
  */
-public interface Player {
+public interface Player<S extends GameState> {
 
    
     /**
@@ -24,7 +24,7 @@ public interface Player {
      * 
      * The move returned should be one of the legal moves
      */
-    public Move getMove(GameState currentState, Set<Move> legalMoves);
+    public Move getMove(S currentState, Set<Move<S>> legalMoves);
     
     /**
      * 

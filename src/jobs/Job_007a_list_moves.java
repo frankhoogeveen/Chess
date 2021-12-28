@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.MaterialCountMetric;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.FIDEchess;
 
@@ -33,9 +33,9 @@ public class Job_007a_list_moves {
         String filePath = "../out/job_007a_"+ dateString + ".csv";
      
         String fen = "k7/8/8/8/8/3K4/3p4/8 b - - 0 1";
-        GameState state = GameState.fromFEN(fen);
+        ChessState state = ChessState.fromFEN(fen);
 
-        Metric<GameState> metric = MaterialCountMetric.getWrappedInstance();
+        Metric<ChessState> metric = MaterialCountMetric.getWrappedInstance();
 
         StringBuilder sb = new StringBuilder();
         
@@ -43,11 +43,11 @@ public class Job_007a_list_moves {
         sb.append("\n\n");
         sb.append("move1;move2;Value;\n");
         
-        for(Move move1 : FIDEchess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state)){
-            GameState state1 = move1.applyTo(state);
+        for(Move<ChessState> move1 : FIDEchess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state)){
+            ChessState state1 = move1.applyTo(state);
 
-            for(Move move2 : FIDEchess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state1)){
-                GameState s = move2.applyTo(state1);
+            for(Move<ChessState> move2 : FIDEchess.getGameDriver().getMoveGenerator().calculateAllLegalMoves(state1)){
+                ChessState s = move2.applyTo(state1);
                 double value2 = metric.eval(s);
                 
                 sb.append(((ChessMove)move1).formatPGN(state, FIDEchess.getGameDriver()));

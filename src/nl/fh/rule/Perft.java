@@ -7,16 +7,16 @@ package nl.fh.rule;
 
 import java.util.ArrayList;
 import java.util.List;
-import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.Move;
 
 /**
  *  Doing standard tests of move generators
  * 
  */
 public class Perft {
-    private static MoveGenerator moveGenerator = FIDEchess.getGameDriver().getMoveGenerator();
+    private static MoveGenerator<ChessState> moveGenerator = FIDEchess.getGameDriver().getMoveGenerator();
     
     /**
      * 
@@ -24,7 +24,7 @@ public class Perft {
      * @param depth
      * @return the number of descendents of state at the given depth
      */
-    public static long value(GameState state, int depth){
+    public static long value(ChessState state, int depth){
         if(depth <0){
             throw new IllegalArgumentException("Perft with negative depth");
         }
@@ -34,7 +34,7 @@ public class Perft {
         }
         
         long result = 0;
-        for(GameState child : moveGenerator.calculateChildren(state)){
+        for(ChessState child : moveGenerator.calculateChildren(state)){
             result += value(child, depth -1);
         }
         
@@ -47,7 +47,7 @@ public class Perft {
      * @param depth
      * @return a report giving the values of Perft at one level deeper 
      */
-    public static String details(GameState state, int depth){
+    public static String details(ChessState state, int depth){
         long t0 = System.currentTimeMillis();
         
         StringBuilder sb = new StringBuilder();
@@ -56,8 +56,8 @@ public class Perft {
         sb.append("\n");
         
         long total = 0;
-        for(Move move : moveGenerator.calculateAllLegalMoves(state)){
-            GameState child = move.applyTo(state);
+        for(Move<ChessState> move : moveGenerator.calculateAllLegalMoves(state)){
+            ChessState child = move.applyTo(state);
             
             long perft = Perft.value(child, depth-1);
             total += perft;

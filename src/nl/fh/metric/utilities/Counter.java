@@ -5,6 +5,7 @@
 
 package nl.fh.metric.utilities;
 
+import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -12,18 +13,18 @@ import nl.fh.player.evalplayer.Metric;
  * the base metric, but keeps track of the number of times it is called
  * 
  */
-public class Counter<T> implements Metric<T>{
+public class Counter<S extends GameState> implements Metric<S>{
 
-    private final Metric<T> baseMetric;
+    private final Metric<S> baseMetric;
     private int count;
     
-    public Counter(Metric<T> baseMetric){
+    public Counter(Metric<S> baseMetric){
      this.baseMetric = baseMetric;
      this.count = 0;
     }
 
     @Override
-    public double eval(T t) {
+    public double eval(S t) {
         count += 1;
         return baseMetric.eval(t);
     }

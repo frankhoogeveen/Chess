@@ -5,11 +5,11 @@
 
 package nl.fh.metric;
 
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceKind;
-import nl.fh.chess.PieceType;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceKind;
+import nl.fh.gamestate.chess.PieceType;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -18,10 +18,10 @@ import nl.fh.player.evalplayer.Metric;
  * It is only intended for testing purposes.When using this metric to evaluate 
  * positions, both players want to push pawns on the king side
  */
-public class PawnLocationMetric implements Metric<GameState> {
+public class PawnLocationMetric implements Metric<ChessState> {
 
     @Override
-    public double eval(GameState state) {
+    public double eval(ChessState state) {
        double sum = 0.;
        for(Field f : Field.getAll()){
            PieceType content = state.getFieldContent(f);

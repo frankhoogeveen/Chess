@@ -5,26 +5,24 @@
 
 package nl.fh.rule;
 
-import java.util.Arrays;
 import java.util.Set;
-import nl.fh.chess.BoardSide;
-import nl.fh.chess.Color;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceType;
+import nl.fh.gamestate.chess.BoardSide;
+import nl.fh.gamestate.chess.Color;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceType;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamereport.GameResult;
-import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.DrawOfferAccepted;
-import nl.fh.move.Move;
-import nl.fh.move.Resignation;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.chess.move.DrawOfferAccepted;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.ChessResignation;
 
 /**
  * 
  * 
  */
-public class ChessResultArbiter implements ResultArbiter {
+public class ChessResultArbiter implements ResultArbiter<ChessState> {
     
    private final MoveGenerator moveGenerator;
    
@@ -48,12 +46,12 @@ public class ChessResultArbiter implements ResultArbiter {
    }
 
     @Override
-    public GameResult determineResult(GameReport report, Set<Move> legalMoves) {
+    public GameResult determineResult(GameReport<ChessState> report, Set<Move<ChessState>> legalMoves) {
         Move move = report.getFinalMove();
-        GameState state = report.getFinalState();
+        ChessState state = report.getFinalState();
         
             // resignation ends the game on the spot
-            if(move instanceof Resignation){
+            if(move instanceof ChessResignation){
                 if(state.getToMove() == Color.WHITE){
                     return GameResult.WIN_FIRST_MOVER;
 //                    return ChessGameResult.RESIGNATION_BY_WHITE;
@@ -116,7 +114,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * - K vs KN
      * - K vs KB
      */
-    private boolean sufficientMaterial(GameState currentState) {
+    private boolean sufficientMaterial(ChessState currentState) {
         int whiteB = 0;
         int whiteN = 0;
         int blackB = 0;
@@ -179,7 +177,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * 
      * 
      */
-    public boolean isThreeFoldRepetition(GameReport report) {
+    public boolean isThreeFoldRepetition(GameReport<ChessState> report) {
         
         if(report == null){
             return false;
@@ -187,10 +185,10 @@ public class ChessResultArbiter implements ResultArbiter {
         
         
         int nrep = 0;
-        GameState state = report.getFinalState();
+        ChessState state = report.getFinalState();
         
         for(int n = report.getStateList().size()-1; n >= 0; n--){
-            GameState state2 = report.getStateList().get(n);
+            ChessState state2 = report.getStateList().get(n);
             if(repeats(state, state2)){
                 nrep += 1;
             }  
@@ -212,7 +210,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * 
      * This method returns false if state is equal to state2
      */
-    public boolean repeats(GameState state, GameState state2) {
+    public boolean repeats(ChessState state, ChessState state2) {
         if (state == state2) {
             return false;
         }
@@ -257,7 +255,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * @param state
      * @return true if the king that has to move next is in check 
      */
-    public boolean isCheck(GameState state){
+    public boolean isCheck(ChessState state){
         Color playerColor = state.getToMove();
         Color opponentColor = playerColor.flip();
         Field kingField = findKing(playerColor, state);
@@ -276,7 +274,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * If there are more than one kings of the given color on the board,
      * a field containing the king is returned.
      */
-    private Field findKing(Color kingColor, GameState postState) {
+    private Field findKing(Color kingColor, ChessState postState) {
         PieceType kingPiece;
         if(kingColor == Color.WHITE){
             kingPiece = PieceType.WHITE_KING;
@@ -292,7 +290,7 @@ public class ChessResultArbiter implements ResultArbiter {
         return kingField;
     }
     
-    public boolean isMate(GameState state, Set<ChessMove> legalMoves){
+    public boolean isMate(ChessState state, Set<Move<ChessState>> legalMoves){
         return legalMoves.isEmpty() && isCheck(state);
     }
     
@@ -305,7 +303,7 @@ public class ChessResultArbiter implements ResultArbiter {
      * If the report is null, no check for three fold repetition is made.
      * 
      */
-    public boolean isDraw(GameState state, Set<ChessMove> legalMoves, GameReport report){
+    public boolean isDraw(ChessState state, Set<Move<ChessState>> legalMoves, GameReport<ChessState> report){
         boolean result = false;
         
         result |= isStaleMate(state, legalMoves);
@@ -315,11 +313,16 @@ public class ChessResultArbiter implements ResultArbiter {
         return result;
     }
 
-    boolean isStaleMate(GameState state, Set<ChessMove> legalMoves){
+    boolean isStaleMate(ChessState state, Set<Move<ChessState>> legalMoves){
         return legalMoves.isEmpty() && !isCheck(state);
     }
     
-    boolean isAtFiftyMoveRule(GameState currentState) {
+    boolean isAtFiftyMoveRule(ChessState currentState) {
          return (currentState.getHalfMoveClock() >= 100);
     }       
+
+    @Override
+    public boolean isSelfMate(ChessState state, Set<Move<ChessState>> legalMoves) {
+        return false;
+    }
 }

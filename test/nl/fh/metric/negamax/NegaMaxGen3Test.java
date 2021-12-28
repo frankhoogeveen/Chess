@@ -2,7 +2,7 @@ package nl.fh.metric.negamax;
 
 import java.util.ArrayList;
 import java.util.List;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.MaterialCountMetric;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.metric.minimax.NegaMaxGen3;
@@ -45,12 +45,12 @@ public class NegaMaxGen3Test {
     public void testComparison(){
         int depth = 3;
         
-        Metric<GameState> baseMetric = MaterialCountMetric.getWrappedInstance();
-        Metric<GameState> nega = new NegaMax(baseMetric, moveGenerator, depth);
-        Metric<GameState> gen3 = new NegaMaxGen3(baseMetric, moveGenerator, depth);
+        Metric<ChessState> baseMetric = MaterialCountMetric.getWrappedInstance();
+        Metric<ChessState> nega = new NegaMax(baseMetric, moveGenerator, depth);
+        Metric<ChessState> gen3 = new NegaMaxGen3(baseMetric, moveGenerator, depth);
         
         for(String fen : cases){
-            GameState state = GameState.fromFEN(fen);
+            ChessState state = ChessState.fromFEN(fen);
             assertEquals(nega.eval(state), gen3.eval(state), delta);
             
         }

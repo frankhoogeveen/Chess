@@ -3,10 +3,10 @@
  * 
  */
 
-package nl.fh.move;
+package nl.fh.gamestate.chess.move;
 
-import nl.fh.chess.Field;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
 
@@ -33,8 +33,8 @@ public class DrawOfferAccepted extends ChessMove {
     }
 
     @Override
-    public GameState applyTo(GameState state) {
-        GameState result = state.copy();
+    public ChessState applyTo(ChessState state) {
+        ChessState result = state.copy();
         result.agreeDraw();
         return result;
     }
@@ -46,12 +46,12 @@ public class DrawOfferAccepted extends ChessMove {
      * @return
      */
     @Override
-    public String formatPGN(GameState state, GameDriver driver) {
+    public String formatPGN(ChessState state, GameDriver driver) {
         return "";
     }
     
     @Override
-    public String formatUCI(GameState state) {
+    public String formatUCI(ChessState state) {
         return "";
     }      
 

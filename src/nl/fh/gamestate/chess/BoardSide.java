@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.chess;
+package nl.fh.gamestate.chess;
 
 /**
  * Enumerates the two sides of the board

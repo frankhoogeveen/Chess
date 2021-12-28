@@ -7,6 +7,7 @@ package nl.fh.metric.utilities;
 
 import java.util.HashMap;
 import java.util.Map;
+import nl.fh.gamestate.GameState;
 import nl.fh.player.evalplayer.Metric;
 
 /**
@@ -19,29 +20,29 @@ import nl.fh.player.evalplayer.Metric;
  * this puts a cap on the memory usage.
  * 
  */
-public class TableBuffer<T> implements Metric<T>{
+public class TableBuffer<S extends GameState> implements Metric<S>{
 
-    private final Metric<T> baseMetric;
-    private Map<T, Double> table;
+    private final Metric<S> baseMetric;
+    private Map<S, Double> table;
     private final int maxSize;
     
-    public TableBuffer(Metric<T> baseMetric, int maxSize){
+    public TableBuffer(Metric<S> baseMetric, int maxSize){
      this.baseMetric = baseMetric;
-     this.table = new HashMap<T, Double>(maxSize);
+     this.table = new HashMap<S, Double>(maxSize);
      this.maxSize = maxSize;
     }
 
     @Override
-    public double eval(T t) {
-        Double stored = this.table.get(t);
+    public double eval(S state) {
+        Double stored = this.table.get(state);
         if(stored != null){
             return stored;
         } else {
-            Double result =  baseMetric.eval(t);
+            Double result =  baseMetric.eval(state);
             if(table.size() > maxSize){
                 this.table = new HashMap(maxSize);
             }
-            this.table.put(t, result);
+            this.table.put(state, result);
             return result;
         }
     }
@@ -54,7 +55,7 @@ public class TableBuffer<T> implements Metric<T>{
         StringBuilder sb = new StringBuilder();
         sb.append("Key;Value;\n");
         
-        for(T t : table.keySet()){
+        for(S t : table.keySet()){
             sb.append(t.toString());
             sb.append(";");
             sb.append(table.get(t));

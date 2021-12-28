@@ -6,8 +6,8 @@
 package nl.fh.metric.utilities;
 
 import java.util.Set;
-import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.GameDriver;
 
@@ -16,7 +16,7 @@ import nl.fh.rule.GameDriver;
  * rabbit hole and evaluates the min of the base metric over the children.
  * 
  */
-public class MinOfChildren<T extends GameState> implements Metric<T>{
+public class MinOfChildren<T extends ChessState> implements Metric<T>{
 
     private final Metric<T> baseMetric;
     private final GameDriver driver;

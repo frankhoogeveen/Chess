@@ -2,18 +2,14 @@
  * License: GPL v3
  * 
  */
-package nl.fh.move;
-
-import nl.fh.rule.ChessResultArbiter;
-import nl.fh.chess.Field;
-import nl.fh.gamestate.GameState;
+package nl.fh.gamestate;
 
 
 /**
  *
  * @author frank
  */
-public interface Move {
+public interface Move<S extends GameState> {
 
     /**
      * 
@@ -28,5 +24,5 @@ public interface Move {
      * set to state.
      * 
      */
-    public GameState applyTo(GameState state);
+    public S applyTo(S state);
 }

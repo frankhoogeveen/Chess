@@ -5,11 +5,13 @@
 
 package nl.fh.player.evalplayer;
 
+import nl.fh.gamestate.GameState;
+
 /**
  * 
  * 
  */
-public interface Metric<T> {
+public interface Metric<S extends GameState> {
     
     /**
      * 
@@ -19,7 +21,7 @@ public interface Metric<T> {
      * that makes the first move of the game.
      * 
      */
-    public double eval(T t);
+    public double eval(S state);
 
     /**
      * 

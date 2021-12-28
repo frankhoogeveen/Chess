@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package nl.fh.chess;
+package nl.fh.gamestate.chess;
 
 import java.util.ArrayList;
 import java.util.List;

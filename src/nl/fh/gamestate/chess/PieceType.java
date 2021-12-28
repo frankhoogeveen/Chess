@@ -2,7 +2,7 @@
  * License: GPL v3
  * 
  */
-package nl.fh.chess;
+package nl.fh.gamestate.chess;
 
 /**
  * This Enum describes all possible contents of a field, including EMPTY

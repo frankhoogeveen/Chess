@@ -6,7 +6,7 @@
 package jobs;
 
 import java.util.Set;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.PawnLocationMetric;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.FIDEchess;
@@ -21,21 +21,21 @@ public class Job_005_create_testdata_for_negamax_class {
         // position from the 6th round of the 2021 World Chess Championship
         String fen = "r1b2rk1/1pp1qppp/2n1p3/2N5/p1PP2n1/5NP1/PP3PBP/R2Q1RK1 b - - 1 14";
         
-        GameState state = GameState.fromFEN(fen);
-        Metric<GameState> metric = new PawnLocationMetric();
+        ChessState state = ChessState.fromFEN(fen);
+        Metric<ChessState> metric = new PawnLocationMetric();
         
         list(state, metric);     
         System.out.println();
     }
 
-    private static void list(GameState state, Metric<GameState> metric) {
+    private static void list(ChessState state, Metric<ChessState> metric) {
         double vmin = Double.MAX_VALUE;
         double vmax = -Double.MAX_VALUE;
         
         System.out.println("-------------------------------");
         System.out.println(state.toFEN());
-        Set<GameState> children = FIDEchess.getGameDriver().getMoveGenerator().calculateChildren(state);
-        for(GameState s : children){
+        Set<ChessState> children = FIDEchess.getGameDriver().getMoveGenerator().calculateChildren(state);
+        for(ChessState s : children){
             double val = metric.eval(s);
             if(val > vmax){
                 vmax = val;

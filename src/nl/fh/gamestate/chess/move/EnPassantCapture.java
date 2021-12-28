@@ -3,13 +3,14 @@
  * 
  */
 
-package nl.fh.move;
+package nl.fh.gamestate.chess.move;
 
+import nl.fh.gamestate.Move;
 import java.util.Objects;
 import java.util.Set;
-import nl.fh.chess.Field;
-import nl.fh.chess.PieceType;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceType;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
 
@@ -46,8 +47,8 @@ public class EnPassantCapture extends ChessMove {
     }
 
     @Override
-    public GameState applyTo(GameState state) {
-        GameState result = state.copy();
+    public ChessState applyTo(ChessState state) {
+        ChessState result = state.copy();
         
         // increment the counters
         result.increment();
@@ -98,7 +99,7 @@ public class EnPassantCapture extends ChessMove {
     }
 
     @Override
-    public String formatPGN(GameState state, GameDriver driver) {
+    public String formatPGN(ChessState state, GameDriver driver) {
         
         ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
         
@@ -109,10 +110,9 @@ public class EnPassantCapture extends ChessMove {
         sb.append(this.to.toString());
         
         //the indicators for check and checkmate
-        GameState state2 = this.applyTo(state);
-        Set<Move> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
-        Set<ChessMove> legalChessMoves = (Set<ChessMove>)(Set<?>) legalMoves;
-        if(arbiter.isMate(state2, legalChessMoves)){
+        ChessState state2 = this.applyTo(state);
+        Set<Move<ChessState>> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
+        if(arbiter.isMate(state2, legalMoves)){
             sb.append("#");
         } else {
             if(arbiter.isCheck(state2)){
@@ -124,7 +124,7 @@ public class EnPassantCapture extends ChessMove {
     }
     
     @Override
-    public String formatUCI(GameState state) {
+    public String formatUCI(ChessState state) {
         return getFrom().toString() + getTo().toString();
     }      
 

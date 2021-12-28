@@ -8,12 +8,11 @@ package nl.fh.player.pgn_replayer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import nl.fh.chess.Color;
+import nl.fh.gamestate.chess.Color;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
-import nl.fh.move.Resignation;
+import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.move.ChessResignation;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import nl.fh.player.Player;
@@ -26,13 +25,13 @@ import nl.fh.rule.GameDriver;
  * 
  * 
  */
-public class PgnReplayer implements Player {
+public class PgnReplayer implements Player<ChessState> {
     
     private static PGN_Reader reader = new TolerantReader();
     private static final GameDriver driver = FIDEchess.getGameDriver();
 
     private int counter;
-    private List<ChessMove>  moveList;
+    private List<Move> moveList;
 
     private PgnReplayer(){
         
@@ -56,7 +55,7 @@ public class PgnReplayer implements Player {
         
         List<GameReport> report = reader.getGames(pgn, driver);
         if(report.size() < 1){
-            result.moveList = new ArrayList<ChessMove>();
+            result.moveList = new ArrayList<Move>();
         } else {
             result.moveList = report.get(0).getMoveList();
         }
@@ -64,9 +63,9 @@ public class PgnReplayer implements Player {
     }
 
     @Override
-    public Move getMove(GameState state, Set<Move> legalMoves) {
+    public Move getMove(ChessState state, Set<Move<ChessState>> legalMoves) {
         if(this.counter > this.moveList.size()-1){
-            return Resignation.getInstance();
+            return ChessResignation.getInstance();
         } else {
             Move result = this.moveList.get(counter);      
             counter += 2;

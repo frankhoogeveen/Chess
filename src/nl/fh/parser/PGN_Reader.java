@@ -7,6 +7,7 @@ package nl.fh.parser;
 
 import java.util.List;
 import nl.fh.gamereport.GameReport;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.GameDriver;
 
 /**
@@ -25,5 +26,5 @@ public interface PGN_Reader {
      * Any PGN_Reader should be in reasonable compliance with 
      * "Standard: Portable Game Notation Specification and Implementation Guide"
      */
-    public List<GameReport> getGames(String pgn, GameDriver driver);
+    public List<GameReport<ChessState>> getGames(String pgn, GameDriver<ChessState> driver);
 }

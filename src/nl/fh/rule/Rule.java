@@ -5,7 +5,7 @@
 
 package nl.fh.rule;
 
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 
 /**
  * Interface that is implemented by objects that represent a specific set of rules
@@ -13,7 +13,7 @@ import nl.fh.gamestate.GameState;
 public interface Rule {
    
     
-    public GameState getInitialState();
+    public ChessState getInitialState();
     
     public GameDriver getGameDriver();
     

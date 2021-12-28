@@ -3,16 +3,17 @@
  * 
  */
 
-package nl.fh.move;
+package nl.fh.gamestate.chess.move;
 
-import nl.fh.chess.Field;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.Move;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.rule.GameDriver;
 
 /**
  * License GPL v3
  */
-public abstract class ChessMove implements Move {
+public abstract class ChessMove implements Move<ChessState> {
     
     
     /**
@@ -49,14 +50,14 @@ public abstract class ChessMove implements Move {
      * No test is made to ensure that move is legal in the given state.
      * 
      */
-    public abstract String formatPGN(GameState state, GameDriver driver);
+    public abstract String formatPGN(ChessState state, GameDriver<ChessState> driver);
     
     /**
      * 
      * @param state
      * @return the move as used in the UCI protocol
      */
-    public abstract String formatUCI(GameState state);
+    public abstract String formatUCI(ChessState state);
     
     /**
      * @return true if the player that made this move offered draw when playing

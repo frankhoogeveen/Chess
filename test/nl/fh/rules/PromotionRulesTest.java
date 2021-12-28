@@ -7,9 +7,9 @@ package nl.fh.rules;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.GameDriver;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 import java.util.Set;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class PromotionRulesTest {
     public void testPromotionWhite(){
     String fen = "8/5P2/2k5/8/8/8/8/2K5 w - - 0 1";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     assertEquals(5+4, moves.size());
@@ -34,7 +34,7 @@ public class PromotionRulesTest {
     public void testPromotionWhite2(){
     String fen = "4n1n1/5P2/2k5/8/8/8/8/2K5 w - - 0 1";
     
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     assertEquals(5+3*4, moves.size());
@@ -43,7 +43,7 @@ public class PromotionRulesTest {
     @Test
     public void testPromotionBlack(){
     String fen = "8/8/5k2/8/8/2K5/5p2/8 b - - 0 1";
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     assertEquals(8+4, moves.size());         
@@ -52,7 +52,7 @@ public class PromotionRulesTest {
     @Test
     public void testPromotionBlack2(){
     String fen = "8/8/5k2/8/8/2K5/5p2/4Nnn1 b - - 0 1";
-    GameState state = GameState.fromFEN(fen);
+    ChessState state = ChessState.fromFEN(fen);
     Set<Move> moves = moveGenerator.calculateAllLegalMoves(state);
     
     assertEquals(8+7+4, moves.size());         

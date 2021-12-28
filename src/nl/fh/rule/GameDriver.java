@@ -9,21 +9,19 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 
 /**
  * License GPL v3
  */
-public class GameDriver {
+public class GameDriver<S extends GameState> {
     
-    private GameState initialState;
-    private MoveGenerator moveGenerator;
-    private ResultArbiter resultArbiter;
+    private S initialState;
+    private MoveGenerator<S> moveGenerator;
+    private ResultArbiter<S> resultArbiter;
     
     
     private GameDriver(){
@@ -37,7 +35,7 @@ public class GameDriver {
      * @param resultArbiter
      * @return a game driver 
      * 
-     * Is is the concern of the GameDrive to:
+     * Is is the concern of the GameDriver to:
      * 1)call the move generator and the result arbiter
      * 2)maintain the report
      */
@@ -60,15 +58,15 @@ public class GameDriver {
      * What is currently implemented is a fixed initial state, but this may
      * change over time.
      */
-    public GameState getInitialState(){
-        return this.initialState.copy();
+    public S getInitialState(){
+        return (S) this.initialState.copy();
     }
     
     /**
      * 
      * @return the object that generates the legal moves from a given state. 
      */
-    public MoveGenerator getMoveGenerator(){
+    public MoveGenerator<S> getMoveGenerator(){
         return this.moveGenerator;
     }
     
@@ -76,7 +74,7 @@ public class GameDriver {
      * 
      * @return the object that determines when the game is over and who won.
      */
-    public ResultArbiter getResultArbiter(){
+    public ResultArbiter<S> getResultArbiter(){
         return this.resultArbiter;
     }
 
@@ -98,11 +96,11 @@ public class GameDriver {
      * @return the report of a time unlimited game between the two players starting
      * from the initial state
      */
-    public GameReport playGame(Player firstPlayer, Player secondPlayer, GameState initialState){
+    public GameReport<S> playGame(Player firstPlayer, Player secondPlayer, S initialState){
         GameReport report = setUpReport(firstPlayer, secondPlayer);
         
-        GameState currentState = initialState;
-        Set<Move> legalMoves = moveGenerator.calculateAllLegalMoves(currentState);      
+        S currentState = initialState;
+        Set<Move<S>> legalMoves = moveGenerator.calculateAllLegalMoves(currentState);      
         report.addGameState(currentState);
         
         Player currentPlayer = firstPlayer;
@@ -110,9 +108,9 @@ public class GameDriver {
         
         while(currentStatus == GameResult.UNDECIDED){        
 
-            Move move = currentPlayer.getMove(currentState, legalMoves);        
+            Move<S> move = currentPlayer.getMove(currentState, legalMoves);        
             
-            report.addMove((ChessMove)move);
+            report.addMove(move);
             if(moveIsIllegal(legalMoves, move, (currentPlayer==firstPlayer), report)){
                 return report;
             }            
@@ -131,7 +129,7 @@ public class GameDriver {
         return report;
     }
 
-    private boolean moveIsIllegal(Set<Move> legalMoves, Move move, boolean currentPlayerIsWhite, GameReport report) {
+    private boolean moveIsIllegal(Set<Move<S>> legalMoves, Move move, boolean currentPlayerIsWhite, GameReport report) {
         // making an illegal move ends the game on the spot
         if (!legalMoves.contains(move)) {
             if(currentPlayerIsWhite){
@@ -156,8 +154,7 @@ public class GameDriver {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
         String formattedDate = myDateObj.format(myFormatObj);
         report.addTag("DateTime", formattedDate);
-        
-        report.setGameDriver(this);
+
         report.setPlayers(firstPlayer, secondPlayer);
         
         return report;

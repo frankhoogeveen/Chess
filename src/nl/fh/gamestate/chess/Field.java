@@ -3,13 +3,13 @@
  * 
  */
 
-package nl.fh.chess;
+package nl.fh.gamestate.chess;
 
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.chess.ChessState;
 
 /**
  * Objects of this class represent the fields of a chessboard, including
@@ -494,7 +494,7 @@ public class Field {
      * @return true if this field is covered by the player color 
      */
     
-    public boolean isCovered(GameState state, Color color){
+    public boolean isCovered(ChessState state, Color color){
         return (controllingFields(this, state, color).size() > 0);
     }
     
@@ -506,7 +506,7 @@ public class Field {
      * 
      * @return the set of all fields from which the field is controlled by color  
      */
-    static private Set<Field> controllingFields(Field field, GameState state, Color color){
+    static private Set<Field> controllingFields(Field field, ChessState state, Color color){
         Set<Field> result = new HashSet<Field>();
         for(Field f : Field.getAll()){
             if(state.getFieldContent(f).getColor() == color){

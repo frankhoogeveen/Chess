@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.chess;
+package nl.fh.gamestate.chess;
 
 /**
  * Discriminates between the different types of move  ranges. This accommodates

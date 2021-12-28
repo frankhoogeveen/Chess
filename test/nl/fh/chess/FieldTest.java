@@ -4,6 +4,10 @@
  */
 package nl.fh.chess;
 
+import nl.fh.gamestate.chess.MoveRangeType;
+import nl.fh.gamestate.chess.MoveRange;
+import nl.fh.gamestate.chess.Field;
+import nl.fh.gamestate.chess.PieceType;
 import java.util.Set;
 import org.junit.Test;
 import static org.junit.Assert.*;

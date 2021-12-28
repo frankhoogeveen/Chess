@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.Move;
+import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 
 /**
  * Chooses moves randomly from the set of legal moves.
  * 
  */
-public class RandomPlayer implements Player {
+public class RandomPlayer<S extends GameState> implements Player<S> {
 
     @Override
-    public Move getMove(GameState currentState, Set<Move> legalMoves) {
+    public Move<S> getMove(S currentState, Set<Move<S>> legalMoves) {
         
         List<Move> moves = new ArrayList<Move>(legalMoves);        
         int randomNum = ThreadLocalRandom.current().nextInt(0, moves.size());  

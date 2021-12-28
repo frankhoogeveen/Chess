@@ -10,6 +10,7 @@ import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.PGNformatter;
 import nl.fh.gamereport.filter.TransparentFilter;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchReport;
@@ -56,7 +57,7 @@ public class MatchTest {
                 String pgn = formatter.formatMatch(result);
 
                 PGN_Reader reader = new TolerantReader();
-                List<GameReport> result2 = reader.getGames(pgn, FIDEchess.getGameDriver());
+                List<GameReport<ChessState>> result2 = reader.getGames(pgn, FIDEchess.getGameDriver());
 
                 assertEquals(nGames, result2.size());
             }
