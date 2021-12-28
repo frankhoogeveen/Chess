@@ -41,7 +41,7 @@ public class MetricPlayer<S extends GameState> implements Player<S>{
     @Override
     public Move<S> getMove(S state, Set<Move<S>> legalMoves) {
         
-        int sign = state.getColor().getSign();
+        int sign = state.getMover().getSign();
         
         double currentBestValue = -Double.MAX_VALUE;
         Move<S> currentBestMove = ChessResignation.getInstance();

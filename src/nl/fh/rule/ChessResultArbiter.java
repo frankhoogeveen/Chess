@@ -215,7 +215,7 @@ public class ChessResultArbiter implements ResultArbiter<ChessState> {
             return false;
         }
         
-        if (state.getColor() != state2.getColor()) {
+        if (state.getMover() != state2.getMover()) {
             return false;
         }        
 

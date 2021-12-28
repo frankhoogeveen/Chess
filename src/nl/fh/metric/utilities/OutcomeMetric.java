@@ -50,7 +50,7 @@ public class OutcomeMetric<S extends GameState> implements Metric<S>{
     @Override
     public double eval(S state) {
         
-        double sign = state.getColor().getSign();
+        double sign = state.getMover().getSign();
         
         Set<Move<S>> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
@@ -58,11 +58,9 @@ public class OutcomeMetric<S extends GameState> implements Metric<S>{
             return - sign * mateValue;
         }
 
-//TODO reconsider if we need this         
-//        ChessState state2 = state.changeColor();
-//        if(arbiter.isMate(state2, legalChessMoves)){
-//            return + sign * mateValue;
-//        }        
+        if(arbiter.isSelfMate(state, legalMoves)){
+            return +sign * mateValue;
+        }
         
         if(arbiter.isDraw(state, legalMoves, null)){
             return 0.;

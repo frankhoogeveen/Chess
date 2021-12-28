@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import nl.fh.gamestate.GameState;
+import nl.fh.gamestate.Mover;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.chess.move.EnPassantCapture;
 import nl.fh.rule.MoveGenerator;
@@ -551,8 +552,12 @@ public class ChessState implements GameState   {
      * @return the color of the player that is to move next 
      */
     @Override
-    public Color getColor(){
-        return this.activeColor;
+    public Mover getMover(){
+        if(this.activeColor == Color.WHITE){
+            return Mover.FIRST_MOVER;
+        } else {
+            return Mover.SECOND_MOVER;
+        }
     }
     
     /**

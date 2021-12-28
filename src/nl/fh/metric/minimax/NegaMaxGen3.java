@@ -39,7 +39,7 @@ public class NegaMaxGen3<T extends ChessState> implements Metric<T> {
     
     @Override
     public double eval(T state) {
-        int sign = state.getColor().getSign();
+        int sign = state.getMover().getSign();
         double alpha = - Double.MAX_VALUE;
         double beta = Double.MAX_VALUE;
         return  sign * iteration(state, this.depth, sign, alpha, beta);  
