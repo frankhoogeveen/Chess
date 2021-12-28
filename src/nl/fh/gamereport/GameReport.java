@@ -35,14 +35,14 @@ public class GameReport {
     
     private GameDriver gameDriver;
     private final ArrayList<GameState> stateList;
-    private final ArrayList<ChessMove> moveList;
+    private final ArrayList<Move> moveList;
     private GameResult gameResult;
     
     private final HashMap<String, String> tagValuePairs;
 
     public GameReport(){
         stateList = new ArrayList<GameState>();
-        moveList = new ArrayList<ChessMove>();
+        moveList = new ArrayList<Move>();
         gameResult = GameResult.UNDECIDED;
         tagValuePairs = new HashMap<String, String>();
     }
@@ -65,7 +65,7 @@ public class GameReport {
         return this.stateList.get(this.stateList.size()-1);
     }
 
-    public List<ChessMove> getMoveList() {
+    public List<Move> getMoveList() {
         return moveList;
     }
     
@@ -136,7 +136,7 @@ public class GameReport {
      * add a move to this record
      * @param move
      */
-    public void addMove(ChessMove move){
+    public void addMove(Move move){
         moveList.add(move);
     }
     

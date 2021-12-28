@@ -9,6 +9,7 @@ import nl.fh.chess.Field;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.move.ChessMove;
+import nl.fh.move.Move;
 import nl.fh.move.PieceMove;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.GameDriver;
@@ -205,7 +206,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with two moves
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b1"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("a3"), ((PieceMove)moveList.get(0)).getTo());
@@ -230,7 +231,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with two moves
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("b3"), ((PieceMove)moveList.get(0)).getTo());
@@ -256,7 +257,7 @@ public class TolerantReaderTest {
 
         // with two moves
         
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("b3"), ((PieceMove)moveList.get(0)).getTo());
@@ -282,7 +283,7 @@ public class TolerantReaderTest {
 
         // with four moves      
         
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(4, moveList.size());
         assertEquals(Field.getInstance("b2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("b3"), ((PieceMove)moveList.get(0)).getTo());
@@ -314,7 +315,7 @@ public class TolerantReaderTest {
 
         // with four moves 
         
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(4,moveList.size());
         assertEquals(Field.getInstance("f2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("f3"), ((PieceMove)moveList.get(0)).getTo());
@@ -349,7 +350,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with two moves
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(2, moveList.size());
         assertEquals(Field.getInstance("b1"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("a3"), ((PieceMove)moveList.get(0)).getTo());
@@ -374,7 +375,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
 
         // with three moves
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(3, moveList.size());
         assertEquals(Field.getInstance("b1"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("a3"), ((PieceMove)moveList.get(0)).getTo());
@@ -407,7 +408,7 @@ public class TolerantReaderTest {
 
         // with four moves    
         
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(4, moveList.size());
         assertEquals(Field.getInstance("f2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("f3"), ((PieceMove)moveList.get(0)).getTo());
@@ -445,7 +446,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.WIN_SECOND_MOVER, report.getGameResult());
 
         // with four moves  
-        List<ChessMove> moveList = report.getMoveList();
+        List<Move> moveList = report.getMoveList();
         assertEquals(4, moveList.size());
         assertEquals(Field.getInstance("f2"), ((PieceMove)moveList.get(0)).getFrom());
         assertEquals(Field.getInstance("f3"), ((PieceMove)moveList.get(0)).getTo());

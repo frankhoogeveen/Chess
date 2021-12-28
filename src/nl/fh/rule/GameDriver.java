@@ -9,10 +9,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.ChessGameResult;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.GameState;
-import nl.fh.move.ChessMove;
 import nl.fh.move.Move;
 import nl.fh.player.Player;
 
@@ -112,7 +110,7 @@ public class GameDriver {
 
             Move move = currentPlayer.getMove(currentState, legalMoves);        
             
-            report.addMove((ChessMove)move);
+            report.addMove(move);
             if(moveIsIllegal(legalMoves, move, (currentPlayer==firstPlayer), report)){
                 return report;
             }            

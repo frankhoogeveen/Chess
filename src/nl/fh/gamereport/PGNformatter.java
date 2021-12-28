@@ -13,9 +13,9 @@ import nl.fh.gamestate.GameState;
 import nl.fh.match.MatchReport;
 import nl.fh.match.MatchReportFormatter;
 import nl.fh.move.ChessMove;
+import nl.fh.move.Move;
 import nl.fh.player.Player;
 import nl.fh.rule.GameDriver;
-import nl.fh.rule.MoveGenerator;
 
 /**
  * Turns game reports of chess games into PGN strings.
@@ -82,7 +82,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
      * 
      * @return a formatted report of the tags, moves and result; 
      */
-    private String formatGamePGN(List<ChessMove> moveList, GameResult result){
+    private String formatGamePGN(List<Move> moveList, GameResult result){
 
         
         StringBuilder sb = new StringBuilder();
@@ -126,7 +126,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
         return sb.toString();
     }
 
-    private String movesString(List<ChessMove> moveList) {
+    private String movesString(List<Move> moveList) {
         int triggerLineLength = 65;
         int startSBcontent = 0;
         
@@ -152,11 +152,11 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
                 moveCounter += 1;
                 sb.append(Integer.toString(moveCounter));
                 sb.append(". ");
-                sb.append((moveList.get(currentPly)).formatPGN(state, this.gameDriver));
+                sb.append(((ChessMove)moveList.get(currentPly)).formatPGN(state, this.gameDriver));
                 sb.append(" ");
             } else {
                 // black's moves
-                sb.append((moveList.get(currentPly)).formatPGN(state, this.gameDriver));
+                sb.append(((ChessMove)moveList.get(currentPly)).formatPGN(state, this.gameDriver));
                 sb.append(" ");
             }
             state = moveList.get(currentPly).applyTo(state);

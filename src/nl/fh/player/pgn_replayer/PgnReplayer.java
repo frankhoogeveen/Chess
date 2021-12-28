@@ -32,7 +32,7 @@ public class PgnReplayer implements Player {
     private static final GameDriver driver = FIDEchess.getGameDriver();
 
     private int counter;
-    private List<ChessMove>  moveList;
+    private List<Move> moveList;
 
     private PgnReplayer(){
         
@@ -56,7 +56,7 @@ public class PgnReplayer implements Player {
         
         List<GameReport> report = reader.getGames(pgn, driver);
         if(report.size() < 1){
-            result.moveList = new ArrayList<ChessMove>();
+            result.moveList = new ArrayList<Move>();
         } else {
             result.moveList = report.get(0).getMoveList();
         }
