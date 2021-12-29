@@ -13,6 +13,8 @@ import nl.fh.gamestate.chess.Field;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.chess.move.EnPassantCapture;
 import nl.fh.gamestate.Move;
+import nl.fh.gamestate.StateFormatter;
+import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.gamestate.chess.move.PieceMove;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +27,7 @@ public class EnPassantRulesTest {
     
     private GameDriver gameDriver = FIDEchess.getGameDriver();
     private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();
+    private StateFormatter formatter = new FENformatter();      
     
     @Test
     public void testEnPassantWhite1(){
@@ -178,7 +181,7 @@ public class EnPassantRulesTest {
         // test for the lichess behaviour
         // String target = "4k3/6p1/8/8/6P1/8/8/4K3 b - - 0 1"; lichess
         String target = "4k3/6p1/8/8/6P1/8/8/4K3 b - g3 0 1";    // pgn standard
-        assertEquals(target, state.toFEN());        
+        assertEquals(target, formatter.format(state));        
         
         m = PieceMove.getInstance(e8, e7);
         state = state.apply(m);

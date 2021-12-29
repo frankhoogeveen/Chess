@@ -13,7 +13,6 @@ import nl.fh.gamestate.chess.PieceType;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.chess.move.DrawOfferAccepted;
 import nl.fh.gamestate.Move;
 import nl.fh.gamestate.chess.move.ChessResignation;
@@ -158,9 +157,6 @@ public class ChessResultArbiter implements ResultArbiter<ChessState> {
                     }
                     break;
                 default:
-                    System.out.println(currentState.toFEN());
-                    System.out.println(f);
-                    System.out.println(currentState.getFieldContent(f));
                     throw new IllegalStateException("switch statement not complete");
             }
         }

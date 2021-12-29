@@ -6,6 +6,7 @@ package nl.fh.gamestate;
 
 import nl.fh.gamestate.chess.ChessState;
 import java.util.ArrayList;
+import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.rule.FIDEchess;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,6 +23,7 @@ import static org.junit.Assert.*;
 public class GameStateTest {
     
     static ArrayList<String> fenList = new ArrayList<String>();
+    StateFormatter formatter = new FENformatter();
     
     public GameStateTest() {
     }
@@ -55,7 +57,7 @@ public class GameStateTest {
     public void testToFEN() {
         ChessState instance = new ChessState();
         String expResult = "8/8/8/8/8/8/8/8 w KQkq - 0 1";
-        String result = instance.toFEN();
+        String result = formatter.format(instance);
         assertEquals(expResult, result);
     }
     
@@ -64,7 +66,7 @@ public class GameStateTest {
 
         ChessState instance = FIDEchess.getInitialState();
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-        String result = instance.toFEN();
+        String result = formatter.format(instance);
         assertEquals(expResult, result);
     }  
     
@@ -73,7 +75,7 @@ public class GameStateTest {
 
         ChessState instance = FIDEchess.getInitialState();
         String expResult = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 7";
-        String result = instance.toFEN(7);
+        String result = formatter.format(instance, 7);
         assertEquals(expResult, result);
     }     
 
@@ -110,7 +112,7 @@ public class GameStateTest {
     public void testList(){
         for(String fen : fenList){
             ChessState state = ChessState.fromFEN(fen);
-            String result = state.toFEN();
+            String result = formatter.format(state, 1);
             assertEquals(fen, result);
         }
     }

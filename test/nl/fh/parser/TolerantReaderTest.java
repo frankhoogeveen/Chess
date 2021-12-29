@@ -8,9 +8,10 @@ import java.util.List;
 import nl.fh.gamestate.chess.Field;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
-import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
+import nl.fh.gamestate.StateFormatter;
 import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.gamestate.chess.move.PieceMove;
 import nl.fh.rule.FIDEchess;
 import nl.fh.rule.GameDriver;
@@ -24,6 +25,7 @@ import static org.junit.Assert.*;
 public class TolerantReaderTest { 
 
     private GameDriver gameDriver = FIDEchess.getGameDriver();
+    private StateFormatter formatter = new FENformatter();    
 
     @Test
     public void testEmptyPGN() {
@@ -502,7 +504,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.WIN_FIRST_MOVER, report.getGameResult());
         
         String fen2 = "rnbqk1Q1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
-        assertEquals(fen2, report.getFinalState().toFEN(1));
+        assertEquals(fen2, formatter.format(report.getFinalState()));
     }
     
     @Test
@@ -521,7 +523,7 @@ public class TolerantReaderTest {
         assertEquals(GameResult.UNDECIDED, report.getGameResult());
         
         String fen2 = "rnbqk1N1/ppppp3/8/8/8/8/PPPPPP1P/RNBQKBNR b KQq - 0 1";
-        assertEquals(fen2, report.getFinalState().toFEN(1));
+        assertEquals(fen2, formatter.format(report.getFinalState()));
     }    
     
     @Test
@@ -542,7 +544,7 @@ public class TolerantReaderTest {
         
         
         String fen2 = "4k3/8/8/8/8/8/8/R4RK1 b - - 1 1";
-        assertEquals(fen2, report.getFinalState().toFEN(1));        
+        assertEquals(fen2, formatter.format(report.getFinalState()));        
     }
     @Test
     public void testCastlingWhiteQueenside(){
@@ -561,7 +563,7 @@ public class TolerantReaderTest {
         assertEquals(1, report.getMoveList().size());        
         
         String fen2 = "4k3/8/8/8/8/8/8/2KR3R b - - 1 1";
-        assertEquals(fen2, report.getFinalState().toFEN(1));        
+        assertEquals(fen2, formatter.format(report.getFinalState()));        
     }    
     
     @Test
@@ -581,7 +583,7 @@ public class TolerantReaderTest {
         assertEquals(1, report.getMoveList().size());        
         
         String fen2 = "r4rk1/8/8/8/8/8/8/4K3 w - - 1 2";
-        assertEquals(fen2, report.getFinalState().toFEN(2));        
+        assertEquals(fen2, formatter.format(report.getFinalState(), 2));        
     }
     @Test
     public void testCastlingBlackQueenside(){
@@ -600,6 +602,6 @@ public class TolerantReaderTest {
         assertEquals(1, report.getMoveList().size());        
         
         String fen2 = "2kr3r/8/8/8/8/8/8/4K3 w - - 1 2";
-        assertEquals(fen2, report.getFinalState().toFEN(2));        
+        assertEquals(fen2, formatter.format(report.getFinalState(),2));        
     }       
 }

@@ -12,9 +12,7 @@ import java.util.Objects;
 import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.gamestate.Mover;
-import nl.fh.gamestate.chess.move.ChessMove;
-import nl.fh.gamestate.chess.move.EnPassantCapture;
-import nl.fh.rule.MoveGenerator;
+import nl.fh.gamestate.chess.format.FENformatter;
 
 /**
  * @author frank
@@ -23,13 +21,16 @@ import nl.fh.rule.MoveGenerator;
  * 
  */
 public class ChessState implements GameState   {
+    
+    
 
 ////////////////////////////////////////////////////////////////////////////////
 // static data
 ////////////////////////////////////////////////////////////////////////////////    
     
     private static char[] file = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
-    private static char[] rank = {'1', '2', '3', '4', '5', '6', '7', '8'};   
+    private static char[] rank = {'1', '2', '3', '4', '5', '6', '7', '8'};  
+    private static FENformatter fenFormatter = new FENformatter();
     
 ////////////////////////////////////////////////////////////////////////////////
 // the data independently describing the board state
@@ -87,192 +88,7 @@ public class ChessState implements GameState   {
         drawOffered = false;
     }    
     
-    /**
-     * @param moveNumber the move number (not part of the game state)
-     * 
-     * 
-     * @return the game state in Forsyth-Edwards notation 
-     * https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
-     */
-    public String toFEN(int moveNumber){
-        StringBuilder sb = new StringBuilder();
-        
-        boardToFEN(sb);
-        sb.append(" ");
-        
-        playerToFen(sb);
-        sb.append(" ");
-        
-        castlingToFen(sb);
-        sb.append(" ");
-        
-        enPassantToFEN(sb);
-        sb.append(" ");
-        
-        moveNumberToFEN(sb, moveNumber);
-        
-        return sb.toString();
-    }
-    
-    /**
-     * 
-     * @return the FEN string with assumed move number 1 
-     */
-    public String toFEN(){
-        return toFEN(1);
-    }
-    
-    /**
-     * 
-     * @return the game state in Extended Forsyth-Edwards notation 
-     * https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation
-     * https://en.wikipedia.org/wiki/X-FEN
-     * 
-     * In this case the en passant information is only written when
-     * there is a pawn on an adjacent file that can ACTUALLY capture
-     * en passant. 
-     * 
-     * In this interpretation, the en passant info is NOT written, if there
-     * is a pawn that is in a proper location to capture en passant, but cannot
-     * since it is pinned to the king. 
-     * 
-     * Given this choice, repeating XFEN three times in a game, implies that the
-     * 3 fold repetition draw can be claimed. This is unlike the traditional FEN.
-     */
-    public String toXFEN(MoveGenerator moveGenerator, int moveNumber){
-        StringBuilder sb = new StringBuilder();
-        
-        boardToFEN(sb);
-        sb.append(" ");
-        
-        playerToFen(sb);
-        sb.append(" ");
-        
-        castlingToFen(sb);
-        sb.append(" ");
-        
-        enPassantToXFEN(sb, moveGenerator);
-        sb.append(" ");
-        
-        moveNumberToFEN(sb, moveNumber);
-        
-        return sb.toString();
-    }    
-    
-    /**
-     * 
-     * @param moveGenerator
-     * @return the XFEN string with assumed move number 1. 
-     */
-    public String toXFEN(MoveGenerator moveGenerator){
-        return toXFEN(moveGenerator, 1);
-    }        
 
-    
-    
-    private void enPassantToFEN(StringBuilder sb) {
-        // the en passent information
-        if(enPassantField != null){
-            sb.append(enPassantField.toString());
-        } else {
-            sb.append("-");
-        }
-    }
-    
-    /**
-     * 
-     * @param sb
-     * @param moveGenerator
-     * 
-     * the en passant information in the XFEN string.
-     * This will add "-", unless an en passant capture can 
-     * actually be made. When a pawn has moved two squares
-     * in the previous ply, but an en passant capture cannot be made
-     * (e.g due to empty squares or an absolute pin) "-" will be 
-     * written to the string buffer.
-     * 
-     * Since the result depends on legal moves from this position, one
-     * has to supply a move generator.
-     */
-    private void enPassantToXFEN(StringBuilder sb, MoveGenerator<ChessState> moveGenerator) {
-        
-        if(enPassantField == null){
-            sb.append("-");
-            return;
-        }
-        
-        boolean actual = false;
-        for(Move m : moveGenerator.calculateAllLegalMoves(this)){
-            if((m instanceof EnPassantCapture) 
-                    && (((ChessMove)m).getTo().equals(this.enPassantField))){
-                actual = true;
-            }
-        }
-        
-        if(actual){
-            sb.append(enPassantField.toString());
-        } else {
-            sb.append("-");
-        }
-    }    
-
-    private void moveNumberToFEN(StringBuilder sb, int moveNumber) {
-        sb.append(halfMoveClock);
-        sb.append(" ");
-        sb.append(moveNumber);
-    }
-
-    private void castlingToFen(StringBuilder sb) {
-        if(whiteCanCastleKingside||whiteCanCastleQueenside||blackCanCastleKingside||blackCanCastleQueenside ){
-            if(whiteCanCastleKingside){
-                sb.append("K");
-            }
-            if(whiteCanCastleQueenside){
-                sb.append("Q");
-            }
-            if(blackCanCastleKingside){
-                sb.append("k");
-            }
-            if(blackCanCastleQueenside){
-                sb.append("q");
-            }
-            
-        } else {
-            sb.append("-");
-        }
-    }
-
-    private void playerToFen(StringBuilder sb) {
-        if(activeColor == Color.WHITE){
-            sb.append("w");
-        } else {
-            sb.append("b");
-        }
-    }
-
-    private void boardToFEN(StringBuilder sb) {
-        for(int i = 7; i >= 0; i--){
-            int count = 0;
-            for(int j = 0; j < 8; j++){
-                PieceType piece = board[j][i];
-                if(piece == PieceType.EMPTY){
-                    count += 1;
-                } else {
-                    if(count > 0){
-                        sb.append(count);
-                    }
-                    sb.append(piece.getFENcode());
-                    count = 0;
-                }
-            }
-            if(count > 0){
-                sb.append(count);
-            }
-            if(i != 0){
-                sb.append("/");
-            }
-        }
-    }
     
     /**
      * 
@@ -468,76 +284,7 @@ public class ChessState implements GameState   {
 //        }
         
         return result;
-    }
-
-    /**
-     * 
-     * @return the game state as an ASCII string suitable for display
-     * on a terminal
-     */
-    public String toASCII(Color color){
-        String sep = "+---+---+---+---+---+---+---+---+";
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append(sep);
-        sb.append("\n");
-        
-        if(color == Color.WHITE){
-            for(int i = 7; i >= 0; i--){
-                for(int j = 0; j < 8; j++){
-                    if(j == 0){
-                        sb.append("| ");
-                    } else {
-                        sb.append(" | ");
-                    }
-                    
-                    PieceType piece = board[j][i];
-                    if(piece == PieceType.EMPTY){
-                        if( ((i+j)%2) == 0){
-                            sb.append(".");
-                        } else {
-                            sb.append(" ");
-                        }
-                    } else {
-                        sb.append(piece.getFENcode());                    
-                    }
-                    
-                }
-                sb.append(" |");
-                sb.append("\n");
-                sb.append(sep);
-                sb.append("\n");
-            }
-        } else {
-            for(int i = 0; i <8; i++){
-                for(int j = 7; j >= 0; j--){
-                    if(j == 7){
-                        sb.append("| ");
-                    } else {
-                        sb.append(" | ");
-                    }                    
-                    
-                    PieceType piece = board[j][i];
-                    if(piece == PieceType.EMPTY){
-                        if( ((i+j)%2) == 0){
-                            sb.append(".");
-                        } else {
-                            sb.append(" ");
-                        }
-                    } else {
-                        sb.append(piece.getFENcode());                    
-                    }
-                }
-                sb.append(" |");
-                sb.append("\n");                
-                sb.append(sep);
-                sb.append("\n");
-            }            
-            
-        }
-        
-        return sb.toString();
-    }    
+    } 
     
     /**
      * 
@@ -783,6 +530,16 @@ public class ChessState implements GameState   {
         
         return null;
     }
+
+    public PieceType[][] getBoard() {
+        return board;
+    }
+
+    public Color getColor() {
+        return activeColor;
+    }
+    
+    
     
     public boolean isOfferedDraw(){
         return this.drawOffered;
@@ -874,6 +631,6 @@ public class ChessState implements GameState   {
     
     @Override
     public String toString(){
-        return this.toFEN();
+        return ChessState.fenFormatter.format(this);
     }
 }

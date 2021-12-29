@@ -10,13 +10,15 @@ import java.util.List;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
+import nl.fh.gamestate.StateFormatter;
+import nl.fh.gamestate.chess.format.FENformatter;
 
 /**
  *  Doing standard tests of move generators
  * 
  */
 public class Perft {
-    private static MoveGenerator<ChessState> moveGenerator = FIDEchess.getGameDriver().getMoveGenerator();
+    private static final MoveGenerator<ChessState> moveGenerator = FIDEchess.getGameDriver().getMoveGenerator();
     
     /**
      * 
@@ -49,10 +51,11 @@ public class Perft {
      */
     public static String details(ChessState state, int depth){
         long t0 = System.currentTimeMillis();
+        StateFormatter formatter = new FENformatter();
         
         StringBuilder sb = new StringBuilder();
         sb.append("===Perft===\n");
-        sb.append(state.toFEN());
+        sb.append(formatter.format(state));
         sb.append("\n");
         
         long total = 0;

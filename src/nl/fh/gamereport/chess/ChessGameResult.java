@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.gamereport;
+package nl.fh.gamereport.chess;
 
 public enum ChessGameResult {
     WIN_WHITE(+1), 

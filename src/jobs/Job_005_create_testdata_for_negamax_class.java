@@ -7,6 +7,7 @@ package jobs;
 
 import java.util.Set;
 import nl.fh.gamestate.chess.ChessState;
+import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.metric.PawnLocationMetric;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.FIDEchess;
@@ -16,6 +17,9 @@ import nl.fh.rule.FIDEchess;
  * 
  */
 public class Job_005_create_testdata_for_negamax_class {
+    
+    private static FENformatter formatter = new FENformatter();
+    
     public static void main(String[] args){
         
         // position from the 6th round of the 2021 World Chess Championship
@@ -33,7 +37,7 @@ public class Job_005_create_testdata_for_negamax_class {
         double vmax = -Double.MAX_VALUE;
         
         System.out.println("-------------------------------");
-        System.out.println(state.toFEN());
+        System.out.println(formatter.format(state));
         Set<ChessState> children = FIDEchess.getGameDriver().getMoveGenerator().calculateChildren(state);
         for(ChessState s : children){
             double val = metric.eval(s);
@@ -46,7 +50,7 @@ public class Job_005_create_testdata_for_negamax_class {
             }
             System.out.print(String.format("%,.6f", metric.eval(s)));
             System.out.print(" ");
-            System.out.println(s.toFEN());
+            System.out.println(formatter.format(state));
         }
         System.out.println();
         System.out.println("vmax: " + String.format("%,.6f", vmax));

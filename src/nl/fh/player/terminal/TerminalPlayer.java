@@ -5,48 +5,56 @@
 
 package nl.fh.player.terminal;
 
+import nl.fh.gamestate.StateFormatter;
+import nl.fh.gamestate.MoveFormatter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import nl.fh.gamestate.chess.ChessState;
-import nl.fh.gamestate.chess.move.ChessMove;
+import nl.fh.gamestate.GameState;
 import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
-import nl.fh.rule.FIDEchess;
 import nl.fh.rule.GameDriver;
-import nl.fh.rule.ResultArbiter;
 
 /**
- * A minimalistic ASCII interface
+ * A minimalistic ASCII interface for a generic game
  * 
  */
-//TODO make TerminalPlayer generic rather than chess specific
-public class TerminalPlayer implements Player<ChessState> {
+public class TerminalPlayer<S extends GameState> implements Player<S> {
     private static final String CURSOR = ">";
-    private static final GameDriver<ChessState> driver =FIDEchess.getGameDriver();
-    private static final ResultArbiter<ChessState> arbiter = driver.getResultArbiter();
-    private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private ChessState previous = null;
-        
+    
+    private final GameDriver<S> driver;
+    private final MoveFormatter<S> moveFormatter;
+    private final StateFormatter<S> stateFormatter;
+    private S previousState;
+    
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    
+    public TerminalPlayer(GameDriver<S> driver, MoveFormatter<S> mFormatter, StateFormatter<S> sFormatter){
+        this.driver = driver;
+        this.moveFormatter = mFormatter;
+        this.stateFormatter = sFormatter;
+        previousState = null;          
+    }
+    
     @Override
-    public Move getMove(ChessState currentState, Set<Move<ChessState>> legalMoves) {
+    public Move<S> getMove(S currentState, Set<Move<S>> legalMoves) {
         
         System.out.println();
         System.out.println("----------------------------");
 
-        if(previous != null){
-            ChessMove previousMove = null;
-            for(Move<ChessState> m : driver.getMoveGenerator().calculateAllLegalMoves(previous)){
-                if(m.applyTo(previous).equals(currentState)){
-                    previousMove = (ChessMove) m;
+        if(previousState != null){
+            Move<S> previousMove = null;
+            for(Move<S> m : driver.getMoveGenerator().calculateAllLegalMoves(previousState)){
+                if(m.applyTo(previousState).equals(currentState)){
+                    previousMove = m;
                 }
             }
 
             System.out.print("Opponent played: ");
-            System.out.println(previousMove.formatPGN(previous, driver));
+            System.out.println(moveFormatter.format(previousMove,previousState, driver));
             System.out.println();
         }
         
@@ -54,15 +62,13 @@ public class TerminalPlayer implements Player<ChessState> {
         System.out.println();
         System.out.println("#help to get help");
         System.out.println("#quit to quit");
-        System.out.println(currentState.toFEN());
-        System.out.println();
-        System.out.println(currentState.toASCII(currentState.getToMove()));
+        System.out.println(stateFormatter.format(currentState));
         System.out.println();
         
         // display the legal moves
         StringBuilder sb = new StringBuilder();
-        for(Move m : legalMoves){
-            sb.append(((ChessMove)m).formatPGN(currentState, driver));
+        for(Move<S> m : legalMoves){
+            sb.append(moveFormatter.format(m, currentState, driver));
             sb.append(" ");
         }
         System.out.println(sb.toString());
@@ -77,9 +83,9 @@ public class TerminalPlayer implements Player<ChessState> {
                     if(code.charAt(0) == '#'){
                         processEscapedCommand(code);
                     } else {
-                        for(Move<ChessState> m : legalMoves){
-                            if(clean(code).equals(clean(((ChessMove)m).formatPGN(currentState, driver)))){
-                                previous = m.applyTo(currentState);
+                        for(Move<S> m : legalMoves){
+                            if(clean(code).equals(clean(moveFormatter.format(m, currentState, driver)))){
+                                previousState = m.applyTo(currentState);
                                 return m;
                             }
                         }

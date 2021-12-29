@@ -27,7 +27,7 @@ import nl.fh.rule.GameDriver;
  */
 public class PgnReplayer implements Player<ChessState> {
     
-    private static PGN_Reader reader = new TolerantReader();
+    private static final PGN_Reader reader = new TolerantReader();
     private static final GameDriver driver = FIDEchess.getGameDriver();
 
     private int counter;

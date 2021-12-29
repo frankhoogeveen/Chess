@@ -6,7 +6,7 @@
 package jobs;
 
 import nl.fh.gamereport.GameFilter;
-import nl.fh.gamereport.PGNformatter;
+import nl.fh.gamereport.chess.PGNreportFormatter;
 import nl.fh.gamereport.filter.TransparentFilter;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.match.AlternatingMatch;
@@ -43,7 +43,7 @@ public class Job_004_match_between_two_static_evaluators {
         
         MatchReport result = match.play(player1, player2, filter);
             
-        MatchReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
+        MatchReportFormatter formatter = new PGNreportFormatter(FIDEchess.getGameDriver());
         System.out.println(formatter.formatMatch(result));
     }
 

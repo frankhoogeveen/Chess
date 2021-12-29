@@ -33,6 +33,18 @@ public abstract class ChessMove implements Move<ChessState> {
     public abstract Field getFrom();
     
     /**
+     * @return true if the player that made this move offered draw when playing
+     * this move, false otherwise
+     */
+    public abstract boolean offeredDraw();
+    
+    /**
+     * add a draw offer the this move
+     */
+    public abstract void offerDraw();   
+    
+    
+    /**
      * @param state the state BEFORE the move
      * @param driver
      * @return the string the represents the move in an exported PGN 
@@ -50,24 +62,12 @@ public abstract class ChessMove implements Move<ChessState> {
      * No test is made to ensure that move is legal in the given state.
      * 
      */
-    public abstract String formatPGN(ChessState state, GameDriver<ChessState> driver);
-    
+    public abstract String formatPGN(ChessState state, GameDriver<ChessState> driver);        
     /**
      * 
      * @param state
      * @return the move as used in the UCI protocol
      */
-    public abstract String formatUCI(ChessState state);
-    
-    /**
-     * @return true if the player that made this move offered draw when playing
-     * this move, false otherwise
-     */
-    public abstract boolean offeredDraw();
-    
-    /**
-     * add a draw offer the this move
-     */
-    public abstract void offerDraw();    
+    public abstract String formatUCI(ChessState state);        
    
 }

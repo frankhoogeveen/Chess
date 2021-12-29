@@ -3,12 +3,15 @@
  * 
  */
 
-package nl.fh.gamereport;
+package nl.fh.gamereport.chess;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import nl.fh.gamereport.GameReport;
+import nl.fh.gamereport.GameReportFormatter;
+import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.match.MatchReport;
 import nl.fh.match.MatchReportFormatter;
@@ -21,7 +24,7 @@ import nl.fh.rule.GameDriver;
  * Turns game reports of chess games into PGN strings.
  * 
  */
-public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
+public class PGNreportFormatter implements GameReportFormatter, MatchReportFormatter {
 
     private static final List<String> SevenTagRoster = Arrays.asList(new String[] {
         "Event", 
@@ -35,7 +38,7 @@ public class PGNformatter implements GameReportFormatter, MatchReportFormatter {
     private final GameDriver<ChessState> gameDriver;
     private Map<String, String> tagValuePairs;
 
-    public PGNformatter(GameDriver gameDriver){
+    public PGNreportFormatter(GameDriver gameDriver){
         this.gameDriver = gameDriver; 
     }
     

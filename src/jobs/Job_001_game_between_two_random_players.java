@@ -7,7 +7,7 @@ package jobs;
 
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameReportFormatter;
-import nl.fh.gamereport.PGNformatter;
+import nl.fh.gamereport.chess.PGNreportFormatter;
 import nl.fh.match.MatchReportFormatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
@@ -35,7 +35,7 @@ public class Job_001_game_between_two_random_players {
           System.out.println();
       }
       */
-      GameReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
+      GameReportFormatter formatter = new PGNreportFormatter(FIDEchess.getGameDriver());
       String pgn = formatter.formatGame(report);
       System.out.println(pgn);
     }

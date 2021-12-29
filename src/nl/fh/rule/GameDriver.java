@@ -23,11 +23,8 @@ public class GameDriver<S extends GameState> {
     private MoveGenerator<S> moveGenerator;
     private ResultArbiter<S> resultArbiter;
     
-    
     private GameDriver(){
-        
     }
-    
     /**
      * 
      * @param initialState

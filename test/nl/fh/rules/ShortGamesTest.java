@@ -10,6 +10,8 @@ import nl.fh.rule.GameDriver;
 import nl.fh.gamestate.chess.ChessState;
 import java.util.List;
 import nl.fh.gamereport.GameReport;
+import nl.fh.gamestate.StateFormatter;
+import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.parser.PGN_Reader;
 import nl.fh.parser.TolerantReader;
 import static org.junit.Assert.assertEquals;
@@ -21,7 +23,8 @@ import org.junit.Test;
 public class ShortGamesTest {
     
     private GameDriver gameDriver = FIDEchess.getGameDriver();
-    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();    
+    private MoveGenerator moveGenerator = gameDriver.getMoveGenerator();   
+    private StateFormatter formatter = new FENformatter();      
       
     @Test
     public void testPawnCapture(){
@@ -36,7 +39,7 @@ public class ShortGamesTest {
         
         List<ChessState> list = report.getStateList();
         ChessState end = list.get(list.size()-1);
-        String endFEN = end.toFEN(4);
+        String endFEN = formatter.format(end, 4);
         
         assertEquals(target, endFEN);
     }
@@ -53,7 +56,7 @@ public class ShortGamesTest {
         
         List<ChessState> list = report.getStateList();
         ChessState end = list.get(list.size()-1);
-        String endFEN = end.toFEN(2);
+        String endFEN = formatter.format(end,2);
         
         assertEquals(target, endFEN);
     }  
@@ -70,7 +73,7 @@ public class ShortGamesTest {
         GameReport report = reports.get(0);
         List<ChessState> list = report.getStateList();
         ChessState end = list.get(list.size()-1);
-        String endFEN = end.toFEN(4);
+        String endFEN = formatter.format(end,4);
         
         assertEquals(target, endFEN);
     }        

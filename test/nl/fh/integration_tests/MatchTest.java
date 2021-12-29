@@ -8,7 +8,7 @@ package nl.fh.integration_tests;
 import java.util.List;
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
-import nl.fh.gamereport.PGNformatter;
+import nl.fh.gamereport.chess.PGNreportFormatter;
 import nl.fh.gamereport.filter.TransparentFilter;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.match.AlternatingMatch;
@@ -53,7 +53,7 @@ public class MatchTest {
             for(int iGame = 0; iGame<nGames; iGame++){
                 
                 MatchReport result = match.play(playerR, playerM, filter);
-                MatchReportFormatter formatter = new PGNformatter(FIDEchess.getGameDriver());
+                MatchReportFormatter formatter = new PGNreportFormatter(FIDEchess.getGameDriver());
                 String pgn = formatter.formatMatch(result);
 
                 PGN_Reader reader = new TolerantReader();

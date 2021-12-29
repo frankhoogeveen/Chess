@@ -80,7 +80,7 @@ public class EnPassantCapture extends ChessMove {
                         + this.from.toString() 
                         + this.to.toString()
                         + " applied to "
-                        + state.toFEN());
+                        + state.toString());
         }
         
         result.setFieldContent(capturedPawn, PieceType.EMPTY);

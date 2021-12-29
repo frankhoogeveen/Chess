@@ -13,7 +13,6 @@ import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
-import nl.fh.rule.GameDriver;
 
 /**
  * 
@@ -30,8 +29,8 @@ import nl.fh.rule.GameDriver;
  */
 public class GameReport<S extends GameState> {
     
-    private final ArrayList<S> stateList;
-    private final ArrayList<Move<S>> moveList;
+    private final List<S> stateList;
+    private final List<Move<S>> moveList;
     private GameResult gameResult;
     
     private final HashMap<String, String> tagValuePairs;
