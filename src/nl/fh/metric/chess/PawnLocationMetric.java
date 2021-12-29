@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.metric;
+package nl.fh.metric.chess;
 
 import nl.fh.gamestate.chess.Color;
 import nl.fh.gamestate.chess.Field;

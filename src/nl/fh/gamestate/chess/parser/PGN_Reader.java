@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.parser;
+package nl.fh.gamestate.chess.parser;
 
 import java.util.List;
 import nl.fh.gamereport.GameReport;

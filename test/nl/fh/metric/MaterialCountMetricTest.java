@@ -5,9 +5,10 @@
 
 package nl.fh.metric;
 
+import nl.fh.metric.chess.MaterialCountMetric;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

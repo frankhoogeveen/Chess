@@ -2,7 +2,7 @@
  * License: GPL v3
  * 
  */
-package nl.fh.rule;
+package nl.fh.rule.chess;
 
 import nl.fh.gamestate.chess.ChessState;
 import java.util.HashSet;
@@ -20,6 +20,7 @@ import nl.fh.gamestate.chess.move.EnPassantCapture;
 import nl.fh.gamestate.Move;
 import nl.fh.gamestate.chess.move.PieceMove;
 import nl.fh.gamestate.chess.move.Promotion;
+import nl.fh.rule.MoveGenerator;
 
 /**
  * Represent the rules of the game

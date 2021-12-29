@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.uci;
+package nl.fh.gui_interface.uci;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +12,12 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.metric.MaterialCountMetric;
+import nl.fh.metric.chess.MaterialCountMetric;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 
 /**

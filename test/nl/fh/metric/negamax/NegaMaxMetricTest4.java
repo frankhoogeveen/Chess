@@ -5,13 +5,14 @@
 
 package nl.fh.metric.negamax;
 
+import nl.fh.metric.chess.MaterialCountMetric;
 import nl.fh.metric.*;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.metric.utilities.MaxOfChildren;
 import nl.fh.metric.utilities.MinOfChildren;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
 import static org.junit.Assert.assertEquals;

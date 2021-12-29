@@ -8,9 +8,9 @@ package jobs;
 import java.util.Set;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.chess.format.FENformatter;
-import nl.fh.metric.PawnLocationMetric;
+import nl.fh.metric.chess.PawnLocationMetric;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 
 /**
  * 

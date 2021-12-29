@@ -7,8 +7,8 @@ package jobs;
 
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.output_file.OutputToFile;
-import nl.fh.rule.Perft;
-import nl.fh.rule.PerftCase;
+import nl.fh.rule.chess.perft.Perft;
+import nl.fh.rule.chess.perft.PerftCase;
 
 /**
  * 

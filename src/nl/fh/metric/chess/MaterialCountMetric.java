@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.metric;
+package nl.fh.metric.chess;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,9 +13,9 @@ import nl.fh.metric.utilities.OutcomeMetric;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rule.FIDEchess;
-import nl.fh.rule.ChessMoveGenerator;
-import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.chess.FIDEchess;
+import nl.fh.rule.chess.ChessMoveGenerator;
+import nl.fh.rule.chess.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.ResultArbiter;

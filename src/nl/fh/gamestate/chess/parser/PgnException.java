@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.parser;
+package nl.fh.gamestate.chess.parser;
 
 /**
  * copyright F. Hoogeveen

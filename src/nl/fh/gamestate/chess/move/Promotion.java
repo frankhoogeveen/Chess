@@ -14,7 +14,7 @@ import nl.fh.gamestate.chess.Field;
 import nl.fh.gamestate.chess.PieceKind;
 import nl.fh.gamestate.chess.PieceType;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.chess.ChessResultArbiter;
 import nl.fh.rule.GameDriver;
 
 /**

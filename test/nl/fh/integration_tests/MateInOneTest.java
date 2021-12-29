@@ -7,14 +7,14 @@ package nl.fh.integration_tests;
 
 import java.util.Set;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.metric.MaterialCountMetric;
+import nl.fh.metric.chess.MaterialCountMetric;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
 import static org.junit.Assert.assertEquals;

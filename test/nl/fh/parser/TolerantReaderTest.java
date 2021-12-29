@@ -4,6 +4,8 @@
  */
 package nl.fh.parser;
 
+import nl.fh.gamestate.chess.parser.PGN_Reader;
+import nl.fh.gamestate.chess.parser.TolerantReader;
 import java.util.List;
 import nl.fh.gamestate.chess.Field;
 import nl.fh.gamereport.GameReport;
@@ -13,7 +15,7 @@ import nl.fh.gamestate.StateFormatter;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.gamestate.chess.move.PieceMove;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import org.junit.Test;
 import static org.junit.Assert.*;

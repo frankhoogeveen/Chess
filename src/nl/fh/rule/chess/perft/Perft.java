@@ -3,8 +3,9 @@
  * 
  */
 
-package nl.fh.rule;
+package nl.fh.rule.chess.perft;
 
+import nl.fh.rule.chess.FIDEchess;
 import java.util.ArrayList;
 import java.util.List;
 import nl.fh.gamestate.chess.ChessState;
@@ -12,6 +13,7 @@ import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
 import nl.fh.gamestate.StateFormatter;
 import nl.fh.gamestate.chess.format.FENformatter;
+import nl.fh.rule.MoveGenerator;
 
 /**
  *  Doing standard tests of move generators

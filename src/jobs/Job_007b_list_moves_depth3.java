@@ -12,12 +12,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.metric.MaterialCountMetric;
+import nl.fh.metric.chess.MaterialCountMetric;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.gamestate.chess.move.ChessMove;
 import nl.fh.gamestate.Move;
 import nl.fh.player.evalplayer.Metric;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
 

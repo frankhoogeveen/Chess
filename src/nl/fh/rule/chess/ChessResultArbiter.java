@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.rule;
+package nl.fh.rule.chess;
 
 import java.util.Set;
 import nl.fh.gamestate.chess.BoardSide;
@@ -16,6 +16,8 @@ import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.chess.move.DrawOfferAccepted;
 import nl.fh.gamestate.Move;
 import nl.fh.gamestate.chess.move.ChessResignation;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.ResultArbiter;
 
 /**
  * 

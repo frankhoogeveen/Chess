@@ -13,12 +13,12 @@ import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchReport;
 import nl.fh.match.MatchReportFormatter;
-import nl.fh.metric.MaterialCountMetric;
+import nl.fh.metric.chess.MaterialCountMetric;
 import nl.fh.metric.utilities.NoiseAdder;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.player.evalplayer.MetricPlayer;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 
 /**
  * 

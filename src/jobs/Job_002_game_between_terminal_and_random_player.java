@@ -16,7 +16,7 @@ import nl.fh.gamestate.chess.format.PGNmoveFormatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
 import nl.fh.player.terminal.TerminalPlayer;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 
 /**

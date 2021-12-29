@@ -3,7 +3,7 @@
  * 
  */
 
-package nl.fh.rule;
+package nl.fh.rule.chess.perft;
 
 /**
  * 

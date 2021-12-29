@@ -5,7 +5,7 @@
 package nl.fh.rules;
 
 
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import nl.fh.gamestate.chess.ChessState;
 import java.util.List;
@@ -15,8 +15,8 @@ import nl.fh.gamestate.chess.move.Castling;
 import nl.fh.gamestate.Move;
 import nl.fh.gamestate.StateFormatter;
 import nl.fh.gamestate.chess.format.FENformatter;
-import nl.fh.parser.PGN_Reader;
-import nl.fh.parser.TolerantReader;
+import nl.fh.gamestate.chess.parser.PGN_Reader;
+import nl.fh.gamestate.chess.parser.TolerantReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;

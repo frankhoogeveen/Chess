@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.stream.Stream;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.parser.PGN_Reader;
-import nl.fh.parser.TolerantReader;
-import nl.fh.rule.FIDEchess;
+import nl.fh.gamestate.chess.parser.PGN_Reader;
+import nl.fh.gamestate.chess.parser.TolerantReader;
+import nl.fh.rule.chess.FIDEchess;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

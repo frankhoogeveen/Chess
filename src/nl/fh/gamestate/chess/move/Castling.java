@@ -6,7 +6,7 @@
 package nl.fh.gamestate.chess.move;
 
 import nl.fh.gamestate.Move;
-import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.chess.ChessResultArbiter;
 import java.util.Objects;
 import java.util.Set;
 import nl.fh.gamestate.chess.BoardSide;
@@ -14,7 +14,7 @@ import nl.fh.gamestate.chess.Color;
 import nl.fh.gamestate.chess.Field;
 import nl.fh.gamestate.chess.PieceType;
 import nl.fh.gamestate.chess.ChessState;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
 

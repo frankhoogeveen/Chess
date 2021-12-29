@@ -15,13 +15,13 @@ import nl.fh.match.AlternatingMatch;
 import nl.fh.match.Match;
 import nl.fh.match.MatchReport;
 import nl.fh.match.MatchReportFormatter;
-import nl.fh.metric.MaterialCountMetric;
-import nl.fh.parser.PGN_Reader;
-import nl.fh.parser.TolerantReader;
+import nl.fh.metric.chess.MaterialCountMetric;
+import nl.fh.gamestate.chess.parser.PGN_Reader;
+import nl.fh.gamestate.chess.parser.TolerantReader;
 import nl.fh.player.Player;
 import nl.fh.player.evalplayer.MetricPlayer;
 import nl.fh.player.random.RandomPlayer;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

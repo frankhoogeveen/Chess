@@ -7,7 +7,7 @@ package nl.fh.gamestate;
 import nl.fh.gamestate.chess.ChessState;
 import java.util.ArrayList;
 import nl.fh.gamestate.chess.format.FENformatter;
-import nl.fh.rule.FIDEchess;
+import nl.fh.rule.chess.FIDEchess;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

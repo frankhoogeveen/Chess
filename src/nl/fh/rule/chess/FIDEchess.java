@@ -3,9 +3,12 @@
  * 
  */
 
-package nl.fh.rule;
+package nl.fh.rule.chess;
 
 import nl.fh.gamestate.chess.ChessState;
+import nl.fh.rule.GameDriver;
+import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.ResultArbiter;
 
 /**
  * Defines regular chess according to the FIDE laws of chess( but without the 

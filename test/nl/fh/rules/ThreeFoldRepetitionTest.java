@@ -5,14 +5,14 @@
 
 package nl.fh.rules;
 
-import nl.fh.rule.FIDEchess;
-import nl.fh.rule.ChessResultArbiter;
+import nl.fh.rule.chess.FIDEchess;
+import nl.fh.rule.chess.ChessResultArbiter;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.GameDriver;
 import java.util.Set;
 import nl.fh.gamestate.chess.Color;
 import nl.fh.gamestate.chess.Field;
-import nl.fh.player.pgn_replayer.PgnReplayer;
+import nl.fh.player.chess.PgnReplayer;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.chess.ChessState;
