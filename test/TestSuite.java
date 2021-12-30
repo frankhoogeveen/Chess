@@ -17,12 +17,9 @@ import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.metric.MaterialCountMetricTest;
 import nl.fh.metric.negamax.NegaMaxAlphaBetaTest;
 import nl.fh.metric.negamax.NegaMaxGen3Test;
-import nl.fh.metric.negamax.NegaMaxMetricTest;
-import nl.fh.metric.negamax.NegaMaxMetricTest2;
+import nl.fh.metric.negamax.NegaMaxMetricTest1;
 import nl.fh.metric.negamax.NegaMaxMetricTest2;
 import nl.fh.metric.negamax.NegaMaxMetricTest3;
-import nl.fh.metric.negamax.NegaMaxMetricTest3;
-import nl.fh.metric.negamax.NegaMaxMetricTest4;
 import nl.fh.metric.negamax.NegaMaxMetricTest4;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
@@ -53,7 +50,7 @@ import org.junit.runners.Suite;
     EnPassantRulesTest.class,
     ShortGamesTest.class,
     MaterialCountMetricTest.class,
-    NegaMaxMetricTest.class,
+    NegaMaxMetricTest1.class,
     NegaMaxMetricTest2.class,
     NegaMaxMetricTest3.class,
     NegaMaxMetricTest4.class,    

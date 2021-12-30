@@ -19,7 +19,7 @@ import org.junit.Test;
  * 
  * 
  */
-public class NegaMaxMetricTest {
+public class NegaMaxMetricTest1 {
     private final double delta = 1.e-9;
     private final double MATE_VALUE = 1.e6;    
     
