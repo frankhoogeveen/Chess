@@ -11,6 +11,7 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import nl.fh.gamestate.GameState;
 import nl.fh.gamestate.Move;
+import nl.fh.gamestate.Resignation;
 import nl.fh.player.Player;
 
 /**
@@ -21,6 +22,11 @@ public class RandomPlayer<S extends GameState> implements Player<S> {
 
     @Override
     public Move<S> getMove(S currentState, Set<Move<S>> legalMoves) {
+        
+        if(legalMoves.isEmpty()){
+            // this case should have caught earlier, by the result arbiter
+            return Resignation.getInstance();
+        }
         
         List<Move> moves = new ArrayList<Move>(legalMoves);        
         int randomNum = ThreadLocalRandom.current().nextInt(0, moves.size());  

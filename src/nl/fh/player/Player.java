@@ -18,10 +18,14 @@ public interface Player<S extends GameState> {
     /**
      * 
      * @param currentState
-     * @param legalMoves the set of legal moves
+     * @param legalMoves the set of legal moves. 
+     * 
      * @return a move  without time control either from the set of legal moves,
      * or a resignation.
      * 
+     * 
+     * If there are no legal moves, getMove should not be called, or return a 
+     * resignation.
      * The move returned should be one of the legal moves
      */
     public Move getMove(S currentState, Set<Move<S>> legalMoves);

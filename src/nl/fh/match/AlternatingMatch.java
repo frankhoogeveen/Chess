@@ -24,6 +24,7 @@ public class AlternatingMatch implements Match {
         this.driver = driver;
     }
 
+
     @Override
     public MatchReport play(Player player1, Player player2, GameFilter filter) {
         

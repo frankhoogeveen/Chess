@@ -8,7 +8,6 @@ package jobs;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameReportFormatter;
 import nl.fh.gamereport.chess.PGNreportFormatter;
-import nl.fh.match.MatchReportFormatter;
 import nl.fh.player.Player;
 import nl.fh.player.random.RandomPlayer;
 import nl.fh.rule.chess.FIDEchess;

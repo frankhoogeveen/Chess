@@ -29,7 +29,7 @@ public class RandomFilter implements GameFilter{
     @Override
     public boolean retain(GameReport report) {
         if(Math.random() < p){
-            return false;
+            return true;
         }
         return false;
     } 

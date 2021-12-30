@@ -62,6 +62,7 @@ public class TerminalPlayer<S extends GameState> implements Player<S> {
         System.out.println();
         System.out.println("#help to get help");
         System.out.println("#quit to quit");
+        System.out.println();
         System.out.println(stateFormatter.format(currentState));
         System.out.println();
         
@@ -76,7 +77,6 @@ public class TerminalPlayer<S extends GameState> implements Player<S> {
         // receive the move from the terminal
         while(true){
             System.out.println(CURSOR);                 
-            String name;
             try {
                 String code = reader.readLine();
                 if(code.length() > 0){

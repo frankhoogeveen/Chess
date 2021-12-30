@@ -54,11 +54,11 @@ public class OutcomeMetric<S extends GameState> implements Metric<S>{
         
         Set<Move<S>> legalMoves = moveGenerator.calculateAllLegalMoves(state);
         
-        if(arbiter.isMate(state, legalMoves)){
+        if(arbiter.isWin(state, legalMoves)){
             return - sign * mateValue;
         }
 
-        if(arbiter.isSelfMate(state, legalMoves)){
+        if(arbiter.isLoss(state, legalMoves)){
             return +sign * mateValue;
         }
         

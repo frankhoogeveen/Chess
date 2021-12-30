@@ -6,6 +6,7 @@
 package nl.fh.metric.minimax;
 
 import java.util.Set;
+import nl.fh.gamestate.GameState;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.MoveGenerator;
@@ -17,7 +18,7 @@ import nl.fh.rule.MoveGenerator;
  * 
  * 
  */
-public class NegaMaxGen3<T extends ChessState> implements Metric<T> {
+public class NegaMaxGen3<T extends GameState> implements Metric<T> {
     private Metric<T> baseMetric;
     private int depth;
     private final MoveGenerator moveGenerator;    
@@ -45,18 +46,18 @@ public class NegaMaxGen3<T extends ChessState> implements Metric<T> {
         return  sign * iteration(state, this.depth, sign, alpha, beta);  
     }  
 
-    private double iteration(ChessState state, int depth, int sign, double alpha, double beta) {
+    private double iteration(T state, int depth, int sign, double alpha, double beta) {
         if(depth == 0){
             return sign * baseMetric.eval((T) state);
         } 
         
-        Set<ChessState> daughters = moveGenerator.calculateChildren(state);
+        Set<T> daughters = moveGenerator.calculateChildren(state);
         if(daughters.isEmpty()){
             return sign * baseMetric.eval((T) state);
         }
         
         double currentValue = - Double.MAX_VALUE;
-        for(ChessState daughter : daughters){
+        for(T daughter : daughters){
             double nextValue = - iteration(daughter, depth-1,-sign, -beta, -alpha);
             
             if(nextValue > currentValue){

@@ -11,6 +11,7 @@ import java.util.Map;
 import nl.fh.gamereport.GameFilter;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
+import nl.fh.gamestate.GameState;
 import nl.fh.player.Player;
 
 /**
@@ -20,13 +21,13 @@ import nl.fh.player.Player;
  * has been achieved and stores a limited number of detailed games.
  * 
  */
-public class MatchReport {
+public class MatchReport <S extends GameState>{
 
     private final Player player1;
     private final Player player2;
     
     private final GameFilter filter;
-    private final ArrayList<GameReport> gameSelection;    
+    private final ArrayList<GameReport<S>> gameSelection;    
     
     private int score = 0;
     
@@ -51,7 +52,7 @@ public class MatchReport {
             player2WhiteResults.put(result, 0);
         }
         
-        this.gameSelection = new ArrayList<GameReport>();
+        this.gameSelection = new ArrayList<GameReport<S>>();
         this.filter = filter;
     }
 
@@ -96,7 +97,7 @@ public class MatchReport {
         return player2;
     }
 
-    public ArrayList<GameReport> getGameSelection() {
+    public ArrayList<GameReport<S>> getGameSelection() {
         return gameSelection;
     }
 
@@ -115,7 +116,4 @@ public class MatchReport {
     public int getCount() {
         return count;
     }
-    
-
-
 }

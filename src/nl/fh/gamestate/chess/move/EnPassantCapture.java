@@ -112,7 +112,7 @@ public class EnPassantCapture extends ChessMove {
         //the indicators for check and checkmate
         ChessState state2 = this.applyTo(state);
         Set<Move<ChessState>> legalMoves = driver.getMoveGenerator().calculateAllLegalMoves(state2);
-        if(arbiter.isMate(state2, legalMoves)){
+        if(arbiter.isWin(state2, legalMoves)){
             sb.append("#");
         } else {
             if(arbiter.isCheck(state2)){

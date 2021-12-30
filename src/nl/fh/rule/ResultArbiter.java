@@ -29,7 +29,7 @@ public interface ResultArbiter<S extends GameState>{
      * 
      * @return true if the player that has just made the move has legally won
      */
-    public boolean isMate(S state, Set<Move<S>> legalMoves);
+    public boolean isWin(S state, Set<Move<S>> legalMoves);
     
     /**
      * 
@@ -41,6 +41,6 @@ public interface ResultArbiter<S extends GameState>{
      * 
      * @return true if the player that just made the move has legally lost 
      */
-    public boolean isSelfMate(S state, Set<Move<S>> legalMoves);
+    public boolean isLoss(S state, Set<Move<S>> legalMoves);
 
 }

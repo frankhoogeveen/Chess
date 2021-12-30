@@ -15,7 +15,7 @@ import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.chess.move.DrawOfferAccepted;
 import nl.fh.gamestate.Move;
-import nl.fh.gamestate.chess.move.ChessResignation;
+import nl.fh.gamestate.Resignation;
 import nl.fh.rule.MoveGenerator;
 import nl.fh.rule.ResultArbiter;
 
@@ -52,7 +52,7 @@ public class ChessResultArbiter implements ResultArbiter<ChessState> {
         ChessState state = report.getFinalState();
         
             // resignation ends the game on the spot
-            if(move instanceof ChessResignation){
+            if(move instanceof Resignation){
                 if(state.getToMove() == Color.WHITE){
                     return GameResult.WIN_FIRST_MOVER;
 //                    return ChessGameResult.RESIGNATION_BY_WHITE;
@@ -288,7 +288,7 @@ public class ChessResultArbiter implements ResultArbiter<ChessState> {
         return kingField;
     }
     
-    public boolean isMate(ChessState state, Set<Move<ChessState>> legalMoves){
+    public boolean isWin(ChessState state, Set<Move<ChessState>> legalMoves){
         return legalMoves.isEmpty() && isCheck(state);
     }
     
@@ -320,7 +320,7 @@ public class ChessResultArbiter implements ResultArbiter<ChessState> {
     }       
 
     @Override
-    public boolean isSelfMate(ChessState state, Set<Move<ChessState>> legalMoves) {
+    public boolean isLoss(ChessState state, Set<Move<ChessState>> legalMoves) {
         return false;
     }
 }

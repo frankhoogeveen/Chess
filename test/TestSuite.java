@@ -6,6 +6,11 @@ import nl.fh.chess.FieldTest;
 import nl.fh.gamereport.GameReportTest;
 import nl.fh.gamereport.MoveCodesTest;
 import nl.fh.gamestate.GameStateTest;
+import nl.fh.gamestate.tictactoe.TicTacToeArbiterTest;
+import nl.fh.gamestate.tictactoe.TicTacToeMoveGeneratorTest;
+import nl.fh.gamestate.tictactoe.TicTacToeMoveTest;
+import nl.fh.gamestate.tictactoe.TicTacToeReportTest;
+import nl.fh.gamestate.tictactoe.TicTacToeStateTest;
 import nl.fh.integration_tests.MatchTest;
 import nl.fh.integration_tests.MateInOneTest;
 import nl.fh.integration_tests.PhilidorTest;
@@ -14,7 +19,10 @@ import nl.fh.metric.negamax.NegaMaxAlphaBetaTest;
 import nl.fh.metric.negamax.NegaMaxGen3Test;
 import nl.fh.metric.negamax.NegaMaxMetricTest;
 import nl.fh.metric.negamax.NegaMaxMetricTest2;
+import nl.fh.metric.negamax.NegaMaxMetricTest2;
 import nl.fh.metric.negamax.NegaMaxMetricTest3;
+import nl.fh.metric.negamax.NegaMaxMetricTest3;
+import nl.fh.metric.negamax.NegaMaxMetricTest4;
 import nl.fh.metric.negamax.NegaMaxMetricTest4;
 import nl.fh.parser.TolerantReaderTest;
 import nl.fh.rules.CastlingRulesTest;
@@ -51,7 +59,14 @@ import org.junit.runners.Suite;
     NegaMaxMetricTest4.class,    
     NegaMaxAlphaBetaTest.class,   
     NegaMaxAlphaBetaTest.class,
-      
+    
+    // the tic tac toe tests
+    TicTacToeStateTest.class,
+    TicTacToeMoveTest.class,
+    TicTacToeMoveGeneratorTest.class,
+    TicTacToeArbiterTest.class,
+    TicTacToeReportTest.class,
+    
     //
     // below this line are tests that read files or are otherwise expensive
     // and are therefore not really unit tests

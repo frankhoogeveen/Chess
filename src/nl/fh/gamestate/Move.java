@@ -20,9 +20,6 @@ public interface Move<S extends GameState> {
      *  but does not necessarily check for legality of the move. E.g. a move 
      *  that leaves the king in check does not have to throw an exception. 
      * 
-     * By calling this method, the parent field in the resulting GameState is 
-     * set to state.
-     * 
      */
     public S applyTo(S state);
 }

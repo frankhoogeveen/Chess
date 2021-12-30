@@ -12,7 +12,7 @@ import nl.fh.gamestate.chess.Color;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.Move;
-import nl.fh.gamestate.chess.move.ChessResignation;
+import nl.fh.gamestate.Resignation;
 import nl.fh.gamestate.chess.parser.PGN_Reader;
 import nl.fh.gamestate.chess.parser.TolerantReader;
 import nl.fh.player.Player;
@@ -65,7 +65,7 @@ public class PgnReplayer implements Player<ChessState> {
     @Override
     public Move getMove(ChessState state, Set<Move<ChessState>> legalMoves) {
         if(this.counter > this.moveList.size()-1){
-            return ChessResignation.getInstance();
+            return Resignation.getInstance();
         } else {
             Move result = this.moveList.get(counter);      
             counter += 2;

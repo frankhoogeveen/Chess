@@ -6,7 +6,6 @@
 package nl.fh.metric.negamax;
 
 import nl.fh.metric.chess.MaterialCountMetric;
-import nl.fh.metric.*;
 import nl.fh.gamestate.chess.ChessState;
 import nl.fh.metric.minimax.NegaMax;
 import nl.fh.player.evalplayer.Metric;

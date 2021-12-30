@@ -122,7 +122,7 @@ public class Promotion extends ChessMove {
         ChessResultArbiter arbiter = (ChessResultArbiter) driver.getResultArbiter();
         ChessState state2 = this.applyTo(state);
         Set<Move<ChessState>> legalMoves2 = driver.getMoveGenerator().calculateAllLegalMoves(state2);    
-        if(arbiter.isMate(state2, legalMoves2)){
+        if(arbiter.isWin(state2, legalMoves2)){
             sb.append("#");
         } else {
             if(arbiter.isCheck(state2)){

@@ -6,6 +6,8 @@ package nl.fh.gamestate;
 
 import nl.fh.gamestate.chess.ChessState;
 import java.util.ArrayList;
+import nl.fh.gamestate.StateFormatter;
+import nl.fh.gamestate.chess.ChessState;
 import nl.fh.gamestate.chess.format.FENformatter;
 import nl.fh.rule.chess.FIDEchess;
 import org.junit.Before;

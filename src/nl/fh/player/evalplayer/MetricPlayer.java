@@ -8,7 +8,7 @@ package nl.fh.player.evalplayer;
 import java.util.Set;
 import nl.fh.gamestate.GameState;
 import nl.fh.gamestate.Move;
-import nl.fh.gamestate.chess.move.ChessResignation;
+import nl.fh.gamestate.Resignation;
 import nl.fh.player.Player;
 
 /**
@@ -44,7 +44,7 @@ public class MetricPlayer<S extends GameState> implements Player<S>{
         int sign = state.getMover().getSign();
         
         double currentBestValue = -Double.MAX_VALUE;
-        Move<S> currentBestMove = ChessResignation.getInstance();
+        Move<S> currentBestMove = Resignation.getInstance();
         
         for(Move<S> m : legalMoves){
             double value = sign * this.metric.eval(m.applyTo(state));
