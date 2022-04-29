@@ -4,10 +4,15 @@ import java.util.Set;
 import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.Move;
+import nl.fh.rule.GameDriver;
 import nl.fh.rule.MoveGenerator;
+import nl.fh.rule.ResultArbiter;
+import nl.fh.rule.tictactoe.TicTacToe;
 import nl.fh.rule.tictactoe.TicTacToeMoveGenerator;
 import nl.fh.rule.tictactoe.TicTacToeResultArbiter;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /*
@@ -20,6 +25,10 @@ import org.junit.Test;
  * 
  */
 public class TicTacToeArbiterTest {
+
+    GameDriver<TicTacToeState> driver = TicTacToe.getGameDriver();
+    MoveGenerator<TicTacToeState> moveGenerator = driver.getMoveGenerator();
+    ResultArbiter<TicTacToeState> arbiter = driver.getResultArbiter();    
 
     @Test
     public void WinningGameTest(){
@@ -147,6 +156,65 @@ public class TicTacToeArbiterTest {
         }
    
         assertEquals(GameResult.WIN_SECOND_MOVER, arbiter.determineResult(report, legalMoves));                   
-    }        
+    }   
+    
+    @Test
+    public void T3ArbiterTest(){
+        TicTacToeState state = new TicTacToeState(); 
+        state.setField(2, 1, TicTacToeEnum.FIRST);
+        state.setField(1, 0, TicTacToeEnum.FIRST);
+        state.setField(2, 0, TicTacToeEnum.FIRST);          
+        
+        state.setField(0, 2, TicTacToeEnum.SECOND);
+        state.setField(1, 2, TicTacToeEnum.SECOND);
+        state.setField(2, 2, TicTacToeEnum.SECOND);        
+        
+        Set<Move<TicTacToeState>> legalMoves = moveGenerator.calculateAllLegalMoves(state);        
+        
+        assertTrue(arbiter.isWin(state, legalMoves));
+        assertFalse(arbiter.isLoss(state, legalMoves));
+        assertFalse(arbiter.isDraw(state, legalMoves, null));        
+    }
+    
+    @Test
+    public void T3ArbiterTest2(){
+        TicTacToeState state = new TicTacToeState();   
+        
+        state.setField(0, 2, TicTacToeEnum.FIRST);
+        state.setField(1, 2, TicTacToeEnum.FIRST);
+        state.setField(2, 2, TicTacToeEnum.FIRST);    
+        
+        state.setField(2, 1, TicTacToeEnum.SECOND);
+        state.setField(1, 0, TicTacToeEnum.SECOND);             
+        
+        Set<Move<TicTacToeState>> legalMoves = moveGenerator.calculateAllLegalMoves(state);        
+        
+        assertTrue(arbiter.isWin(state, legalMoves));
+        assertFalse(arbiter.isLoss(state, legalMoves));
+        assertFalse(arbiter.isDraw(state, legalMoves, null));        
+    }    
+    
+    @Test
+    public void T3ArbiterTest3(){
+        TicTacToeState state = new TicTacToeState();   
+        
+        state.setField(0, 1, TicTacToeEnum.FIRST);
+        state.setField(1, 1, TicTacToeEnum.FIRST);
+        state.setField(1, 2, TicTacToeEnum.FIRST);    
+        state.setField(2, 2, TicTacToeEnum.FIRST);
+        state.setField(2, 0, TicTacToeEnum.FIRST);            
+        
+        state.setField(0, 0, TicTacToeEnum.SECOND);
+        state.setField(1, 0, TicTacToeEnum.SECOND); 
+        state.setField(2, 1, TicTacToeEnum.SECOND);
+        state.setField(0, 2, TicTacToeEnum.SECOND);            
+        
+        Set<Move<TicTacToeState>> legalMoves = moveGenerator.calculateAllLegalMoves(state);        
+        
+        assertFalse(arbiter.isWin(state, legalMoves));
+        assertFalse(arbiter.isLoss(state, legalMoves));
+        assertTrue(arbiter.isDraw(state, legalMoves, null));        
+    }       
+    
 
 }

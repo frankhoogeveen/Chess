@@ -29,13 +29,34 @@ public class PerftTest {
     public void testInitialState(){
         ChessState state = FIDEchess.getInitialState();
         
+        
+        // the target numbers are gotten from stockfish
+        //
+        // on the linux command line start stockfish with 'stockfish ENTER'
+        // inside stockfish:
+        // uci
+        // d
+        // perft3
+        // 
+        // to calculate from a given position:
+        //
+        // uci 
+        // position startpos moves d2d4
+        // d
+        // perft 3
+        //
+        // uci
+        // position fen <fen string>
+        // d
+        // perft 2
+        
         assertEquals(1, Perft.value(state, 0));
         assertEquals(20, Perft.value(state, 1));  
         assertEquals(400, Perft.value(state, 2));  
         assertEquals(8902, Perft.value(state, 3));  
         assertEquals(197281, Perft.value(state, 4));   
-//        assertEquals(4865609, Perft.value(state, 5));  //takes 30 seconds
-//        assertEquals(119060324, Perft.value(state, 6));
+        assertEquals(4865609, Perft.value(state, 5));  //takes 30 seconds
+        assertEquals(119060324, Perft.value(state, 6)); // takes 20 min
 //        assertEquals(3195901860, Perft.value(state, 7)); // takes about 5 hrs         
     }
     

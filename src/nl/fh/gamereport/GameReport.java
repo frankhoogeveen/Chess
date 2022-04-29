@@ -34,6 +34,8 @@ public class GameReport<S extends GameState> {
     private GameResult gameResult;
     
     private final HashMap<String, String> tagValuePairs;
+    private Player player1;
+    private Player player2;
 
     public GameReport(){
         stateList = new ArrayList<S>();
@@ -174,9 +176,18 @@ public class GameReport<S extends GameState> {
      * Adds tags White and Black for the two players. 
      */
     public void setPlayers(Player firstPlayer, Player secondPlayer) {
+        this.player1 = firstPlayer;
+        this.player2 = secondPlayer;
         this.tagValuePairs.put("Player1", firstPlayer.toString());
         this.tagValuePairs.put("Player2", secondPlayer.toString());
-    }      
-    
+    }    
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
 }
 

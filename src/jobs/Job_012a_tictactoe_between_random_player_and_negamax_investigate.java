@@ -5,17 +5,12 @@
 
 package jobs;
 
-import nl.fh.gamereport.GameFilter;
+import nl.fh.gamereport.GameReport;
 import nl.fh.gamereport.tictactoe.TicTacToeGameReportFormatter;
 import nl.fh.rule.tictactoe.TicTacToe;
 import nl.fh.gamereport.GameReportFormatter;
-import nl.fh.gamereport.filter.BlockFilter;
-import nl.fh.gamereport.filter.WinnerFilter;
+import nl.fh.gamereport.GameResult;
 import nl.fh.gamestate.tictactoe.TicTacToeState;
-import nl.fh.match.AlternatingMatch;
-import nl.fh.match.GenericMatchReportFormatter;
-import nl.fh.match.MatchReport;
-import nl.fh.match.MatchReportFormatter;
 import nl.fh.metric.minimax.NegaMaxAlphaBeta;
 import nl.fh.metric.utilities.OutcomeMetric;
 import nl.fh.metric.utilities.ZeroMetric;
@@ -30,36 +25,37 @@ import nl.fh.rule.MoveGenerator;
  * 
  * 
  */
-public class Job_012_tictactoe_between_random_player_and_negamax {
+public class Job_012a_tictactoe_between_random_player_and_negamax_investigate {
 
-    private static double WIN_VALUE = 1.e+6;
+    private static final double WIN_VALUE = 1.e+6;
     
     public static void main(String[] args){
 
       GameDriver<TicTacToeState> driver = TicTacToe.getGameDriver();
       MoveGenerator<TicTacToeState> moveGenerator = driver.getMoveGenerator();
+      GameReportFormatter<TicTacToeState> gFormatter = new TicTacToeGameReportFormatter();      
         
-      Player player1 = new RandomPlayer();  
-      
+
+      // player with essentially unlimited look-ahead evaluating
+      // endpositions by win/loss/draw
       int depth = 20;
       Metric<TicTacToeState> metric = new ZeroMetric();
       metric = new OutcomeMetric(metric, WIN_VALUE, driver);
 //      metric = new NegaMax(metric, moveGenerator, depth);
       metric = new NegaMaxAlphaBeta(metric, moveGenerator, depth);      
 //      metric = new NegaMaxGen3(metric, moveGenerator, depth);
-      Player player2 = MetricPlayer.getInstance(metric);      
+      Player player1 = MetricPlayer.getInstance(metric);      
       
-      int nGames = 30;  
-//      GameFilter filter = new TransparentFilter();
-//      GameFilter filter = new BlockFilter();    
-      GameFilter filter = new WinnerFilter(player1);
-      AlternatingMatch match = new AlternatingMatch(nGames, driver);
+     //random player
+      Player player2 = new RandomPlayer();  
       
-      MatchReport report = match.play(player1, player2, filter);
-      
-      GameReportFormatter<TicTacToeState> gFormatter = new TicTacToeGameReportFormatter();
-      MatchReportFormatter<TicTacToeState> mFormatter = new GenericMatchReportFormatter<TicTacToeState>(gFormatter);
-      
-      System.out.println(mFormatter.formatMatch(report));
+      // find a game where the random player wins, i.e. player1 does 
+      // not play optimally, contrary to expectations
+      GameResult result = GameResult.UNDECIDED;
+      while(result != GameResult.WIN_SECOND_MOVER){
+          GameReport report = driver.playGame(player1, player2);
+          result = report.getGameResult();
+          System.out.println(gFormatter.formatGame(report));
+      }
     }
 }

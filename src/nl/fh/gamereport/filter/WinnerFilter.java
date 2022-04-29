@@ -23,13 +23,14 @@ public class WinnerFilter implements GameFilter{
     }
     
     @Override
+    //TODO make similar edits to loser filter
     public boolean retain(GameReport report) {
-        String white = report.getTag("White");
-        String black = report.getTag("Black");
+        Player player1 = report.getPlayer1();
+        Player player2 = report.getPlayer2();
         int result = report.getGameResult().getValue();
         
-        if((result == +1) && player.equals(white)
-                || (result == -1) && player.equals(black)){
+        if((result == +1) && player.equals(player1)
+                || (result == -1) && player.equals(player2)){
             return true;
         }
         else {
