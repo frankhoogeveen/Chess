@@ -15,6 +15,7 @@ import nl.fh.integration_tests.MatchTest;
 import nl.fh.integration_tests.MateInOneTest;
 import nl.fh.integration_tests.PhilidorTest;
 import nl.fh.metric.MaterialCountMetricTest;
+import nl.fh.metric.OutcomeMetricTest;
 import nl.fh.metric.negamax.NegaMaxAlphaBetaTest;
 import nl.fh.metric.negamax.NegaMaxGen3Test;
 import nl.fh.metric.negamax.NegaMaxMetricTest1;
@@ -56,6 +57,7 @@ import org.junit.runners.Suite;
     NegaMaxMetricTest4.class,    
     NegaMaxAlphaBetaTest.class,   
     NegaMaxAlphaBetaTest.class,
+    OutcomeMetricTest.class,
     
     // the tic tac toe tests
     TicTacToeStateTest.class,

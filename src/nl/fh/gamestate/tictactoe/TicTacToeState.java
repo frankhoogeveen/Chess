@@ -33,7 +33,7 @@ public class TicTacToeState implements GameState {
     
     @Override
     public Mover getMover() {
-        if(countEmtpy() % 2 == 1){
+        if(countEmpty() % 2 == 1){
             return Mover.FIRST_MOVER;
         } 
         return Mover.SECOND_MOVER;
@@ -54,7 +54,7 @@ public class TicTacToeState implements GameState {
      * 
      * @return the number of empty squares on the board 
      */
-    public int countEmtpy() {
+    public int countEmpty() {
         int result = 0;
         for(int x = 0; x < 3; x++){
             for(int y = 0; y < 3; y++){
@@ -66,6 +66,33 @@ public class TicTacToeState implements GameState {
         return result;
     }
 
+    
+    /**
+     * 
+     * @return true if this is a final state (full board, or somebody won) 
+     */
+    public boolean isFinal(){
+        if(this.countEmpty() == 0){
+            return true;
+        }
+        
+        for(int i = 0; i < 3; i++){
+            if((this.getFieldContent(i, 0) != TicTacToeEnum.EMPTY)
+                &&(this.getFieldContent(i, 0) == this.getFieldContent(i,1))
+                && (this.getFieldContent(i, 1) == this.getFieldContent(i,2))){
+                return true;
+            }
+            
+            if((this.getFieldContent(0,i) != TicTacToeEnum.EMPTY)
+                &&(this.getFieldContent(0, i) == this.getFieldContent(1,i))
+                && (this.getFieldContent(1,i) == this.getFieldContent(2,i))){
+                return true;
+            }            
+        }
+        
+        return false;
+    }
+    
     public TicTacToeEnum getFieldContent(int x, int y) {
         return this.board[x][y];
     }

@@ -11,43 +11,61 @@ import nl.fh.player.evalplayer.Metric;
 import nl.fh.rule.MoveGenerator;
 
 /**
- *  This wraps around a metric to create the negamax metric with alpha beta pruning
- *  and explicit commands to forget the daughters of a node after processing
+ *  This wraps around a metric to create the negamax metric 
  *     // https://en.wikipedia.org/wiki/Negamax
  * 
+ * This implementation does NOT make use of alpha/beta pruning
  * 
  */
-public class NegaMaxGen3<T extends GameState> implements Metric<T> {
+public class NegaMaxVerbose<T extends GameState> implements Metric<T> {
+
     private Metric<T> baseMetric;
     private int depth;
-    private final MoveGenerator moveGenerator;    
+    private final MoveGenerator moveGenerator;
     
     /**
      * 
-     * @param <error>
      * @param baseMetric
      * @param depth
      * The mode is the default maximin. 
      * 
      */    
-    public NegaMaxGen3 (Metric<T> baseMetric, MoveGenerator moveGenerator, int depth){
+    public NegaMaxVerbose (Metric<T> baseMetric, MoveGenerator moveGenerator, int depth){
         this.baseMetric = baseMetric;
-        this.depth = depth;
         this.moveGenerator = moveGenerator;
-             
-    }    
+        this.depth = depth;
+    }   
+    
+    private void separator(){
+        System.out.println("========================");
+    }
+    
+    private void separator2(){
+        System.out.println("------------------------");        
+    }
+    
     
     @Override
     public double eval(T state) {
+        separator();
         int sign = state.getMover().getSign();
-        double alpha = - Double.MAX_VALUE;
-        double beta = Double.MAX_VALUE;
-        return  sign * iteration(state, this.depth, sign, alpha, beta);  
+        
+        double result = sign * iteration(state, this.depth, sign);  
+        separator();
+        return result;
     }  
 
-    private double iteration(T state, int depth, int sign, double alpha, double beta) {
+    private double iteration(T state, int depth, int sign) {
+        System.out.println("iteration");
+        System.out.println(state);
+        System.out.println("depth: " + depth);
+        System.out.println("sign : " + sign);
+        
         if(depth == 0){
-            return sign * baseMetric.eval((T) state);
+            double result = sign * baseMetric.eval((T) state);
+            System.out.println("result: " + result);
+            separator2();
+            return result;
         } 
         
         Set<T> daughters = moveGenerator.calculateChildren(state);
@@ -57,21 +75,14 @@ public class NegaMaxGen3<T extends GameState> implements Metric<T> {
         
         double currentValue = - Double.MAX_VALUE;
         for(T daughter : daughters){
-            double nextValue = - iteration(daughter, depth-1,-sign, -beta, -alpha);
-            
+            double nextValue = - iteration(daughter, depth-1,-sign);
             if(nextValue > currentValue){
                 currentValue = nextValue;
             }
-            
-            if(currentValue > alpha){
-                alpha = currentValue;
-            }
-            
-            if(alpha > beta){
-                break;
-            }
         }
         
+        System.out.println("result: " + currentValue);
+        separator2();        
         return currentValue;
     }
 
@@ -93,6 +104,6 @@ public class NegaMaxGen3<T extends GameState> implements Metric<T> {
 
     @Override
     public String getDescription() {
-        return "Negamax Gen3: depth "+ depth + " " + this.baseMetric.getDescription();
+        return "Negamax: depth "+ depth + " " + this.baseMetric.getDescription();
     }
 }

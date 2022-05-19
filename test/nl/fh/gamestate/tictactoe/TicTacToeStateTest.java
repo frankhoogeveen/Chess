@@ -33,7 +33,7 @@ public class TicTacToeStateTest {
     public void testCountEmtpy() {
         TicTacToeState instance = new TicTacToeState();
         int expResult = 9;
-        int result = instance.countEmtpy();
+        int result = instance.countEmpty();
         assertEquals(expResult, result);
     }
 

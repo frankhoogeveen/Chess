@@ -58,7 +58,7 @@ public class TicTacToeMove implements Move<TicTacToeState> {
     @Override
     public TicTacToeState applyTo(TicTacToeState state) {
        TicTacToeEnum next = TicTacToeEnum.FIRST;
-       if(state.countEmtpy()%2 == 0){
+       if(state.countEmpty()%2 == 0){
             next = TicTacToeEnum.SECOND;           
        }
        
