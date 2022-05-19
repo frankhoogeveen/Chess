@@ -87,7 +87,20 @@ public class TicTacToeState implements GameState {
                 &&(this.getFieldContent(0, i) == this.getFieldContent(1,i))
                 && (this.getFieldContent(1,i) == this.getFieldContent(2,i))){
                 return true;
-            }            
+            }   
+            
+            if((this.getFieldContent(0,0) != TicTacToeEnum.EMPTY)
+                &&(this.getFieldContent(0, 0) == this.getFieldContent(1,1))
+                && (this.getFieldContent(1,1) == this.getFieldContent(2,2))){
+                return true;
+            }   
+
+            if((this.getFieldContent(0,2) != TicTacToeEnum.EMPTY)
+                &&(this.getFieldContent(0, 2) == this.getFieldContent(1,1))
+                && (this.getFieldContent(1,1) == this.getFieldContent(2,0))){
+                return true;
+            }  
+            
         }
         
         return false;
